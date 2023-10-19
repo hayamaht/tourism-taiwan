@@ -4,5 +4,6 @@ import { SpotsPage } from './pages/spots/spots.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
-  { path:'spots', component: SpotsPage }
+  { path:'spots', component: SpotsPage },
+  { path:'spots/:city', component: SpotsPage },
 ];
