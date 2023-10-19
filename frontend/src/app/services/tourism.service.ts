@@ -43,7 +43,7 @@ export class TourismService {
       '?$format=JSON';
     url = url + '&$top=' + limit;
     url = url + '&$skip=' + ((page - 1) * limit);
-    console.log(url);
+    //console.log(url);
     return this.#getHttp(url);
   }
 
