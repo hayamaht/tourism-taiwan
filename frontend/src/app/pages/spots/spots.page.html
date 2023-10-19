@@ -1,41 +1,19 @@
-<form [formGroup]="form" (ngSubmit)="onFormSubmit($event)"
-  class="m-4 ">
-  <div class="flex space-x-2">
-    <select title="city" name="city" id="city"
-      formControlName="city"
-      data-te-select-init>
-      <option value="" hidden selected ></option>
-      <option *ngFor="let c of cities"
-        [value]="c"
-      >{{ c }}</option>
-
-    </select>
-    <label data-te-select-label-ref>請選擇城市</label>
-    <button type="submit"
-      [disabled]="form.pristine "
-      class="btn btn-primary"
-      data-te-ripple-init
-      data-te-ripple-color="light">
-      確定
-    </button>
-  </div>
-</form>
+<app-city-selector (cityEvent)="getSpots($event)"></app-city-selector>
 
 <ng-template #loading>
-  <div
-    class="inline-block text-center h-8 w-8 animate-spin rounded-full border-4
-    border-solid border-current border-r-transparent
-    align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-    role="status">
-    <span
-      class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-      >Loading...</span
-    >
+  <div class="flex items-center justify-center">
+    <div
+      class="inline-block text-center h-8 w-8 animate-spin
+      rounded-full border-4 text-primary
+      border-solid border-current border-r-transparent
+      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status">
+    </div>
   </div>
 </ng-template>
 <ng-container *ngIf="spots$|async as spots">
-  <div class=" grid gap-1 grid-cols-1 md:grid-cols-2
-      lg:grid-cols-3 xl:grid-cols-4">
+  <div class="grid gap-1 grid-cols-1 md:grid-cols-2
+  lg:grid-cols-3 xl:grid-cols-4">
     <ng-container *ngFor="let spot of spots">
 
       <app-card [item]="spot"

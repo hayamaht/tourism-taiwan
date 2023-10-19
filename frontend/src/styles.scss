@@ -36,10 +36,8 @@
     }
   }
 
-
-
   .navbar {
-    @apply bg-cyan-400 fixed z-50 justify-between items-center w-full
+    @apply sticky top-0 drop-shadow bg-cyan-500  z-50 justify-between items-center w-full
       flex flex-nowrap shadow-md shadow-black/5 p-2
       lg:flex-wrap lg:justify-start;
   }

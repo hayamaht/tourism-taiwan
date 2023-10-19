@@ -35,7 +35,7 @@ export class TourismService {
     type: 'spot'|'activity',
     cityName: CityName,
     page = 1,
-    limit = 20
+    limit = 15
   ) {
     const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
     let url = this.#apiURL +

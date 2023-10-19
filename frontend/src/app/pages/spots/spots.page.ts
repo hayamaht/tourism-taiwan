@@ -7,36 +7,28 @@ import { TourismService } from 'src/app/services/tourism.service';
 import { Observable } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 
 @Component({
   selector: 'app-spots',
   standalone: true,
   templateUrl: './spots.page.html',
   imports: [
-    CommonModule, RouterModule, FormsModule, ReactiveFormsModule,
-    CardComponent,
+    CommonModule, RouterModule,
+    CardComponent, CitySelectorComponent,
   ],
 })
 export class SpotsPage {
   #tourismService = inject(TourismService);
-  #fb = inject(FormBuilder);
 
   spots$!:  Observable<any>;
-
-  cities = Object.values(CityName);
-  form = this.#fb.group({
-    city: ['', ]
-  });
 
   ngOnInit(): void {
     initTE({ Ripple, Select });
   }
 
-  onFormSubmit(event: SubmitEvent) {
-    const v = this.form.get('city')!.value;
-    if (!v) return;
-
+  getSpots(cityName: string) {
     this.spots$ = this.#tourismService
-      .getByCityName('spot', v as CityName);
+      .getByCityName('spot', cityName as CityName);
   }
 }

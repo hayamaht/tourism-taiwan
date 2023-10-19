@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   standalone: true,
   template: `
 <app-navbar></app-navbar>
-<div class="absolute top-12 m-2">
+<div class="m-4">
   <router-outlet></router-outlet>
 </div>
   `,
