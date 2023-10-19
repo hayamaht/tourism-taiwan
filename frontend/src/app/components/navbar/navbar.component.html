@@ -33,7 +33,7 @@
     <!-- Collapsible navigation container -->
     <div id="navbarSupportedContent1" data-te-collapse-item
       class="!visible hidden flex-grow basis-[100%] ml-4 mt-4
-        items-center lg:!flex lg:basis-auto">
+        items-center lg:!flex lg:basis-auto lg:mt-0">
       <!-- Left navigation links -->
       <ul data-te-navbar-nav-ref
         class="list-style-none mr-auto flex flex-col pl-0
@@ -41,9 +41,16 @@
         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
           <!-- Dashboard link -->
           <a data-te-nav-link-ref
-            href="#"
+            routerLink="spots"
             class="navbar-menu-item"
-          >Dashboard</a>
+          >觀光景點</a>
+        </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+          <!-- Dashboard link -->
+          <a data-te-nav-link-ref
+            routerLink="activities"
+            class="navbar-menu-item"
+          >活動項目</a>
         </li>
       </ul>
     </div>

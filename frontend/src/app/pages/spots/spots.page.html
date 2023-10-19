@@ -1,23 +1,5 @@
-<!-- <app-header></app-header> -->
-<app-navbar></app-navbar>
 
-<div class="absolute top-12 m-2">
-  <ng-container *ngIf="spots$|async as spots">
-    <div class=" grid gap-1 grid-cols-1 md:grid-cols-2
-        lg:grid-cols-3 xl:grid-cols-4">
-      <ng-container *ngFor="let spot of spots">
-
-        <app-card [item]="spot"
-          class="w-fit p-1"
-        ></app-card>
-
-      </ng-container>
-    </div>
-  </ng-container>
-</div>
-<router-outlet></router-outlet>
-
-<!-- <ng-template #loading>
+<ng-template #loading>
   <div
     class="inline-block text-center h-8 w-8 animate-spin rounded-full border-4
     border-solid border-current border-r-transparent
@@ -28,7 +10,21 @@
       >Loading...</span
     >
   </div>
-</ng-template> -->
+</ng-template>
+<ng-container *ngIf="spots$|async as spots">
+  <div class=" grid gap-1 grid-cols-1 md:grid-cols-2
+      lg:grid-cols-3 xl:grid-cols-4">
+    <ng-container *ngFor="let spot of spots">
+
+      <app-card [item]="spot"
+        class="w-fit p-1"
+      ></app-card>
+
+    </ng-container>
+  </div>
+</ng-container>
+
+
 <!-- <ng-container *ngIf="spots$|async as spots; else loading">
   <div class="m-2 grid gap-1 grid-cols-1 md:grid-cols-2
       lg:grid-cols-3 xl:grid-cols-4">
