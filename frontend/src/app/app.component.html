@@ -1,9 +1,45 @@
-<ng-template #loading>
-  <p>Loading...</p>
-</ng-template>
-<ng-container *ngIf="spots$|async as spots; else loading">
-  <p>{{ spots.length }}</p>
-  <ng-container *ngFor="let spot of spots">
+<!-- <app-header></app-header> -->
+<app-navbar></app-navbar>
+
+<div class="absolute top-12 m-2">
+  <ng-container *ngIf="spots$|async as spots">
+    <div class=" grid gap-1 grid-cols-1 md:grid-cols-2
+        lg:grid-cols-3 xl:grid-cols-4">
+      <ng-container *ngFor="let spot of spots">
+
+        <app-card [item]="spot"
+          class="w-fit p-1"
+        ></app-card>
+
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
+<router-outlet></router-outlet>
+
+<!-- <ng-template #loading>
+  <div
+    class="inline-block text-center h-8 w-8 animate-spin rounded-full border-4
+    border-solid border-current border-r-transparent
+    align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+    role="status">
+    <span
+      class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span
+    >
+  </div>
+</ng-template> -->
+<!-- <ng-container *ngIf="spots$|async as spots; else loading">
+  <div class="m-2 grid gap-1 grid-cols-1 md:grid-cols-2
+      lg:grid-cols-3 xl:grid-cols-4">
+    <ng-container *ngFor="let spot of spots">
+
+      <app-card [item]="spot"
+        class="w-fit p-1"
+      ></app-card>
+
+    </ng-container>
+  </div>
     <div>
       <div *ngIf="spot.Picture.PictureUrl1">
         <img title="{{ spot.Picture.PictureDescription }}"
@@ -12,7 +48,7 @@
       </div>
       <p>{{ spot.ScenicSpotID }}</p>
       <h1>{{ spot.ScenicSpotName }}</h1>
-      <!-- <p>{{ spot.DescriptionDetail }}</p>
+      <p>{{ spot.DescriptionDetail }}</p>
       <p>OpenTime: {{ spot.OpenTime }}</p>
       <p>TicketInfo: {{ spot.TicketInfo }}</p>
       <p>TravelInfo: {{ spot.TravelInfo }}</p>
@@ -28,7 +64,41 @@
       <div *ngIf="spot.ParkingPosition.Alt">
         {{ spot.ParkingPosition }}
       </div>
-      <p>{{ spot.Remarks }}</p> -->
+      <p>{{ spot.Remarks }}</p>
+    </div>
+</ng-container> -->
+<!--
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
+<ng-container *ngIf="spots$|async as spots; else loading">
+  <p>{{ spots.length }}</p>
+  <ng-container *ngFor="let spot of spots">
+    <div>
+      <div *ngIf="spot.Picture.PictureUrl1">
+        <img title="{{ spot.Picture.PictureDescription }}"
+          [src]="spot.Picture.PictureUrl1"
+          [alt]="spot.Picture.PictureDescription1">
+      </div>
+      <p>{{ spot.ScenicSpotID }}</p>
+      <h1>{{ spot.ScenicSpotName }}</h1>
+      <p>{{ spot.DescriptionDetail }}</p>
+      <p>OpenTime: {{ spot.OpenTime }}</p>
+      <p>TicketInfo: {{ spot.TicketInfo }}</p>
+      <p>TravelInfo: {{ spot.TravelInfo }}</p>
+      <p>{{ spot.Phone }}</p>
+      <p>{{ spot.ZipCode }} {{ spot.Address }}</p>
+      <p>{{ spot.City }}</p>
+      <p>Class1: {{ spot.Class1 }}</p>
+      <p>Remarks: {{ spot.Remarks }}</p>
+      <div>
+        <p>{{ spot.Position.PositionLon }}</p>
+        <p>{{ spot.Position.PositionLat }}</p>
+      </div>
+      <div *ngIf="spot.ParkingPosition.Alt">
+        {{ spot.ParkingPosition }}
+      </div>
+      <p>{{ spot.Remarks }}</p>
     </div>
   </ng-container>
 </ng-container>
@@ -44,4 +114,4 @@
       <h1>{{ activity.ActivityName }}</h1>
     </div>
   </ng-container>
-</ng-container>
+</ng-container> -->
