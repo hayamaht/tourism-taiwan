@@ -35,7 +35,8 @@ export class TourismService {
     type: 'spot'|'activity',
     cityName: CityName,
     page = 1,
-    limit = 15
+    limit = 15,
+    orderBy?: string
   ) {
     const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
     let url = this.#apiURL +
@@ -43,7 +44,11 @@ export class TourismService {
       '?$format=JSON';
     url = url + '&$top=' + limit;
     url = url + '&$skip=' + ((page - 1) * limit);
-    //console.log(url);
+
+    if (orderBy) {
+      url = url + '&$orderby=' + orderBy;
+    }
+    console.log(url);
     return this.#getHttp(url);
   }
 

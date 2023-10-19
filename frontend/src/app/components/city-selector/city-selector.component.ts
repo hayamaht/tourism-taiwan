@@ -13,14 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 <form [formGroup]="form" (ngSubmit)="onFormSubmit($event)"
   class="m-4">
   <div class="flex space-x-2 items-center justify-center ">
-    <select title="city" name="city" id="city"
+    <select data-te-select-init title="city" name="city" id="city"
       formControlName="city"
-      data-te-select-init>
+      class="border border-gray-400 p-2 rounded-md">
       <option *ngFor="let c of cities"
         [value]="c"
       >{{ c }}</option>
     </select>
-    <label data-te-select-label-ref>請選擇城市</label>
+    <!-- <label data-te-select-label-ref>請選擇城市</label> -->
     <button type="submit"
       [disabled]="form.pristine "
       class="btn btn-primary"

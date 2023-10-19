@@ -1,7 +1,7 @@
-import { initTE, Ripple } from 'tw-elements';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { initTE, Ripple } from 'tw-elements';
 
 import { CardComponent } from 'src/app/components/card/card.component';
 import { TourismService } from 'src/app/services/tourism.service';
@@ -27,7 +27,6 @@ export class SpotsPage implements OnInit {
 
   spots$!:  Observable<any>;
   city!: string;
-  skipSpots = 0;
   page = 1;
   stopCount = false;
 
@@ -60,11 +59,54 @@ export class SpotsPage implements OnInit {
       this.page,
       SpotsPage.ROW_PER_PAGE
     ).pipe(
-      map((spots) => {
-        const len = (spots as []).length;
+      map((items) => {
+        const len = (items as []).length;
         this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;
-        return spots;
+        return items;
       }),
     );
   }
 }
+
+// {
+//   "ScenicSpotID": "string",
+//   "ScenicSpotName": "string",
+//   "DescriptionDetail": "string",
+//   "Description": "string",
+//   "Phone": "string",
+//   "Address": "string",
+//   "ZipCode": "string",
+//   "TravelInfo": "string",
+//   "OpenTime": "string",
+//   "Picture": {
+//     "PictureUrl1": "string",
+//     "PictureDescription1": "string",
+//     "PictureUrl2": "string",
+//     "PictureDescription2": "string",
+//     "PictureUrl3": "string",
+//     "PictureDescription3": "string"
+//   },
+//   "MapUrl": "string",
+//   "Position": {
+//     "PositionLon": 0,
+//     "PositionLat": 0,
+//     "GeoHash": "string"
+//   },
+//   "Class1": "string",
+//   "Class2": "string",
+//   "Class3": "string",
+//   "Level": "string",
+//   "WebsiteUrl": "string",
+//   "ParkingInfo": "string",
+//   "ParkingPosition": {
+//     "PositionLon": 0,
+//     "PositionLat": 0,
+//     "GeoHash": "string"
+//   },
+//   "TicketInfo": "string",
+//   "Remarks": "string",
+//   "Keyword": "string",
+//   "City": "string",
+//   "SrcUpdateTime": "2023-10-19T13:42:46.948Z",
+//   "UpdateTime": "2023-10-19T13:42:46.948Z"
+// }

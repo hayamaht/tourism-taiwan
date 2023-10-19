@@ -1,0 +1,74 @@
+<app-city-selector
+  (cityEvent)="getActivities($event)"
+></app-city-selector>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <div
+      class="inline-block text-center h-8 w-8 animate-spin
+      rounded-full border-4 text-primary
+      border-solid border-current border-r-transparent
+      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status">
+    </div>
+  </div>
+</ng-template>
+<ng-container *ngIf="activities$|async as activities; else loading">
+
+  <div aria-label="Page navigation">
+    <ul class="list-style-none flex justify-center space-x-2 m-2">
+      <li>
+        <button type="button" (click)="prevPage()"
+        [disabled]="(page===1)"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary"
+        >Previous</button>
+      </li>
+      <li>
+        <button type="button" (click)="nextPage()"
+        [disabled]="stopCount"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary "
+        >Next</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="grid gap-1 grid-cols-1 md:grid-cols-2
+  lg:grid-cols-3 xl:grid-cols-4">
+    <ng-container *ngFor="let activity of activities">
+
+      <!-- <app-card [item]="activity"
+        class="w-fit p-1"
+      ></app-card> -->
+      <app-card-activity
+        [activity]="activity"
+        class="w-full p-1"
+      ></app-card-activity>
+
+    </ng-container>
+  </div>
+
+  <div aria-label="Page navigation">
+    <ul class="list-style-none flex justify-center space-x-2 m-2">
+      <li>
+        <button type="button" (click)="prevPage()"
+        [disabled]="(page===1)"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary"
+        >Previous</button>
+      </li>
+      <li>
+        <button type="button" (click)="nextPage()"
+        [disabled]="stopCount"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary "
+        >Next</button>
+      </li>
+    </ul>
+  </div>
+</ng-container>

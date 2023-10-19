@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { initTE, Carousel, Dropdown, Ripple } from 'tw-elements';
+// import { initTE, Carousel, Dropdown, Ripple, Select } from 'tw-elements';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
@@ -19,6 +19,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    initTE({ Carousel, Dropdown, Ripple })
+    // initTE({ Carousel, Dropdown, Ripple, Select })
   }
 }
