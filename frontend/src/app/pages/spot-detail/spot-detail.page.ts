@@ -1,15 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, AfterViewInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { initTE, Carousel, Lightbox } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MapComponent } from 'src/app/components/map/map.component';
 
 @Component({
   selector: 'app-spot-detail',
   standalone: true,
   templateUrl: './spot-detail.page.html',
-  imports: [CommonModule],
+  imports: [CommonModule, MapComponent,],
 })
 export class SpotDetailPage implements OnInit {
   #route = inject(ActivatedRoute);
