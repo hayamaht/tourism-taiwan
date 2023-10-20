@@ -33,7 +33,7 @@
     <!-- Collapsible navigation container -->
     <div id="navbarSupportedContent1" data-te-collapse-item
       class="!visible hidden flex-grow basis-[100%] ml-4 mt-4
-        items-center lg:!flex lg:basis-auto">
+        items-center lg:!flex lg:basis-auto lg:mt-0">
       <!-- Left navigation links -->
       <ul data-te-navbar-nav-ref
         class="list-style-none mr-auto flex flex-col pl-0
@@ -41,22 +41,39 @@
         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
           <!-- Dashboard link -->
           <a data-te-nav-link-ref
-            href="#"
+            routerLink="spots"
             class="navbar-menu-item"
-          >Dashboard</a>
+          >觀光景點</a>
+        </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+          <!-- Dashboard link -->
+          <a data-te-nav-link-ref
+            routerLink="activities"
+            class="navbar-menu-item"
+          >活動項目</a>
         </li>
       </ul>
     </div>
 
     <!-- Right elements -->
-    <div class="relative flex items-center">
+    <div class="flex items-center">
       <div
-        class="relative"
+        class=""
         data-te-dropdown-ref
         data-te-dropdown-alignment="end">
         <!-- First dropdown trigger -->
         <a
-          class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+          class="hidden-arrow mr-4 flex items-center
+          text-neutral-600 transition duration-200
+          hover:text-neutral-700 hover:ease-in-out
+          focus:text-neutral-700
+          disabled:text-black/30
+          motion-reduce:transition-none
+          dark:text-neutral-200
+          dark:hover:text-neutral-300
+          dark:focus:text-neutral-300
+          [&.active]:text-black/90
+          dark:[&.active]:text-neutral-400"
           href="#"
           id="dropdownMenuButton1"
           role="button"
@@ -115,7 +132,7 @@
       </div>
 
       <div
-        class="relative"
+        class=""
         data-te-dropdown-ref
         data-te-dropdown-alignment="end">
         <!-- Second dropdown trigger -->

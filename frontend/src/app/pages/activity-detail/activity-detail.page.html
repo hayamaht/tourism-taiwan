@@ -1,0 +1,225 @@
+<ng-template #loading>
+  <div class="flex justify-center">
+    <div class="text-lime-400 inline-block h-8 w-8 animate-spin rounded-full
+    border-4 border-solid border-current border-r-transparent
+    align-[-0.125em]
+    motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+  </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="activities$|async as activities; else loading">
+  <ng-container *ngFor="let activity of activities">
+    <article>
+      <div title="back">
+        <a (click)="goBack()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          </svg>
+        </a>
+      </div>
+
+      <app-map
+        [name]="activity.ActivityName"
+        [lat]="activity.Position.PositionLat"
+        [lon]="activity.Position.PositionLon"
+      ></app-map>
+
+      <div title="City 所屬縣市"
+        class="text-center">
+        <span class="text-sm font-light border
+        border-amber-700 bg-amber-100 text-amber-900
+        rounded-full px-3 py-1">
+          {{ activity.City }}
+        </span>
+      </div>
+
+      <h1 class="text-3xl lg:text-5xl font-bold text-center
+        m-4 mb-6">
+        {{ activity.ActivityName }}
+      </h1>
+
+      <div title="start to end">
+        <div class="flex space-x-1 items-center justify-center">
+          <span class="border border-success-600 rounded-md">
+            <span class="text-success-900 bg-success-100
+            px-3 py-[4px] text-sm rounded-l-md">開始</span>
+            <span class="text-success-900 m-2">{{ activity.StartTime|date:'YYYY-MM-dd' }}</span>
+          </span>
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+
+          </span>
+          <span class="border border-danger-600 rounded-md">
+            <span class="text-danger-900 bg-danger-100
+            px-3 py-[4px] text-sm rounded-l-md">結束</span>
+            <span class="text-danger-900 m-2">
+              {{ activity.EndTime|date:'YYYY-MM-dd' }}
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div title="活動分類" class="my-4 text-center">
+        <span class="bg-primary text-neutral-50
+        mx-0.5 px-3 py-0 rounded-full empty:hidden">
+          {{ activity.Class1 }}
+        </span>
+        <span class="bg-primary text-neutral-50
+        mx-0.5 px-3 py-0 rounded-full empty:hidden"
+        >{{ activity.Class2 }}</span>
+        <span class="bg-primary text-neutral-50
+        mx-0.5 px-3 py-0 rounded-full empty:hidden"
+        >{{ activity.Class3 }}</span>
+      </div>
+
+      <div title="WebsiteUrl 活動網址" class="text-center">
+        <ng-container *ngIf="activity.WebsiteUrl">
+          <a href="{{ activity.WebsiteUrl }}" target="_blank"
+          class="btn bg-info">
+            活動網址
+            <svg xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor"
+            class="w-3 h-3 inline-block">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          </a>
+        </ng-container>
+      </div>
+
+      <div class="md:flex md:space-x-6 space-y-4">
+        <div class="md:flex-1">
+          <div title="Description" class="my-6">
+            {{ activity.Description }}
+          </div>
+          <div title="詳細資訊"
+            class="border border-stone-500
+          bg-stone-100 p-4 rounded-md">
+            <div class="-m-4 mb-4 px-2 bg-stone-500
+            rounded-t-md text-neutral-100 text-sm"
+            >詳細資訊</div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                活動參與對象
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Particpation }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+              活動地點名稱
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Location }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                活動主辦單位
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Organizer }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                活動聯絡電話
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Phone }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                活動地點地址
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Address }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                活動地圖/簡圖連結網址
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.MapUrl }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                交通資訊
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.TravelInfo }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                停車資訊
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.ParkingInfo }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                費用標示
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Charge }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                備註(其他活動相關事項)
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Remarks }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                週期性活動執行時間
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.Cycle }}</span>
+            </div>
+            <div class="flex items-center justify-start space-y-1">
+              <span class="text-sm text-primary">
+                非週期性活動執行時間
+              </span>
+              <span class="h-5 border border-primary mx-2"></span>
+              <span class="">{{ activity.NonCycle }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="md:flex-1">
+          <div title="Picture 活動照片" class="space-y-2">
+            <ng-container *ngIf="activity.Picture.PictureUrl1">
+              <img title="{{activity.Picture.PictureDescription1}}"
+              [src]="activity.Picture.PictureUrl1"
+              [alt]="activity.Picture.PictureDescription1"
+              class="">
+            </ng-container>
+
+            <ng-container *ngIf="activity.Picture.PictureUrl2">
+              <img title="{{activity.Picture.PictureDescription2}}"
+              [src]="activity.Picture.PictureUrl2"
+              [alt]="activity.Picture.PictureDescription2"
+              class="">
+            </ng-container>
+            <ng-container *ngIf="activity.Picture.PictureUrl3">
+              <img title="{{activity.Picture.PictureDescription3}}"
+              [src]="activity.Picture.PictureUrl3"
+              [alt]="activity.Picture.PictureDescription3"
+              class="">
+            </ng-container>
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+
+    </article>
+
+    <!-- {{ activity|json}} -->
+  </ng-container>
+</ng-container>

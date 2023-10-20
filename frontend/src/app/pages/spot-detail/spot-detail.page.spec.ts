@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardComponent } from './card.component';
+import { SpotDetailPage } from './spot-detail.page';
 
-describe('CardComponent', () => {
-  let component: CardComponent;
-  let fixture: ComponentFixture<CardComponent>;
+describe('SpotDetailPage', () => {
+  let component: SpotDetailPage;
+  let fixture: ComponentFixture<SpotDetailPage>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CardComponent]
+      imports: [SpotDetailPage]
     });
-    fixture = TestBed.createComponent(CardComponent);
+    fixture = TestBed.createComponent(SpotDetailPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,61 @@
+<div
+  class="block rounded-lg bg-white shadow-md">
+  <a routerLink="/spot/{{ spot.ScenicSpotID }}">
+    <ng-template #def>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+        alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+        class="object-contain h-52 w-full rounded-t-lg bg-stone-200/70">
+    </ng-template>
+    <ng-container *ngIf="spot.Picture.PictureUrl1 else def">
+      <img title="{{ spot.Picture.PictureDescription }}"
+        [src]="spot.Picture.PictureUrl1"
+        [alt]="spot.Picture.PictureDescription1"
+        class="object-coverj h-52 w-full rounded-t-lg">
+    </ng-container>
+  </a>
+  <div class="p-6">
+    <p class="text-sm font-thin mb-1">{{ spot.Class1 }}</p>
+    <h5
+      class="mb-2 text-xl font-medium leading-tight
+      text-neutral-800 dark:text-neutral-50">
+      {{ spot.ScenicSpotName }}
+    </h5>
+
+    <p class="line-clamp-3 mb-4 text-base text-neutral-600
+      dark:text-neutral-200">
+      {{ spot.DescriptionDetail }}
+    </p>
+    <div class="text-sm font-thin mb-4 space-y-1 text-stone-700">
+      <ng-container *ngIf="spot.OpenTime">
+        <div class="flex">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24"
+              stroke-width="1.5" stroke="currentColor"
+              class="w-4 h-4 inline-block m-1 ">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </span>
+          <span>{{ spot.OpenTime }}</span>
+        </div>
+      </ng-container>
+      <div>
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor"
+            class="w-4 h-4 inline-block m-1 ">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+          </svg>
+        </span>
+        <span>{{ spot.Phone }}</span>
+      </div>
+    </div>
+    <a routerLink="/spot/{{ spot.ScenicSpotID }}"
+      class="btn btn-primary tracking-widest"
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      閱讀
+    </a>
+  </div>
+</div>

@@ -35,7 +35,8 @@ export class TourismService {
     type: 'spot'|'activity',
     cityName: CityName,
     page = 1,
-    limit = 20
+    limit = 15,
+    orderBy?: string
   ) {
     const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
     let url = this.#apiURL +
@@ -43,7 +44,22 @@ export class TourismService {
       '?$format=JSON';
     url = url + '&$top=' + limit;
     url = url + '&$skip=' + ((page - 1) * limit);
+
+    if (orderBy) {
+      url = url + '&$orderby=' + orderBy;
+    }
     console.log(url);
+    return this.#getHttp(url);
+  }
+
+  getById(type: 'spot'|'activity', id: string ) {
+    const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
+    const t = type === 'spot' ? 'ScenicSpotID' : 'ActivityID';
+    let url = this.#apiURL +
+      '/v2/Tourism/' + p +
+      '?$format=JSON';
+    url = url + `&$filter=${t} eq '${id}'`
+
     return this.#getHttp(url);
   }
 

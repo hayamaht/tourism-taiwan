@@ -1,0 +1,54 @@
+<div
+  class="block rounded-lg bg-white shadow-md">
+  <a routerLink="/activity/{{ activity.ActivityID }}">
+    <ng-template #def>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+        alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+        class="object-contain h-52 w-full rounded-t-lg bg-stone-200/70">
+    </ng-template>
+    <ng-container *ngIf="activity.Picture.PictureUrl1 else def">
+      <img title="{{ activity.Picture.PictureDescription }}"
+        [src]="activity.Picture.PictureUrl1"
+        [alt]="activity.Picture.PictureDescription1"
+        class="object-cover h-52 w-full rounded-t-lg">
+    </ng-container>
+  </a>
+  <div class="p-6">
+    <p class="text-sm font-thin mb-1">{{ activity.Class1 }}</p>
+    <h5
+      class="mb-2 text-xl font-medium leading-tight
+      text-neutral-800 dark:text-neutral-50">
+      {{ activity.ActivityName }}
+    </h5>
+    <div class="sm:flex justify-stretch` my-3 text-gray-500  ">
+      <div class="whitespace-nowrap
+      rounded-md bg-success-100 px-2 pb-1 pt-1 text-center
+      align-baseline text-sm font-bold leading-none
+      text-success-700">
+        開始
+        <span class="text-success">
+          {{ activity.StartTime | date:'YYYY-MM-dd' }}
+        </span>
+      </div>
+
+      <div class="whitespace-nowrap
+      rounded-md bg-danger-100 px-2 pb-1 pt-1 text-center
+      align-baseline text-sm font-bold leading-none
+      text-danger-700">
+        結束
+        <span class="text-danger">{{ activity.EndTime | date:'YYYY-MM-dd' }}</span>
+      </div>
+
+    </div>
+    <p class="line-clamp-3 mb-4 text-base text-neutral-600
+      dark:text-neutral-200">
+      {{ activity.Description }}
+    </p>
+    <a routerLink="/activity/{{ activity.ActivityID }}"
+      class="btn btn-primary tracking-widest"
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      閱讀
+    </a>
+  </div>
+</div>
