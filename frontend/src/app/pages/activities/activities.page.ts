@@ -5,7 +5,6 @@ import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { CityName } from 'src/app/models/city-name.model';
 import { Observable, map } from 'rxjs';
-import { CardComponent } from 'src/app/components/card/card.component';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 

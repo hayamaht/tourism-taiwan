@@ -1,0 +1,35 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { initTE, Carousel, Lightbox } from 'tw-elements';
+import { TourismService } from 'src/app/services/tourism.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'app-spot-detail',
+  standalone: true,
+  templateUrl: './spot-detail.page.html',
+  imports: [CommonModule],
+})
+export class SpotDetailPage implements OnInit {
+  #route = inject(ActivatedRoute);
+  #router = inject(Router);
+  #location = inject(Location);
+  #tourismService = inject(TourismService);
+
+  spots$!: Observable<any>;
+
+  ngOnInit(): void {
+    initTE({ Carousel, Lightbox });
+    this.#route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (!id) return;
+      this.spots$ = this.#tourismService.getById('spot', id);
+    });
+  }
+
+  goBack() {
+    this.#location.back()
+    //this.#router.navigate(['..']);
+  }
+}

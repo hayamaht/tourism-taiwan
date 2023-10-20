@@ -52,6 +52,17 @@ export class TourismService {
     return this.#getHttp(url);
   }
 
+  getById(type: 'spot'|'activity', id: string ) {
+    const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
+    const t = type === 'spot' ? 'ScenicSpotID' : 'ActivityID';
+    let url = this.#apiURL +
+      '/v2/Tourism/' + p +
+      '?$format=JSON';
+    url = url + `&$filter=${t} eq '${id}'`
+
+    return this.#getHttp(url);
+  }
+
   getTokenIsLive() {
     const bool = this.#getTokenExpire();
     if(bool || !this.#accesToken) {
