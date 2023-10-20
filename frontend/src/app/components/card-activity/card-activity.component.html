@@ -1,6 +1,6 @@
 <div
   class="block rounded-lg bg-white shadow-md">
-  <a routerLink="/">
+  <a routerLink="/activity/{{ activity.ActivityID }}">
     <ng-template #def>
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
         alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
@@ -10,7 +10,7 @@
       <img title="{{ activity.Picture.PictureDescription }}"
         [src]="activity.Picture.PictureUrl1"
         [alt]="activity.Picture.PictureDescription1"
-        class="object-coverj h-52 w-full rounded-t-lg">
+        class="object-cover h-52 w-full rounded-t-lg">
     </ng-container>
   </a>
   <div class="p-6">
@@ -44,12 +44,11 @@
       dark:text-neutral-200">
       {{ activity.Description }}
     </p>
-    <button
-      type="button"
+    <a routerLink="/activity/{{ activity.ActivityID }}"
       class="btn btn-primary tracking-widest"
       data-te-ripple-init
       data-te-ripple-color="light">
       閱讀
-    </button>
+    </a>
   </div>
 </div>

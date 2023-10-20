@@ -33,7 +33,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       maxZoom: 18,
       minZoom: 3,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
+    });
+
+    tiles.addTo(this.map);
 
     leaflet.popup()
       .setLatLng([this.lat, this.lon])

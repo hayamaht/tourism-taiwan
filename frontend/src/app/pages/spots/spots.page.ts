@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
@@ -22,6 +22,7 @@ export class SpotsPage implements OnInit {
 
   #route = inject(ActivatedRoute);
   #router = inject(Router);
+  #location = inject(Location);
   #tourismService = inject(TourismService);
 
   spots$!:  Observable<any>;
@@ -35,6 +36,12 @@ export class SpotsPage implements OnInit {
       this.city = param.get('city') || 'Taipei';
       this.#getSpotsByCity();
     });
+    this.#route.queryParamMap.subscribe(param => {
+      const p = parseInt(param.get('page')||'1');
+      console.log(p);
+      this.page = p;
+      this.#getSpotsByCity();
+    });
   }
 
   getSpots(cityName: string) {
@@ -43,11 +50,13 @@ export class SpotsPage implements OnInit {
 
   prevPage() {
     this.page -= 1;
+    this.#location.replaceState('spots', `page=${this.page}`);
     this.#getSpotsByCity();
   }
 
   nextPage() {
     this.page += 1;
+    this.#location.replaceState('spots', `page=${this.page}`)
     this.#getSpotsByCity();
   }
 
