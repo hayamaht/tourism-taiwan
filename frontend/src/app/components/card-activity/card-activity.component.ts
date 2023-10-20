@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { initTE, Ripple } from 'tw-elements';
 import { RouterModule } from '@angular/router';
+import { initTE, Ripple } from 'tw-elements';
 
 @Component({
   selector: 'app-card-activity',

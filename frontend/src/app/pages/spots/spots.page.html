@@ -38,9 +38,9 @@
   lg:grid-cols-3 xl:grid-cols-4">
     <ng-container *ngFor="let spot of spots">
 
-      <app-card [item]="spot"
-        class="w-fit p-1"
-      ></app-card>
+      <app-card-spot [spot]="spot"
+        class="w-full p-1"
+      ></app-card-spot>
 
     </ng-container>
   </div>

@@ -2,12 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
-
-import { CardComponent } from 'src/app/components/card/card.component';
 import { TourismService } from 'src/app/services/tourism.service';
 import { map, Observable, switchMap } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
+import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 
 @Component({
   selector: 'app-spots',
@@ -15,7 +14,7 @@ import { CitySelectorComponent } from 'src/app/components/city-selector/city-sel
   templateUrl: './spots.page.html',
   imports: [
     CommonModule, RouterModule,
-    CardComponent, CitySelectorComponent,
+    CardSpotComponent, CitySelectorComponent,
   ],
 })
 export class SpotsPage implements OnInit {

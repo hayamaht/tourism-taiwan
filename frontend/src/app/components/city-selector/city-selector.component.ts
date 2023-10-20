@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     <select data-te-select-init title="city" name="city" id="city"
       formControlName="city"
       class="border border-gray-400 p-2 rounded-md">
+      <!-- <option value="" hidden selected></option> -->
       <option *ngFor="let c of cities"
         [value]="c"
       >{{ c }}</option>
