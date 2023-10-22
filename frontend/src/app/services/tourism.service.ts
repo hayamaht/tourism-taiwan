@@ -13,11 +13,12 @@ export class TourismService {
   #apiURL = environment.apiURL;
   #authURL = environment.authURL;
   #accesToken!: string|null;
-  #expiresIn!: number|null;
+  #expiresIn: number|null = 86400;
   #currentTime = Date.now();
 
   constructor() {
     this.getTokenIsLive().subscribe((value: any) => {
+      //console.log(value);
       this.#accesToken = value['access_token'];
       this.#expiresIn = value['expires_in'];
     });
@@ -89,7 +90,9 @@ export class TourismService {
 
   #getTokenExpire() {
     const t = Date.now() - this.#currentTime;
-    if (this.#expiresIn && t < this.#expiresIn) {
+    // console.log(`t=${t}, this.#currentTime=${this.#currentTime}`)
+    // console.log(`this.#expiresIn=${this.#expiresIn}`);
+    if (this.#expiresIn && t <= this.#expiresIn) {
       return false;
     }
     this.#getToken();

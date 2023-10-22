@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
@@ -22,6 +22,7 @@ export class ActivitiesPage implements OnInit {
 
   #route = inject(ActivatedRoute);
   #router = inject(Router);
+  #location = inject(Location);
   #tourismService = inject(TourismService);
 
   activities$!: Observable<any>;
@@ -35,6 +36,12 @@ export class ActivitiesPage implements OnInit {
       this.city = param.get('city') || 'Taipei';
       this.#getActivitiesByCity();
     });
+    this.#route.queryParamMap.subscribe(param => {
+      const p = parseInt(param.get('page')||'1');
+      console.log(p);
+      this.page = p;
+      this.#getActivitiesByCity();
+    });
   }
 
   getActivities(cityName: string) {
@@ -43,11 +50,19 @@ export class ActivitiesPage implements OnInit {
 
   prevPage() {
     this.page -= 1;
+    this.#location.replaceState(
+      `activities/${this.city}`,
+      `page=${this.page}`
+    );
     this.#getActivitiesByCity();
   }
 
   nextPage() {
     this.page += 1;
+    this.#location.replaceState(
+      `activities/${this.city}`,
+      `page=${this.page}`
+    );
     this.#getActivitiesByCity();
   }
 

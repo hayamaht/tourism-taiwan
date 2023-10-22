@@ -50,13 +50,13 @@ export class SpotsPage implements OnInit {
 
   prevPage() {
     this.page -= 1;
-    this.#location.replaceState('spots', `page=${this.page}`);
+    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
     this.#getSpotsByCity();
   }
 
   nextPage() {
     this.page += 1;
-    this.#location.replaceState('spots', `page=${this.page}`)
+    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`)
     this.#getSpotsByCity();
   }
 
