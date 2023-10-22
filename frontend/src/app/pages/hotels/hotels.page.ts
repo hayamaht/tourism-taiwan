@@ -1,24 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { map, Observable, switchMap, tap } from 'rxjs';
-import { CityName } from 'src/app/models/city-name.model';
-import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
-import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
+import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { CityName } from 'src/app/models/city-name.model';
+import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
+import { CardHotelComponent } from 'src/app/components/card-hotel/card-hotel.component';
+import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 
 @Component({
-  selector: 'app-spots',
+  selector: 'app-hotels',
   standalone: true,
-  templateUrl: './spots.page.html',
+  templateUrl: './hotels.page.html',
   imports: [
-    CommonModule, RouterModule,
-    CardSpotComponent, CitySelectorComponent,
+    CommonModule,
+    CardHotelComponent, CitySelectorComponent
   ],
 })
-export class SpotsPage implements OnInit {
+export class HotelsPage {
   static ROW_PER_PAGE = 15;
 
   #route = inject(ActivatedRoute);
@@ -26,7 +27,7 @@ export class SpotsPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  spots$!:  Observable<any>;
+  hotels$!:  Observable<any>;
   city!: string;
   page = 1;
   stopCount = false;
@@ -35,29 +36,29 @@ export class SpotsPage implements OnInit {
     initTE({ Ripple });
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
-      this.#getSpotsByCity();
+      this.#getHotelsByCity();
     });
     this.#route.queryParamMap.subscribe(param => {
       const p = parseInt(param.get('page')||'1');
       this.page = p;
-      this.#getSpotsByCity();
+      this.#getHotelsByCity();
     });
   }
 
-  getSpots(cityName: string) {
-    this.#router.navigate(['spots', cityName]);
+  getHotels(cityName: string) {
+    this.#router.navigate(['hotels', cityName]);
   }
 
   prevPage() {
     this.page -= 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
-    this.#getSpotsByCity();
+    this.#location.replaceState(`hotels/${this.city}`, `page=${this.page}`);
+    this.#getHotelsByCity();
   }
 
   nextPage() {
     this.page += 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`)
-    this.#getSpotsByCity();
+    this.#location.replaceState(`hotels/${this.city}`, `page=${this.page}`)
+    this.#getHotelsByCity();
   }
 
   #goTop() {
@@ -68,19 +69,20 @@ export class SpotsPage implements OnInit {
     });
   }
 
-  #getSpotsByCity() {
-    this.spots$ = this.#tourismService.getByCityName(
-      TourismCat.ScenicSpot,
+  #getHotelsByCity() {
+    this.hotels$ = this.#tourismService.getByCityName(
+      TourismCat.Hotel,
       this.city as CityName,
       this.page,
-      SpotsPage.ROW_PER_PAGE
+      HotelsPage.ROW_PER_PAGE
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
-        this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;
+        this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );
   }
+
 }

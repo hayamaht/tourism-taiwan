@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, from, map, of, switchMap, tap } from 'rxjs';
 import { CityName } from '../models/city-name.model';
+import { TourismCat } from '../models/tourism-cat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,19 @@ export class TourismService {
   #apiURL = environment.apiURL;
   #authURL = environment.authURL;
   #accesToken!: string|null;
-  #expiresIn!: number|null;
+  #expiresIn: number|null = 86400;
   #currentTime = Date.now();
 
   constructor() {
     this.getTokenIsLive().subscribe((value: any) => {
+      //console.log(value);
       this.#accesToken = value['access_token'];
       this.#expiresIn = value['expires_in'];
     });
   }
 
-  getAll(type: 'spot'|'activity') {
-    const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
+  getAll(type: TourismCat) {
+    const p = type.toString();
     const url = this.#apiURL +
       '/v2/Tourism/' + p +
       '?$format=JSON';
@@ -32,13 +34,13 @@ export class TourismService {
   }
 
   getByCityName(
-    type: 'spot'|'activity',
+    type: TourismCat,
     cityName: CityName,
     page = 1,
     limit = 15,
     orderBy?: string
   ) {
-    const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
+    const p = type.toString();
     let url = this.#apiURL +
       '/v2/Tourism/' + p + '/' + cityName.toString() +
       '?$format=JSON';
@@ -52,9 +54,9 @@ export class TourismService {
     return this.#getHttp(url);
   }
 
-  getById(type: 'spot'|'activity', id: string ) {
-    const p = type === 'spot' ? 'ScenicSpot' : 'Activity';
-    const t = type === 'spot' ? 'ScenicSpotID' : 'ActivityID';
+  getById(type: TourismCat, id: string ) {
+    const p = type.toString();
+    const t = p + 'ID';
     let url = this.#apiURL +
       '/v2/Tourism/' + p +
       '?$format=JSON';
@@ -89,7 +91,9 @@ export class TourismService {
 
   #getTokenExpire() {
     const t = Date.now() - this.#currentTime;
-    if (this.#expiresIn && t < this.#expiresIn) {
+    // console.log(`t=${t}, this.#currentTime=${this.#currentTime}`)
+    // console.log(`this.#expiresIn=${this.#expiresIn}`);
+    if (this.#expiresIn && t <= this.#expiresIn) {
       return false;
     }
     this.#getToken();

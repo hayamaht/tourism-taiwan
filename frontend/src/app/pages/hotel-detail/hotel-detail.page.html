@@ -1,0 +1,193 @@
+<ng-template #loading>
+  <div class="flex justify-center">
+    <div class="text-lime-400 inline-block h-8 w-8 animate-spin rounded-full
+    border-4 border-solid border-current border-r-transparent
+    align-[-0.125em]
+    motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="hotels$|async as hotels; else loading">
+  <ng-container *ngFor="let hotel of hotels">
+    <article>
+      <div>
+        <a (click)="goBack()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="my-2 text-center">
+        <span class="px-3 py-1  rounded-full bg-amber-100
+          text-amber-600 border border-amber-600">
+          {{ hotel.City }}
+        </span>
+      </div>
+
+      <h1 class="text-3xl lg:text-5xl font-bold text-center
+        m-4 mb-6">
+        {{ hotel.HotelName }}
+      </h1>
+
+      <div class="my-5 ">
+        {{ hotel.Description }}
+      </div>
+
+      <div class="md:flex space-y-2 md:space-x-2">
+        <div class="flex-1">
+          <div class="p-4 mb-2 border border-stone-400 bg-stone-100 rounded-md">
+            <div class="flex items-center space-x-2 m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                {{ hotel.Phone }}
+              </span>
+            </div>
+            <ng-container *ngIf="hotel.Fax">
+              <div class="flex items-center space-x-2 m-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+                <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                  {{ hotel.Fax }}
+                </span>
+              </div>
+            </ng-container>
+            <div class="flex items-center space-x-2 m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+              </svg>
+              <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                <span class="border border-slate-500
+                bg-slate-100 text-slate-500
+                font-mono text-sm px-1 empty:hidden">{{ hotel.ZipCode }}</span> {{ hotel.Address }}
+              </span>
+            </div>
+            <ng-container *ngIf="hotel.ParkingInfo">
+              <div class="flex items-center space-x-2 m-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                </svg>
+                <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                  {{ hotel.ParkingInfo }}
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="hotel.WebsiteUrl">
+              <div class="flex items-center space-x-2 m-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                </svg>
+                <a href="{{ hotel.WebsiteUrl }}" target="_blank">
+                  <span class="flex-1 pl-3 border-l-2
+                  border-l-primary-500">
+                    <span class="underline underline-offset-4
+                    decoration-primary text-sm text-slate-600">
+                      開啟視窗
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-3 h-3 inline-block">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </ng-container>
+          </div>
+          <div class="">
+
+          </div>
+          <div class="">
+            <div *ngIf="hotel.Picture.PictureUrl1">
+              <img title="{{ hotel.Picture.PictureDescription1 }}" [src]="hotel.Picture.PictureUrl1"
+                [alt]="hotel.Picture.PictureDescription1" class="w-full">
+            </div>
+            <div *ngIf="hotel.Picture.PictureUrl2">
+              <img title="{{ hotel.Picture.PictureDescription2 }}" [src]="hotel.Picture.PictureUrl2"
+                [alt]="hotel.Picture.PictureDescription2" class="w-full">
+            </div>
+            <div *ngIf="hotel.Picture.PictureUrl3">
+              <img title="{{ hotel.Picture.PictureDescription3 }}" [src]="hotel.Picture.PictureUrl3"
+                [alt]="hotel.Picture.PictureDescription3" class="w-full">
+            </div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <app-map [name]="hotel.HotelName"
+            [lat]="hotel.Position.PositionLat"
+            [lon]="hotel.Position.PositionLon"></app-map>
+
+          <ng-container *ngIf="hotel.MapUrl">
+            <div class="">
+              <div>旅館民宿地點簡圖連結網址</div>
+              <div>{{ hotel.MapUrl }}</div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="hotel.Spec">
+            <div class="bg-info-50 border border-info-500
+              rounded shadow-sm p-2 m-2">
+              <div class="-m-2 p-1 bg-info-500 text-info-900">房型、價目及數量說明</div>
+              <div class="mt-4">{{ hotel.Spec }}</div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="hotel.ServiceInfo">
+            <div class="bg-info-50 border border-info-500
+              rounded shadow-sm p-2 m-2">
+              <div class="-m-2 p-1 bg-info-500 text-info-900">
+                服務內容介紹</div>
+              <div class="mt-4">{{ hotel.ServiceInfo }}</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </article>
+  </ng-container>
+</ng-container>
+
+
+
+<!-- "HotelID": "string",
+"HotelName": "string",
+"Description": "string",
+"Grade": "string",
+"Address": "string",
+"ZipCode": "string",
+"Phone": "string",
+"Fax": "string",
+"WebsiteUrl": "string",
+"Picture": {
+  "PictureUrl1": "string",
+  "PictureDescription1": "string",
+  "PictureUrl2": "string",
+  "PictureDescription2": "string",
+  "PictureUrl3": "string",
+  "PictureDescription3": "string"
+},
+"Position": {
+  "PositionLon": 0,
+  "PositionLat": 0,
+  "GeoHash": "string"
+},
+"Class": "string",
+"MapUrl": "string",
+"Spec": "string",
+"ServiceInfo": "string",
+"ParkingInfo": "string",
+"City": "string",
+"SrcUpdateTime": "2023-10-22T04:15:02.126Z",
+"UpdateTime": "2023-10-22T04:15:02.126Z" -->
