@@ -5,6 +5,7 @@ import { TourismService } from 'src/app/services/tourism.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
+import { TourismCat } from 'src/app/models/tourism-cat.model';
 
 @Component({
   selector: 'app-spot-detail',
@@ -25,7 +26,10 @@ export class SpotDetailPage implements OnInit {
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (!id) return;
-      this.spots$ = this.#tourismService.getById('spot', id);
+      this.spots$ = this.#tourismService.getById(
+        TourismCat.ScenicSpot,
+        id
+      );
     });
   }
 

@@ -11,6 +11,7 @@ import {
 
 import { CityName } from 'src/app/models/city-name.model';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
+import { TourismCat } from 'src/app/models/tourism-cat.model';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,7 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
     initTE({ Collapse, Ripple });
     this.activities$ = this.#tourismService.getByCityName(
-      'activity',
+      TourismCat.Activity,
       CityName.Taipei,
       1,
       9,

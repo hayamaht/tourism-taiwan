@@ -7,6 +7,7 @@ import { map, Observable, switchMap } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
+import { TourismCat } from 'src/app/models/tourism-cat.model';
 
 @Component({
   selector: 'app-spots',
@@ -61,7 +62,7 @@ export class SpotsPage implements OnInit {
 
   #getSpotsByCity() {
     this.spots$ = this.#tourismService.getByCityName(
-      'spot',
+      TourismCat.ScenicSpot,
       this.city as CityName,
       this.page,
       SpotsPage.ROW_PER_PAGE
@@ -74,46 +75,3 @@ export class SpotsPage implements OnInit {
     );
   }
 }
-
-// {
-//   "ScenicSpotID": "string",
-//   "ScenicSpotName": "string",
-//   "DescriptionDetail": "string",
-//   "Description": "string",
-//   "Phone": "string",
-//   "Address": "string",
-//   "ZipCode": "string",
-//   "TravelInfo": "string",
-//   "OpenTime": "string",
-//   "Picture": {
-//     "PictureUrl1": "string",
-//     "PictureDescription1": "string",
-//     "PictureUrl2": "string",
-//     "PictureDescription2": "string",
-//     "PictureUrl3": "string",
-//     "PictureDescription3": "string"
-//   },
-//   "MapUrl": "string",
-//   "Position": {
-//     "PositionLon": 0,
-//     "PositionLat": 0,
-//     "GeoHash": "string"
-//   },
-//   "Class1": "string",
-//   "Class2": "string",
-//   "Class3": "string",
-//   "Level": "string",
-//   "WebsiteUrl": "string",
-//   "ParkingInfo": "string",
-//   "ParkingPosition": {
-//     "PositionLon": 0,
-//     "PositionLat": 0,
-//     "GeoHash": "string"
-//   },
-//   "TicketInfo": "string",
-//   "Remarks": "string",
-//   "Keyword": "string",
-//   "City": "string",
-//   "SrcUpdateTime": "2023-10-19T13:42:46.948Z",
-//   "UpdateTime": "2023-10-19T13:42:46.948Z"
-// }

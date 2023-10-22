@@ -7,6 +7,7 @@ import { CityName } from 'src/app/models/city-name.model';
 import { Observable, map } from 'rxjs';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
+import { TourismCat } from 'src/app/models/tourism-cat.model';
 
 @Component({
   selector: 'app-activities',
@@ -68,7 +69,7 @@ export class ActivitiesPage implements OnInit {
 
   #getActivitiesByCity() {
     this.activities$ = this.#tourismService.getByCityName(
-      'activity',
+      TourismCat.Activity,
       this.city as CityName,
       this.page,
       ActivitiesPage.ROW_PER_PAGE,
