@@ -10,10 +10,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule,],
   template: `
-<form [formGroup]="form" (ngSubmit)="onFormSubmit($event)"
+<form [formGroup]="form"
   class="m-4">
   <div class="flex space-x-2 items-center justify-center ">
-    <select data-te-select-init title="city" name="city" id="city"
+    <select (ngModelChange)="onChange($event)"
+      title="city" name="city" id="city"
       formControlName="city"
       class="border border-gray-400 p-2 rounded-md">
       <!-- <option value="" hidden selected></option> -->
@@ -22,13 +23,13 @@ import { ActivatedRoute, Router } from '@angular/router';
       >{{ c }}</option>
     </select>
     <!-- <label data-te-select-label-ref>請選擇城市</label> -->
-    <button type="submit"
+    <!-- <button type="submit"
       [disabled]="form.pristine "
       class="btn btn-primary"
       data-te-ripple-init
       data-te-ripple-color="light">
       確定
-    </button>
+    </button> -->
   </div>
 </form>
   `
@@ -45,7 +46,7 @@ export class CitySelectorComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    initTE({ Ripple, Select });
+    //initTE({ Ripple, Select });
     this.#route.paramMap.subscribe(params => {
       const c = params.get('city');
       if (!c) return;
@@ -55,9 +56,14 @@ export class CitySelectorComponent implements OnInit {
     });
   }
 
-  onFormSubmit(event: SubmitEvent) {
-    const v = this.form.get('city')!.value;
-    if (!v) return;
-    this.cityEvent.emit(v);
+  onChange(cityName: string) {
+    //console.log(event);
+    this.cityEvent.emit(cityName);
   }
+
+  // onFormSubmit(event: SubmitEvent) {
+  //   const v = this.form.get('city')!.value;
+  //   if (!v) return;
+  //   this.cityEvent.emit(v);
+  // }
 }
