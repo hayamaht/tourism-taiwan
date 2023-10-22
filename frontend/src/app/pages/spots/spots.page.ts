@@ -38,7 +38,6 @@ export class SpotsPage implements OnInit {
     });
     this.#route.queryParamMap.subscribe(param => {
       const p = parseInt(param.get('page')||'1');
-      console.log(p);
       this.page = p;
       this.#getSpotsByCity();
     });
