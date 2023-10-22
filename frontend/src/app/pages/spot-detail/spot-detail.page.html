@@ -1,0 +1,226 @@
+<ng-template #loading>
+  <div class="flex justify-center">
+    <div class="text-lime-400 inline-block h-8 w-8 animate-spin rounded-full
+    border-4 border-solid border-current border-r-transparent
+    align-[-0.125em]
+    motion-reduce:animate-[spin_1.5s_linear_infinite]"
+  role="status">
+  </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="spots$|async as spots; else loading">
+  <ng-container *ngFor="let spot of spots">
+    <article>
+      <div>
+        <a (click)="goBack()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+          </svg>
+        </a>
+      </div>
+
+      <h1 class="text-3xl lg:text-5xl font-bold text-center
+        m-4 mb-6">
+        {{ spot.ScenicSpotName }}
+      </h1>
+
+      <div class="">
+        <div *ngIf="spot.Picture.PictureUrl1">
+          <img title="{{ spot.Picture.PictureDescription1 }}"
+            [src]="spot.Picture.PictureUrl1"
+            [alt]="spot.Picture.PictureDescription1"
+            class="w-full">
+        </div>
+        <div *ngIf="spot.Picture.PictureUrl2">
+          <img title="{{ spot.Picture.PictureDescription2 }}"
+            [src]="spot.Picture.PictureUrl2"
+            [alt]="spot.Picture.PictureDescription2"
+            class="w-full">
+        </div>
+        <div *ngIf="spot.Picture.PictureUrl3">
+          <img title="{{ spot.Picture.PictureDescription3 }}"
+            [src]="spot.Picture.PictureUrl3"
+            [alt]="spot.Picture.PictureDescription3"
+            class="w-full">
+        </div>
+      </div>
+
+      <div class="my-5 ">
+        {{ spot.DescriptionDetail }}
+      </div>
+
+      <div class="flex items-center space-x-2 my-2 justify-stretch">
+        <span class="px-3 py-1 rounded bg-info-100 text-info-600">
+          {{ spot.City }}
+        </span>
+        <ng-container *ngIf="spot.Class1">
+          <span class="px-3 py-1 mx-1 rounded-full bg-orange-100
+          text-orange-500">{{ spot.Class1 }}</span>
+        </ng-container>
+        <ng-container *ngIf="spot.Class2">
+          <span class="px-3 py-1 mx-1 rounded-full bg-yellow-100
+          text-yellow-600">{{ spot.Class2 }}</span>
+        </ng-container>
+        <ng-container *ngIf="spot.Class3">
+          <span class="px-3 py-1 mx-1 rounded-full bg-blue-100
+        text-blue-500">{{ spot.Class3 }}</span>
+        </ng-container>
+
+        <ng-container *ngIf="spot.Level">
+          <span class="p-0 px-3 bg-slate-100 text-slate-500">
+            {{ spot.Level }}
+          </span>
+        </ng-container>
+      </div>
+
+      <div class="md:flex">
+        <div class="flex-1">
+          <div class="p-4 border border-stone-400 bg-stone-100 rounded-md">
+            <div class="flex items-center space-x-2 m-1">
+              <svg xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                {{ spot.Phone }}
+              </span>
+            </div>
+            <div class="flex items-center space-x-2 m-1">
+              <svg xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+              </svg>
+              <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                <span class="border border-slate-500
+                bg-slate-100 text-slate-500
+                font-mono text-sm px-1 empty:hidden">{{ spot.ZipCode }}</span> {{ spot.Address }}
+              </span>
+            </div>
+            <div class="flex items-center space-x-2 m-1">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                {{ spot.OpenTime }}
+              </span>
+            </div>
+
+
+            <ng-container *ngIf="spot.ParkingInfo">
+              <div class="flex items-center space-x-2 m-1">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                </svg>
+                <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                  {{ spot.ParkingInfo }}
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="spot.WebsiteUrl">
+              <div class="flex items-center space-x-2 m-1">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                </svg>
+                <a href="{{ spot.WebsiteUrl }}" target="_blank">
+                  <span class="flex-1 pl-3 border-l-2
+                  border-l-primary-500">
+                    <span class="underline underline-offset-4
+                    decoration-primary text-sm text-slate-600">
+                      開啟視窗
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                      fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor"
+                      class="w-3 h-3 inline-block">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="spot.Keyword">
+              <div class="flex items-center space-x-2 m-1 ">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
+                </svg>
+                <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                  <span class="bg-slate-200 text-slate-500
+                    rounded-full px-3 py-0 before:content-['#']">
+                    {{ spot.Keyword }}
+                  </span>
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="spot.Remarks">
+              <div class="flex items-center space-x-2 m-1 ">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                </svg>
+                <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
+                  {{ spot.Remarks }}
+                </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="my-2">
+            <ng-container *ngIf="spot.TravelInfo">
+              <div class="border border-stone-500 bg-stone-100
+                p-2 rounded-md mb-1">
+                <div class="bg-stone-400 text-stone-800
+                -mt-2 rounded-t -mx-2 p-2 mb-2">
+                  交通資訊
+                </div>
+                <div class="">
+                  {{ spot.TravelInfo }}
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="spot.TicketInfo">
+              <div class="border border-stone-500 bg-stone-100
+                p-2 rounded-md mb-1">
+                <div class="bg-stone-400 text-stone-800
+                -mt-2 rounded-t -mx-2 p-2 mb-2">
+                票價資訊
+                </div>
+                <div class="">
+                  {{ spot.TicketInfo }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="flex-auto">
+          <app-map
+            [name]="spot.ScenicSpotName"
+            [lat]="spot.Position.PositionLat"
+            [lon]="spot.Position.PositionLon"
+          ></app-map>
+<!--
+          <ng-container>
+            <app-map
+              [lat]="spot.ParkingPosition.PositionLat"
+              [lon]="spot.ParkingPosition.PositionLon"
+            ></app-map>
+          </ng-container> -->
+
+          <ng-container *ngIf="spot.MapUrl">
+            <div>{{ spot.MapUrl }}</div>
+          </ng-container>
+        </div>
+      </div>
+    </article>
+  </ng-container>
+</ng-container>
