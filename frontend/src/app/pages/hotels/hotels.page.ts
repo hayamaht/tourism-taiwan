@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { CityName } from 'src/app/models/city-name.model';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
@@ -61,6 +61,14 @@ export class HotelsPage {
     this.#getHotelsByCity();
   }
 
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   #getHotelsByCity() {
     this.hotels$ = this.#tourismService.getByCityName(
       TourismCat.Hotel,
@@ -68,6 +76,7 @@ export class HotelsPage {
       this.page,
       HotelsPage.ROW_PER_PAGE
     ).pipe(
+      tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
         this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;

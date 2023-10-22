@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { CityName } from 'src/app/models/city-name.model';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
@@ -67,6 +67,14 @@ export class ActivitiesPage implements OnInit {
     this.#getActivitiesByCity();
   }
 
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   #getActivitiesByCity() {
     this.activities$ = this.#tourismService.getByCityName(
       TourismCat.Activity,
@@ -75,6 +83,7 @@ export class ActivitiesPage implements OnInit {
       ActivitiesPage.ROW_PER_PAGE,
       'StartTime desc'
     ).pipe(
+      tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
         this.stopCount = (len < ActivitiesPage.ROW_PER_PAGE) ? true : false;

@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
@@ -60,6 +60,14 @@ export class SpotsPage implements OnInit {
     this.#getSpotsByCity();
   }
 
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   #getSpotsByCity() {
     this.spots$ = this.#tourismService.getByCityName(
       TourismCat.ScenicSpot,
@@ -67,6 +75,7 @@ export class SpotsPage implements OnInit {
       this.page,
       SpotsPage.ROW_PER_PAGE
     ).pipe(
+      tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
         this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;

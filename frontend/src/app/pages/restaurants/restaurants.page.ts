@@ -5,7 +5,7 @@ import { initTE, Ripple } from 'tw-elements';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardRestaurantComponent } from 'src/app/components/card-restaurant/card-restaurant.component';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { CityName } from 'src/app/models/city-name.model';
 
@@ -60,6 +60,14 @@ export class RestaurantsPage implements OnInit {
     this.#getRestaurantsByCity();
   }
 
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   #getRestaurantsByCity() {
     this.restaurants$ = this.#tourismService.getByCityName(
       TourismCat.Restaurant,
@@ -67,6 +75,7 @@ export class RestaurantsPage implements OnInit {
       this.page,
       RestaurantsPage.ROW_PER_PAGE
     ).pipe(
+      tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
         this.stopCount = (len < RestaurantsPage.ROW_PER_PAGE) ? true : false;
