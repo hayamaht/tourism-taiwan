@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { initTE, Ripple } from 'tw-elements';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-card-restaurant',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './card-restaurant.component.html'
+  templateUrl: './card-restaurant.component.html',
+  imports: [CommonModule, RouterModule],
 })
-export class CardRestaurantComponent {
+export class CardRestaurantComponent implements OnInit {
+  @Input() restaurant: any;
 
+  ngOnInit(): void {
+    initTE({ Ripple });
+  }
 }
