@@ -2,23 +2,23 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
-import { TourismService } from 'src/app/services/tourism.service';
-import { CityName } from 'src/app/models/city-name.model';
-import { Observable, map, tap } from 'rxjs';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
-import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
+import { CardRestaurantComponent } from 'src/app/components/card-restaurant/card-restaurant.component';
+import { TourismService } from 'src/app/services/tourism.service';
+import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { CityName } from 'src/app/models/city-name.model';
 
 @Component({
-  selector: 'app-activities',
+  selector: 'app-restaurants',
   standalone: true,
-  templateUrl: './activities.page.html',
+  templateUrl: './restaurants.page.html',
   imports: [
     CommonModule, RouterModule,
-    CardActivityComponent, CitySelectorComponent
+    CitySelectorComponent, CardRestaurantComponent,
   ],
 })
-export class ActivitiesPage implements OnInit {
+export class RestaurantsPage implements OnInit {
   static ROW_PER_PAGE = 15;
 
   #route = inject(ActivatedRoute);
@@ -26,45 +26,38 @@ export class ActivitiesPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  activities$!: Observable<any>;
+  restaurants$!:  Observable<any>;
   city!: string;
   page = 1;
   stopCount = false;
 
-  ngOnInit(): void {
+  ngOnInit() {
     initTE({ Ripple });
     this.#route.paramMap.subscribe(param => {
-      this.city = param.get('city') || 'Taipei';
-      this.#getActivitiesByCity();
+      this.city = param.get('city') || 'NewTaipei';
+      this.#getRestaurantsByCity();
     });
     this.#route.queryParamMap.subscribe(param => {
       const p = parseInt(param.get('page')||'1');
-      console.log(p);
       this.page = p;
-      this.#getActivitiesByCity();
+      this.#getRestaurantsByCity();
     });
   }
 
-  getActivities(cityName: string) {
-    this.#router.navigate(['activities', cityName]);
+  getRestaurants(cityName: string) {
+    this.#router.navigate(['restaurants', cityName]);
   }
 
   prevPage() {
     this.page -= 1;
-    this.#location.replaceState(
-      `activities/${this.city}`,
-      `page=${this.page}`
-    );
-    this.#getActivitiesByCity();
+    this.#location.replaceState(`restaurants/${this.city}`, `page=${this.page}`);
+    this.#getRestaurantsByCity();
   }
 
   nextPage() {
     this.page += 1;
-    this.#location.replaceState(
-      `activities/${this.city}`,
-      `page=${this.page}`
-    );
-    this.#getActivitiesByCity();
+    this.#location.replaceState(`restaurants/${this.city}`, `page=${this.page}`)
+    this.#getRestaurantsByCity();
   }
 
   #goTop() {
@@ -75,18 +68,17 @@ export class ActivitiesPage implements OnInit {
     });
   }
 
-  #getActivitiesByCity() {
-    this.activities$ = this.#tourismService.getByCityName(
-      TourismCat.Activity,
+  #getRestaurantsByCity() {
+    this.restaurants$ = this.#tourismService.getByCityName(
+      TourismCat.Restaurant,
       this.city as CityName,
       this.page,
-      ActivitiesPage.ROW_PER_PAGE,
-      'StartTime desc'
+      RestaurantsPage.ROW_PER_PAGE
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
         const len = (items as []).length;
-        this.stopCount = (len < ActivitiesPage.ROW_PER_PAGE) ? true : false;
+        this.stopCount = (len < RestaurantsPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );

@@ -40,14 +40,14 @@
         class="list-style-none  flex justify-items-center flex-col pl-0
           lg:flex-row">
         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- Dashboard link -->
+          <!-- spot link -->
           <a data-te-nav-link-ref
             routerLink="spots"
             class="navbar-menu-item"
           >觀光景點</a>
         </li>
         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- Dashboard link -->
+          <!-- activites link -->
           <a data-te-nav-link-ref
             routerLink="activities"
             class="navbar-menu-item"
@@ -59,6 +59,13 @@
             routerLink="hotels"
             class="navbar-menu-item"
           >觀光旅宿</a>
+        </li>
+        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+          <!-- restaurants link -->
+          <a data-te-nav-link-ref
+            routerLink="restaurants"
+            class="navbar-menu-item"
+          >觀光餐飲</a>
         </li>
       </ul>
     </div>
@@ -144,7 +151,7 @@
         data-te-dropdown-ref
         data-te-dropdown-alignment="end">
         <!-- Second dropdown trigger -->
-        <a
+        <a title="dropdown"
           class="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
           href="#"
           id="dropdownMenuButton2"
