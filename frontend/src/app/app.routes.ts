@@ -6,6 +6,8 @@ import { SpotDetailPage } from './pages/spot-detail/spot-detail.page';
 import { ActivityDetailPage } from './pages/activity-detail/activity-detail.page';
 import { HotelsPage } from './pages/hotels/hotels.page';
 import { HotelDetailPage } from './pages/hotel-detail/hotel-detail.page';
+import { RestaurantsPage } from './pages/restaurants/restaurants.page';
+import { RestaurantDetailPage } from './pages/restaurant-detail/restaurant-detail.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
@@ -18,4 +20,7 @@ export const routes: Routes = [
   { path:'hotels', component: HotelsPage },
   { path:'hotels/:city', component: HotelsPage },
   { path:'hotel/:id', component: HotelDetailPage },
+  { path:'restaurants', component: RestaurantsPage },
+  { path:'restaurants/:city', component: RestaurantsPage },
+  { path:'restaurant/:id', component: RestaurantDetailPage },
 ];
