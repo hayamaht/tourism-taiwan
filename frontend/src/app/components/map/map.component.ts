@@ -26,16 +26,19 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   #initMap() {
-    let lat:number;
     if(this.lat && this.lon) {
       this.#setMap(this.lat, this.lon);
       this.#setTiles();
       this.#setPopup();
     } else if (this.geometry) {
-      this.#setMap(
-        this.geometry.geometry.coordinates[0][1],
-        this.geometry.geometry.coordinates[0][0]
-      );
+      const type = this.geometry.geometry.type;
+      const lat = (type === "MultiLineString")
+        ? this.geometry.geometry.coordinates[0][0][1]
+        : this.geometry.geometry.coordinates[0][1];
+      const lon = (type === "MultiLineString")
+        ? this.geometry.geometry.coordinates[0][0][0]
+        : this.geometry.geometry.coordinates[0][0];
+      this.#setMap(lat, lon);
       this.#setTiles();
       this.#setGeoJson();
     }

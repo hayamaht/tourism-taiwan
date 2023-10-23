@@ -23,7 +23,6 @@ export class BikeDetailPage implements OnInit {
 
   ngOnInit(): void {
     this.#route.paramMap.subscribe(param => {
-      console.log(param);
       const city = param.get('city');
       this.name = param.get('name');
       if (!city || !this.name) {
@@ -35,8 +34,7 @@ export class BikeDetailPage implements OnInit {
   }
 
   goBack() {
-    this.#location.back()
-    //this.#router.navigate(['..']);
+    this.#location.back();
   }
 
   #getRouteByName(city: string, name: string) {
