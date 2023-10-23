@@ -1,7 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, from, map, of, switchMap, tap } from 'rxjs';
 import { CityName } from '../models/city-name.model';
 import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
@@ -10,7 +8,6 @@ import { TokenService } from './token.service';
   providedIn: 'root'
 })
 export class TourismService {
-  #http = inject(HttpClient);
   #tokenService = inject(TokenService);
 
   #apiURL = environment.apiURL;

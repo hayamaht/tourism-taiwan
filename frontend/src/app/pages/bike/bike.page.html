@@ -1,0 +1,28 @@
+<h1 class="text-3xl font-bold text-center">
+自行車道
+</h1>
+
+<app-city-selector (cityEvent)="getBikes($event)"></app-city-selector>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <div
+      class="inline-block text-center h-8 w-8 animate-spin
+      rounded-full border-4 text-primary
+      border-solid border-current border-r-transparent
+      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+      role="status">
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="bikes$|async as bikes; else loading">
+  <ng-container *ngFor="let b of bikes">
+    <h1>{{ b.RouteName }}</h1>
+    <a routerLink="/bike/{{ b.RouteName }}"
+    class="btn btn-primary">
+      link
+    </a>
+    <!-- {{ b|json }} -->
+  </ng-container>
+</ng-container>
