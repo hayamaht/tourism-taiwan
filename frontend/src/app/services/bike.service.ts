@@ -31,7 +31,7 @@ export class BikeService {
       '/V3/Map/Bike/Network/CityBike/City/' +
       cityName.toString() +
       '?$format=GEOJSON' +
-      '&$select=';
+      `&$filter=RouteName eq '${name}'`;
     return this.#tokenService.getHttp(url);
   }
 }

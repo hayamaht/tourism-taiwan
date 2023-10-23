@@ -1,0 +1,9 @@
+<div class="p-2 space-y-2 text-center border border-stone-500 rounded-md shadow-md">
+  <h1 class="text-2xl text-center font-bold ">
+    {{ route.RouteName }}
+  </h1>
+  <p class="text-xl ">{{ route.RouteLength }} 公尺</p>
+  <a routerLink="/bike/{{ city }}/{{ route.RouteName }}"
+    class="btn btn-primary"
+  >查看</a>
+</div>

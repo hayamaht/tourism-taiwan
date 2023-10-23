@@ -1,0 +1,18 @@
+
+<ng-container *ngIf="bikes$|async as bikes">
+  <ng-container *ngFor="let b of bikes.features">
+    <div>
+      <a (click)="goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+        </svg>
+      </a>
+    </div>
+    <h1 class="m-4 text-center text-3xl font-bold">
+      {{ b.properties.model.RouteName }}
+    </h1>
+    <div>
+      <app-map [geometry]="b"></app-map>
+    </div>
+  </ng-container>
+</ng-container>

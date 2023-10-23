@@ -17,12 +17,56 @@
 </ng-template>
 
 <ng-container *ngIf="bikes$|async as bikes; else loading">
-  <ng-container *ngFor="let b of bikes">
-    <h1>{{ b.RouteName }}</h1>
-    <a routerLink="/bike/{{ b.RouteName }}"
-    class="btn btn-primary">
-      link
-    </a>
-    <!-- {{ b|json }} -->
-  </ng-container>
+
+  <div aria-label="Page navigation">
+    <ul class="list-style-none flex justify-center space-x-2 m-2">
+      <li>
+        <button type="button" (click)="prevPage()"
+        [disabled]="(page===1)"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary"
+        >Previous</button>
+      </li>
+      <li>
+        <button type="button" (click)="nextPage()"
+        [disabled]="stopCount"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary "
+        >Next</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <ng-container *ngFor="let b of bikes">
+      <app-card-bike-route
+        [route]="b"
+        [city]="city"
+      ></app-card-bike-route>
+      <!-- {{ b|json }} -->
+    </ng-container>
+  </div>
+
+  <div aria-label="Page navigation">
+    <ul class="list-style-none flex justify-center space-x-2 m-2">
+      <li>
+        <button type="button" (click)="prevPage()"
+        [disabled]="(page===1)"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary"
+        >Previous</button>
+      </li>
+      <li>
+        <button type="button" (click)="nextPage()"
+        [disabled]="stopCount"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        class="btn btn-primary "
+        >Next</button>
+      </li>
+    </ul>
+  </div>
 </ng-container>

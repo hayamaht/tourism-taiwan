@@ -9,6 +9,7 @@ import { HotelDetailPage } from './pages/hotel-detail/hotel-detail.page';
 import { RestaurantsPage } from './pages/restaurants/restaurants.page';
 import { RestaurantDetailPage } from './pages/restaurant-detail/restaurant-detail.page';
 import { BikePage } from './pages/bike/bike.page';
+import { BikeDetailPage } from './pages/bike-detail/bike-detail.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
@@ -25,4 +26,7 @@ export const routes: Routes = [
   { path:'restaurants/:city', component: RestaurantsPage },
   { path:'restaurant/:id', component: RestaurantDetailPage },
   { path:'bike', component: BikePage },
+  { path:'bike/:city', component: BikePage },
+  { path:'bike/:city/:name', component: BikeDetailPage },
+  // { path: '**', redirectTo: '', }
 ];
