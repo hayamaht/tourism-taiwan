@@ -10,9 +10,13 @@ import { RestaurantsPage } from './pages/restaurants/restaurants.page';
 import { RestaurantDetailPage } from './pages/restaurant-detail/restaurant-detail.page';
 import { BikePage } from './pages/bike/bike.page';
 import { BikeDetailPage } from './pages/bike-detail/bike-detail.page';
+import { LoginPage } from './pages/login/login.page';
+import { RegisterPage } from './pages/register/register.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
+  { path:'login', component: LoginPage },
+  { path:'register', component: RegisterPage },
   { path:'spots', component: SpotsPage },
   { path:'spots/:city', component: SpotsPage },
   { path:'spot/:id', component: SpotDetailPage },
@@ -28,5 +32,6 @@ export const routes: Routes = [
   { path:'bike', component: BikePage },
   { path:'bike/:city', component: BikePage },
   { path:'bike/:city/:name', component: BikeDetailPage },
+
   // { path: '**', redirectTo: '', }
 ];
