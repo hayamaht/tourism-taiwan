@@ -44,6 +44,8 @@ export class LoginPage implements OnInit {
   }
 
   submit() {
+    console.log(this.form.errors);
+    console.log(this.form.status);
     this.isSubmitted = true;
     if (this.form.invalid) return;
 

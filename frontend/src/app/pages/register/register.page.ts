@@ -31,6 +31,8 @@ export class RegisterPage implements OnInit {
       Validators.required,
       Validators.email,
     ]],
+    name: ['', [Validators.required]],
+    address: ['', [Validators.required]],
     password: ['', [
       Validators.required,
       Validators.minLength(5),
@@ -52,13 +54,15 @@ export class RegisterPage implements OnInit {
   }
 
   submit() {
-    console.log(this.form.invalid);
+    console.log(this.form.value);
     this.isSubmitted = true;
     if (this.form.invalid) return;
 
     const value = this.form.value;
     const user = {
       email: value.email,
+      name: value.name,
+      address: value.address,
       password: value.password,
       confirmPassword: value.confirmPassword,
     } as UserRegister;

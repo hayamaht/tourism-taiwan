@@ -3,6 +3,7 @@ import path from 'path';
 import express from "express";
 import cors from "cors";
 import userRouter from './routers/user.router';
+import testRouter from './routers/test.router';
 import { dbConnect } from './configs/database.config';
 
 dotenv.config();
@@ -16,7 +17,8 @@ app.use(cors({
     origin:["http://localhost:4200"]
 }));
 
-app.use("/api/users", userRouter);
+app.use('/api/users', userRouter);
+app.use('/api/test', testRouter);
 
 app.use(express.static('public'));
 app.get('*', (req: any, res: any) => {

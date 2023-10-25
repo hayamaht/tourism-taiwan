@@ -1,4 +1,7 @@
-<section class="h-screen">
+<section class="my-10">
+  <h1 class="text-3xl text-center font-bold">
+    登入
+  </h1>
   <div class="h-full">
     <!-- Left column container with background-->
     <div
@@ -82,8 +85,8 @@
 
           <!-- Email input -->
           <div class="relative mb-6" data-te-input-wrapper-init>
-            <input
-              type="text"
+            <input formControlName="email"
+              type="email"
               class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
               id="email"
               placeholder="Email address" />
@@ -96,7 +99,7 @@
 
           <!-- Password input -->
           <div class="relative mb-6" data-te-input-wrapper-init>
-            <input
+            <input formControlName="password"
               type="password"
               class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
               id="password"

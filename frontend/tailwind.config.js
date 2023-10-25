@@ -9,8 +9,12 @@ module.exports = {
   },
   darkMode: "class",
   plugins: [
+    require("daisyui"),
     require("tw-elements/dist/plugin.cjs"),
     require('@tailwindcss/forms'),
   ],
+  daisyui: {
+    themes: ['emerald', 'business']
+  }
 }
 
