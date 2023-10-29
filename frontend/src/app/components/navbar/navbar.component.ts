@@ -16,18 +16,27 @@ export class NavbarComponent implements OnInit {
   #authService = inject(AuthService);
 
   user!: User;
+  isLoggin = false;
 
   ngOnInit() {
     initTE({ Collapse, Ripple, Dropdown });
     this.#authService.authState$.subscribe(u => {
-      console.log(u);
       this.user = u;
+      this.isLoggin = true;
       this.#authService.refreshAuthToken();
+    });
+    this.#authService.user$.subscribe(user => {
+      if (user.name === undefined) {
+        this.isLoggin = false;
+        return;
+      }
+      this.user = user;
+      this.isLoggin = true;
     });
   }
 
-
   logout() {
+    this.isLoggin = false;
     this.#authService.logout();
   }
 

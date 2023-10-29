@@ -81,13 +81,13 @@
     </div>
 
 
-    <a *ngIf="!user"
+    <a *ngIf="!isLoggin"
       routerLink="/login"
       class="btn btn-primary">
         登入
     </a>
     <!-- Right elements -->
-    <ng-container *ngIf="user" >
+    <ng-container *ngIf="isLoggin" >
       <div class="dropdown dropdown-end">
         <div tabindex="0" class="btn btn-ghost">
           <div class="avatar placeholder">
