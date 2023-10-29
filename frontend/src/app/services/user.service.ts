@@ -1,3 +1,4 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
@@ -16,6 +17,7 @@ export class UserService {
   );
 
   user$: Observable<User> = this.#userSubjest.asObservable();
+  socialUser$?: SocialUser;
 
   get currentUser() {
     return this.#userSubjest.value;

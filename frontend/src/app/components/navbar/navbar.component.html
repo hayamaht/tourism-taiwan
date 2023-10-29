@@ -81,18 +81,24 @@
     </div>
 
 
-    <a *ngIf="!isAuth"
+    <a *ngIf="!user"
       routerLink="/login"
       class="btn btn-primary">
         登入
     </a>
     <!-- Right elements -->
-    <ng-container *ngIf="isAuth" >
+    <ng-container *ngIf="user" >
       <div class="dropdown dropdown-end">
         <div tabindex="0" class="btn btn-ghost">
           <div class="avatar placeholder">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-              <span>MX</span>
+              <ng-container *ngIf="user.photoUrl; else other">
+                <img [src]="user.photoUrl"
+                  [alt]="user.name">
+              </ng-container>
+              <ng-template #other>
+                <span>X</span>
+              </ng-template>
             </div>
           </div>
         </div>

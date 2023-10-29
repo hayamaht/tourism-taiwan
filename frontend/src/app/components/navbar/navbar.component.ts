@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { initTE, Ripple, Collapse, Dropdown } from 'tw-elements';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,22 +13,22 @@ import { UserService } from 'src/app/services/user.service';
   imports: [CommonModule, RouterModule],
 })
 export class NavbarComponent implements OnInit {
-  #userService = inject(UserService);
+  #authService = inject(AuthService);
 
   user!: User;
 
   ngOnInit() {
     initTE({ Collapse, Ripple, Dropdown });
-    this.#userService.user$.subscribe(u => {
+    this.#authService.authState$.subscribe(u => {
+      console.log(u);
       this.user = u;
+      this.#authService.refreshAuthToken();
     });
   }
 
+
   logout() {
-    this.#userService.logout();
+    this.#authService.logout();
   }
 
-  get isAuth() {
-    return this.user.token;
-  }
 }

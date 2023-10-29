@@ -1,7 +1,5 @@
-export interface User{
-  id:string;
-  email:string;
-  name:string;
+import { SocialUser } from '@abacritt/angularx-social-login';
+export interface User extends SocialUser {
   address:string;
   token:string;
   isAdmin:boolean;
