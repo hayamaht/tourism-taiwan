@@ -1,7 +1,7 @@
 import { SocialAuthService, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, filter, forkJoin, map, race, tap, zip } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, combineLatest, filter, forkJoin, map, of, race, tap, zip } from 'rxjs';
 import { User, UserLogin, UserRegister } from '../models/user.model';
 import { USER_LOGIN_URL, USER_REGISTER_URL } from 'src/urls';
 
@@ -17,19 +17,22 @@ export class AuthService {
     this._getUserFromLocalStoage()
   );
 
+  // authState$ = this.#socialAuthService.authState;
   authState$ = zip(
+    this.#userSubjest.asObservable(),
     this.#socialAuthService.authState,
-    this.#userSubjest.asObservable()
   ).pipe(
-    tap(([socalUser, user]) => {
+    tap(([user, socalUser,]) => {
       console.log(socalUser);
       console.log(user);
       this.refreshAuthToken();
     }),
-    map(([socalUser, user]) => {
+    map(([user, socalUser,]) => {
       return {...socalUser, ...user};
     })
   );
+
+  user$ = this.#userSubjest.asObservable();
 
   get currentUser() {
     return this.#userSubjest.value;
