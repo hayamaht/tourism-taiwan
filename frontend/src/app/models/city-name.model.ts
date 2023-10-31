@@ -10,7 +10,7 @@ export enum CityName {
   HsinchuCounty = 'HsinchuCounty',
   MiaoliCounty = 'MiaoliCounty',
   ChanghuaCounty = 'ChanghuaCounty',
-  NaotouCounty = 'NaotouCounty',
+  NantouCounty = 'NantouCounty',
   YunlinCounty = 'YunlinCounty',
   ChiayiCounty = 'ChiayiCounty',
   Chiayi = 'Chiayi',
