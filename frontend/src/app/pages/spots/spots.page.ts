@@ -1,13 +1,18 @@
+import { Favorite } from './../../../../../backend/src/models/favorite.model';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, merge, mergeAll, Observable, switchMap, tap } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
+import { combineLatest, combineLatestInit } from 'rxjs/internal/observable/combineLatest';
 
 @Component({
   selector: 'app-spots',
@@ -25,14 +30,27 @@ export class SpotsPage implements OnInit {
   #router = inject(Router);
   #location = inject(Location);
   #tourismService = inject(TourismService);
+  #authService = inject(AuthService);
+  #userService = inject(UserService);
 
   spots$!:  Observable<any>;
+  favs!: Favorite[];
+  user!: User;
   city!: string;
   page = 1;
   stopCount = false;
 
   ngOnInit() {
     initTE({ Ripple });
+    this.user = this.#authService.currentUser;
+
+    // this.#userService
+    //   .getByOwnerFavorites(this.user.email)
+    //   .subscribe(favs => {
+    //     this.favs = favs as Favorite[];
+    //     console.log(this.favs);
+    //   });
+
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
       this.#getSpotsByCity();
@@ -69,18 +87,32 @@ export class SpotsPage implements OnInit {
   }
 
   #getSpotsByCity() {
-    this.spots$ = this.#tourismService.getByCityName(
-      TourismCat.ScenicSpot,
-      this.city as CityName,
-      this.page,
-      SpotsPage.ROW_PER_PAGE
-    ).pipe(
+    this.spots$ = forkJoin([
+      this.#userService.getByOwnerFavorites(this.user.email),
+      this.#tourismService.getByCityName(
+        TourismCat.ScenicSpot,
+        this.city as CityName,
+        this.page,
+        SpotsPage.ROW_PER_PAGE
+      )
+    ]).pipe(
       tap(_ => this.#goTop()),
-      map((items) => {
-        const len = (items as []).length;
+      map(([v1, v2]) => {
+        const len = (v2 as []).length;
         this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;
-        return items;
-      }),
+        const fv = v1 as Favorite[];
+        const ss = v2 as [];
+        for(let i in ss) {
+          const spot = ss[i] as any;
+          const id = spot.ScenicSpotID;
+          for(let j in fv) {
+            if (fv[j].tourismId === id) {
+              spot.favorite = true;
+            }
+          }
+        }
+        return v2;
+      })
     );
   }
 }

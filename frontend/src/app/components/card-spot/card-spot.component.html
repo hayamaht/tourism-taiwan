@@ -17,12 +17,18 @@
     <div class="flex justify-between">
       <p class="text-sm font-thin mb-1">{{ spot.Class1 }}</p>
       <div>
-        <span class="material-symbols-outlined">
-          favorite
-        </span>
-        <span class="material-symbols-rounded text-red-500">
-          favorite
-        </span>
+        <ng-container *ngIf="user?.email">
+          <button (click)="fav()" class="btn btn-circle btn-ghost">
+            <span *ngIf="!spot.favorite"
+              class="material-symbols-outlined">
+              favorite
+            </span>
+            <span *ngIf="spot.favorite"
+              class="material-symbols-rounded text-red-500">
+              favorite
+            </span>
+          </button>
+        </ng-container>
       </div>
     </div>
     <h5
