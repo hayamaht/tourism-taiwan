@@ -12,29 +12,53 @@ import {
 import { CityName } from 'src/app/models/city-name.model';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.page.html',
-  imports: [CommonModule, CardActivityComponent],
+  imports: [
+    CommonModule,
+    CardActivityComponent, CitySelectorComponent
+  ],
 })
 export class HomePage implements OnInit {
   #router = inject(Router);
   #tourismService = inject(TourismService);
 
-  activities$!: Observable<any>;
+  thisActivities$!: Observable<any>;
+  nextActivities$!: Observable<any>;
+  month = new Date().getMonth() + 2;
 
   ngOnInit(): void {
     initTE({ Collapse, Ripple });
-    this.activities$ = this.#tourismService.getActivitesByMonth(
-      CityName.Taipei,
-      1,
-      15
+    this.thisActivities$ = this.#getActivities('this');
+    this.nextActivities$ = this.#getActivities('next');
+  }
+
+  onCityChange(cityName: string) {
+    console.log(cityName);
+    this.thisActivities$ = this.#getActivities(
+      'this',
+      cityName as CityName
+    );
+  }
+  onCityChangeNext(cityName: string) {
+    this.thisActivities$ = this.#getActivities(
+      'next',
+      cityName as CityName
     );
   }
 
   getStarted() {
     this.#router.navigateByUrl('/spots')
+  }
+
+  #getActivities(month: 'this'|'next', cityName = CityName.Taipei) {
+    return this.#tourismService.getActivitesByMonth(
+      cityName as CityName,
+      month,
+    );
   }
 }

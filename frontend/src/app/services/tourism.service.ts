@@ -21,13 +21,14 @@ export class TourismService {
   // }
   getActivitesByMonth(
     cityName: CityName,
-    page: 1,
-    limit: 15
+    mohtn: 'this'|'next',
+    page = 1,
+    limit = 15
   ) {
     const p = TourismCat.Activity.toString();
     const now = new Date();
     const nowYear = now.getFullYear();
-    const month = now.getMonth() + 2;
+    const month = now.getMonth() + (mohtn === 'this' ? 1 : 2);
     const nowMonth = (month < 10)
       ? '0' + month
       : month.toString();
@@ -43,7 +44,9 @@ export class TourismService {
       '/' + cityName.toString() +
       '?$format=JSON' +
       `&$filter=date(StartTime) le ${end} and date(StartTime) ge ${start}` +
-      '&$orderby=StartTime desc';
+      '&$orderby=StartTime desc' +
+      `&$top=${limit}` +
+      `&$skip=${((page - 1)*limit)}`;
 
     return this.#tokenService.getHttp(url);
   }

@@ -5,7 +5,11 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'hero': "url('https://tecdn.b-cdn.net/img/new/slides/146.webp')",
+      }
+    },
   },
   darkMode: "class",
   plugins: [
