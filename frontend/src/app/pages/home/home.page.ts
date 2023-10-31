@@ -11,8 +11,8 @@ import {
 
 import { CityName } from 'src/app/models/city-name.model';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
-import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
+import { CardFeatureComponent } from 'src/app/components/card-feature/card-feature.component';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,8 @@ import { CitySelectorComponent } from 'src/app/components/city-selector/city-sel
   templateUrl: './home.page.html',
   imports: [
     CommonModule,
-    CardActivityComponent, CitySelectorComponent
+    CardActivityComponent, CitySelectorComponent,
+    CardFeatureComponent,
   ],
 })
 export class HomePage implements OnInit {
@@ -59,6 +60,8 @@ export class HomePage implements OnInit {
     return this.#tourismService.getActivitesByMonth(
       cityName as CityName,
       month,
+      1,
+      30
     );
   }
 }

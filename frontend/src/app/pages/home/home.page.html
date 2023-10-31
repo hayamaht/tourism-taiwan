@@ -39,20 +39,14 @@
     <app-city-selector (cityEvent)="onCityChange($event)"></app-city-selector>
   </div>
   <ng-container *ngIf="thisActivities$|async as activities; else loading">
-    <div class="grid gap-1 grid-cols-1 md:grid-cols-2
-    lg:grid-cols-3 xl:grid-cols-4">
+    <div class="flex flex-col space-y-3">
       <ng-container *ngFor="let activity of activities">
-        <h2>{{ activity.ActivityName }}</h2>
-        <p>{{ activity.StartTime | date:'YYYY-MM-dd'}}</p>
-        <!-- <app-card-activity
-          [activity]="activity"
-          class="w-full p-1"
-        ></app-card-activity> -->
+        <app-card-feature [activity]="activity"></app-card-feature>
       </ng-container>
     </div>
   </ng-container>
 
-  <div class="flex items-center justify-between ">
+  <div class="flex items-center justify-between mt-10">
     <h1 class="text-2xl font-bold pl-4 my-2
       border-l-4 border-red-700">
       <span class="text-red-700">下月份活動</span>
@@ -60,15 +54,9 @@
     <app-city-selector (cityEvent)="onCityChangeNext($event)"></app-city-selector>
   </div>
   <ng-container *ngIf="nextActivities$|async as activities; else loading">
-    <div class="grid gap-1 grid-cols-1 md:grid-cols-2
-    lg:grid-cols-3 xl:grid-cols-4">
+    <div class="flex flex-col space-y-3">
       <ng-container *ngFor="let activity of activities">
-        <h2>{{ activity.ActivityName }}</h2>
-        <p>{{ activity.StartTime | date:'YYYY-MM-dd'}}</p>
-        <!-- <app-card-activity
-          [activity]="activity"
-          class="w-full p-1"
-        ></app-card-activity> -->
+        <app-card-feature [activity]="activity"></app-card-feature>
       </ng-container>
     </div>
   </ng-container>
