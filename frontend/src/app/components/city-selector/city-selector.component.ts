@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild, inject } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initTE, Ripple, Select, Carousel, Dropdown,  } from 'tw-elements';
-import { CityName } from 'src/app/models/city-name.model';
+import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -16,20 +16,12 @@ import { ActivatedRoute, Router } from '@angular/router';
     <select (ngModelChange)="onChange($event)"
       title="city" name="city" id="city"
       formControlName="city"
-      class="border border-gray-400 p-2 rounded-md">
+      class="border border-gray-400 p-2 rounded-md w-28">
       <!-- <option value="" hidden selected></option> -->
-      <option *ngFor="let c of cities"
-        [value]="c"
-      >{{ c }}</option>
+      <option *ngFor="let c of citiesTW"
+        [value]="c[0]"
+      >{{ c[1] }}</option>
     </select>
-    <!-- <label data-te-select-label-ref>請選擇城市</label> -->
-    <!-- <button type="submit"
-      [disabled]="form.pristine "
-      class="btn btn-primary"
-      data-te-ripple-init
-      data-te-ripple-color="light">
-      確定
-    </button> -->
   </div>
 </form>
   `
@@ -40,13 +32,16 @@ export class CitySelectorComponent implements OnInit {
   #route = inject(ActivatedRoute);
   #fb = inject(FormBuilder);
 
-  cities = Object.values(CityName);
+  citiesTW = Object.entries(CityNameTW);
   form = this.#fb.group({
-    city: ['', ]
+    city: ['Taipei', ]
   });
 
   ngOnInit(): void {
-    //initTE({ Ripple, Select });
+    initTE({ Ripple, Select });
+
+    console.log(this.citiesTW);
+
     this.#route.paramMap.subscribe(params => {
       const c = params.get('city');
       if (!c) return;
@@ -57,13 +52,6 @@ export class CitySelectorComponent implements OnInit {
   }
 
   onChange(cityName: string) {
-    //console.log(event);
     this.cityEvent.emit(cityName);
   }
-
-  // onFormSubmit(event: SubmitEvent) {
-  //   const v = this.form.get('city')!.value;
-  //   if (!v) return;
-  //   this.cityEvent.emit(v);
-  // }
 }

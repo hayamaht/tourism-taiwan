@@ -45,7 +45,7 @@ export class HomePage implements OnInit {
     );
   }
   onCityChangeNext(cityName: string) {
-    this.thisActivities$ = this.#getActivities(
+    this.nextActivities$ = this.#getActivities(
       'next',
       cityName as CityName
     );
