@@ -27,12 +27,10 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     initTE({ Collapse, Ripple });
-    this.activities$ = this.#tourismService.getByCityName(
-      TourismCat.Activity,
+    this.activities$ = this.#tourismService.getActivitesByMonth(
       CityName.Taipei,
       1,
-      9,
-      'StartTime desc'
+      15
     );
   }
 
