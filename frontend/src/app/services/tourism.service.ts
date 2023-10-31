@@ -19,6 +19,37 @@ export class TourismService {
   //     '?$format=JSON';
   //   return this.#getHttp(url);
   // }
+  getActivitesByMonth(
+    cityName: CityName,
+    mohtn: 'this'|'next',
+    page = 1,
+    limit = 15
+  ) {
+    const p = TourismCat.Activity.toString();
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const month = now.getMonth() + (mohtn === 'this' ? 1 : 2);
+    const nowMonth = (month < 10)
+      ? '0' + month
+      : month.toString();
+    const lastDay = new Date(
+      now.getFullYear(),
+      now.getMonth() + 2,
+      0
+    );
+    const start = `${nowYear}-${nowMonth}-01`;
+    const end = `${nowYear}-${nowMonth}-${lastDay.getDate()}`;
+    const url = this.#apiURL +
+      '/v2/Tourism/' + p +
+      '/' + cityName.toString() +
+      '?$format=JSON' +
+      `&$filter=date(StartTime) le ${end} and date(StartTime) ge ${start}` +
+      '&$orderby=StartTime desc' +
+      `&$top=${limit}` +
+      `&$skip=${((page - 1)*limit)}`;
+
+    return this.#tokenService.getHttp(url);
+  }
 
   getByCityName(
     type: TourismCat,
