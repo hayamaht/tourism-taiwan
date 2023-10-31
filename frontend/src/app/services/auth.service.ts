@@ -17,22 +17,40 @@ export class AuthService {
     this._getUserFromLocalStoage()
   );
 
+  user?: User;
+
   // authState$ = this.#socialAuthService.authState;
-  authState$ = zip(
-    this.#userSubjest.asObservable(),
-    this.#socialAuthService.authState,
-  ).pipe(
-    tap(([user, socalUser,]) => {
-      console.log(socalUser);
+  // authState$ = zip(
+  //   this.#userSubjest.asObservable(),
+  //   this.#socialAuthService.authState,
+  // ).pipe(
+  //   tap(([user, socalUser,]) => {
+  //     console.log(socalUser);
+  //     console.log(user);
+  //     this.refreshAuthToken();
+  //   }),
+  //   map(([user, socalUser,]) => {
+  //     return {...socalUser, ...user};
+  //   })
+  // );
+  authState$ = this.#socialAuthService.authState.pipe(
+    tap(user => {
       console.log(user);
-      this.refreshAuthToken();
-    }),
-    map(([user, socalUser,]) => {
-      return {...socalUser, ...user};
+      this.user = {
+        ...user,
+        address: '',
+        token: '',
+        isAdmin: false
+      };
     })
   );
 
-  user$ = this.#userSubjest.asObservable();
+  user$ = this.#userSubjest.asObservable().pipe(
+    tap(user => {
+      console.log(user);
+      this.user = user;
+    })
+  );
 
   get currentUser() {
     return this.#userSubjest.value;

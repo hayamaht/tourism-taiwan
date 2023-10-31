@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User, UserModel } from "../models/user.model";
 import { sample_users } from '../data';
+import { Favorite, FavoriteModel } from '../models/favorite.model';
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.get('/seed', asyncHandler(
   }
 ));
 
-router.post("/login", asyncHandler(
+router.post('/login', asyncHandler(
   async (req: any, res: any) => {
     const {email, password} = req.body;
     const user = await UserModel.findOne({email});
@@ -59,8 +60,56 @@ router.post('/register', asyncHandler(
     const dbUser = await UserModel.create(newUser);
     res.send(generateTokenReponse(dbUser));
   }
-))
+));
 
+router.post('/favorites', asyncHandler(
+  async (req, res) => {
+    const { email, } = req.body;
+    const favs = await FavoriteModel.find({ email: email });
+    res.send(favs);
+  }
+));
+
+router.post('/favorite', asyncHandler(
+  async (req, res) => {
+    const { email, tourismCategory, tourismId } = req.body;
+    const user = await UserModel.findOne({ email });
+    if(!user) {
+      res.status(400)
+      .send('User is not found, please login!');
+      return;
+    }
+
+    // TODO: check tourism_cat is not found
+    // TODO: check tourism_id is not found
+
+    const newFav: Favorite = {
+      email,
+      tourismCategory,
+      tourismId,
+    };
+
+    const dbFav = await FavoriteModel.create(newFav);
+    res.send(dbFav);
+  }
+));
+router.delete('/favorite', asyncHandler(
+  async (req, res) => {
+    const { email, tourismCategory, tourismId } = req.body;
+    const user = await UserModel.findOne({ email });
+    if(!user) {
+      res.status(400)
+      .send('User is not found, please login!');
+      return;
+    }
+
+    await FavoriteModel.deleteOne({
+      email,
+      tourismId
+    })
+    res.send();
+  }
+));
 
 const generateTokenReponse = (user : User) => {
   const token = jwt.sign({

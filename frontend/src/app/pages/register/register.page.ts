@@ -5,6 +5,7 @@ import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Va
 import { Input, Ripple, initTE, } from "tw-elements";
 import { UserService } from 'src/app/services/user.service';
 import { UserRegister } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 function passwordMatchValidator(g: FormGroup) {
   return g.get('password')!.value === g.get('confirmPassword')!.value
@@ -20,7 +21,7 @@ function passwordMatchValidator(g: FormGroup) {
 export class RegisterPage implements OnInit {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
-  #userService = inject(UserService);
+  #authService = inject(AuthService);
   #fb = inject(FormBuilder);
 
   returnURL = '';
@@ -67,7 +68,7 @@ export class RegisterPage implements OnInit {
       confirmPassword: value.confirmPassword,
     } as UserRegister;
 
-    this.#userService.register(user).subscribe(_ => {
+    this.#authService.register(user).subscribe(_ => {
       this.#router.navigateByUrl(this.returnURL);
     });
   }

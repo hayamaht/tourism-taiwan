@@ -92,9 +92,9 @@
         <div tabindex="0" class="btn btn-ghost">
           <div class="avatar placeholder">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-              <ng-container *ngIf="user.photoUrl; else other">
-                <img [src]="user.photoUrl"
-                  [alt]="user.name">
+              <ng-container *ngIf="user!.photoUrl; else other">
+                <img [src]="user!.photoUrl"
+                  [alt]="user!.name">
               </ng-container>
               <ng-template #other>
                 <span>X</span>

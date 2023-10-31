@@ -17,3 +17,9 @@ export interface UserRegister {
   confirmPassword : string;
   address?: string;
 }
+
+export interface UserFavorite {
+  email: string;
+  tourismCategory: string;
+  tourismId: string;
+}

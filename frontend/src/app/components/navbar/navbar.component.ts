@@ -15,13 +15,18 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent implements OnInit {
   #authService = inject(AuthService);
 
-  user!: User;
+  user: User|undefined;
   isLoggin = false;
 
   ngOnInit() {
     initTE({ Collapse, Ripple, Dropdown });
-    this.#authService.authState$.subscribe(u => {
-      this.user = u;
+    // this.#authService.userObser$.subscribe(user => {
+    //   console.log(user);
+    // });
+    // this.user = this.#authService.user;
+    // this.isLoggin = this.user ? true : false;
+    this.#authService.authState$.subscribe(user => {
+      this.user = { ...user, address: '', token: '', isAdmin: false};
       this.isLoggin = true;
       this.#authService.refreshAuthToken();
     });
