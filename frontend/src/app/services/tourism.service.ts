@@ -34,17 +34,18 @@ export class TourismService {
       : month.toString();
     const lastDay = new Date(
       now.getFullYear(),
-      now.getMonth() + 2,
+      month,
       0
     );
-    const start = `${nowYear}-${nowMonth}-01`;
+    const start = `${nowYear}-${nowMonth}-${(mohtn === 'next' ? '01' : now.getDate())}`;
     const end = `${nowYear}-${nowMonth}-${lastDay.getDate()}`;
+    console.log(`${start}, ${end}`)
     const url = this.#apiURL +
       '/v2/Tourism/' + p +
       '/' + cityName.toString() +
       '?$format=JSON' +
       `&$filter=date(StartTime) le ${end} and date(StartTime) ge ${start}` +
-      '&$orderby=StartTime desc' +
+      '&$orderby=StartTime ' + (mohtn === 'next' ? 'desc' : 'asc') +
       `&$top=${limit}` +
       `&$skip=${((page - 1)*limit)}`;
 

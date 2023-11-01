@@ -39,9 +39,6 @@ export class CitySelectorComponent implements OnInit {
 
   ngOnInit(): void {
     initTE({ Ripple, Select });
-
-    console.log(this.citiesTW);
-
     this.#route.paramMap.subscribe(params => {
       const c = params.get('city');
       if (!c) return;

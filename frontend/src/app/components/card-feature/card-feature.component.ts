@@ -12,14 +12,15 @@ import { Router, RouterModule } from '@angular/router';
         <ng-template #def>
           <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
             alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
-            class="object-cover w-24  h-full rounded-s bg-stone-200/70">
+            class="object-cover w-24 h-full rounded-s bg-stone-200/70">
         </ng-template>
         <ng-container *ngIf="activity.Picture.PictureUrl1 else def">
-          <img title="{{activity.Picture.PictureDescription1}}"
-            [src]="activity.Picture.PictureUrl1"
-            [alt]="activity.Picture.PictureDescription1"
-            class="object-cover w-24 h-full rounded-s">
-
+          <div class="bg-gray-200  h-full object-cover">
+            <img title="{{activity.Picture.PictureDescription1}}"
+              [src]="activity.Picture.PictureUrl1"
+              [alt]="activity.Picture.PictureDescription1"
+              class="w-24 h-40 max-h-fit rounded-s">
+          </div>
         </ng-container>
       </div>
 
@@ -30,11 +31,11 @@ import { Router, RouterModule } from '@angular/router';
         </div>
         <h2 class="text-xl font-bold my-2">
           <a routerLink="/activity/{{ activity.ActivityID}}"
-            class="link link-hover hover:text-secondary">
+            class="link link-hover hover:text-secondary line-clamp-2">
             {{ activity.ActivityName }}
           </a>
         </h2>
-        <div>
+        <div class="space-x-1">
           <div *ngIf="activity.Class1"
             class="badge badge-accent badge-outline text-sm ">
             {{ activity.Class1 }}
