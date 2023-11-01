@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable } from 'rxjs';
+import { Observable, single } from 'rxjs';
 import {
   Collapse,
   Ripple,
@@ -13,6 +13,8 @@ import { CityName } from 'src/app/models/city-name.model';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardFeatureComponent } from 'src/app/components/card-feature/card-feature.component';
+import { NewsService } from 'src/app/services/news.service';
+import { News } from 'src/app/models/news.model';
 
 @Component({
   selector: 'app-home',
@@ -27,15 +29,18 @@ import { CardFeatureComponent } from 'src/app/components/card-feature/card-featu
 export class HomePage implements OnInit {
   #router = inject(Router);
   #tourismService = inject(TourismService);
+  #newsService = inject(NewsService);
 
   thisActivities$!: Observable<any>;
   nextActivities$!: Observable<any>;
+  news$!: Observable<News[]>;
   month = new Date().getMonth() + 2;
 
   ngOnInit(): void {
     initTE({ Collapse, Ripple });
     this.thisActivities$ = this.#getActivities('this');
     this.nextActivities$ = this.#getActivities('next');
+    this.news$ = this.#newsService.get();
   }
 
   onCityChange(cityName: string) {
