@@ -39,7 +39,6 @@ export class HomePage implements OnInit {
   }
 
   onCityChange(cityName: string) {
-    console.log(cityName);
     this.thisActivities$ = this.#getActivities(
       'this',
       cityName as CityName
