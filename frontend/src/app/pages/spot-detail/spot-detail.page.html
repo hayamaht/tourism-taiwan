@@ -25,24 +25,33 @@
         {{ spot.ScenicSpotName }}
       </h1>
 
-      <div class="">
-        <div *ngIf="spot.Picture.PictureUrl1">
+      <div class="relative flex gap-3 w-full snap-x overflow-x-auto">
+        <div class="snap-center shrink-0">
+          <div class="shrink-0 w-4 sm:w-48"></div>
+        </div>
+        <div *ngIf="spot.Picture.PictureUrl1"
+        class="snap-center shrink-0 first:pl-8 last:pr-8">
           <img title="{{ spot.Picture.PictureDescription1 }}"
             [src]="spot.Picture.PictureUrl1"
             [alt]="spot.Picture.PictureDescription1"
-            class="w-full">
+            class="w-80 object-cover">
         </div>
-        <div *ngIf="spot.Picture.PictureUrl2">
+        <div *ngIf="spot.Picture.PictureUrl2"
+        class="snap-center shrink-0 first:pl-8 last:pr-8">
           <img title="{{ spot.Picture.PictureDescription2 }}"
             [src]="spot.Picture.PictureUrl2"
             [alt]="spot.Picture.PictureDescription2"
-            class="w-full">
+            class="w-80 object-cover">
         </div>
-        <div *ngIf="spot.Picture.PictureUrl3">
+        <div *ngIf="spot.Picture.PictureUrl3"
+        class="snap-center shrink-0 first:pl-8 last:pr-8">
           <img title="{{ spot.Picture.PictureDescription3 }}"
             [src]="spot.Picture.PictureUrl3"
             [alt]="spot.Picture.PictureDescription3"
-            class="w-full">
+            class="w-80 object-cover">
+        </div>
+        <div class="snap-center shrink-0">
+          <div class="shrink-0 w-4 sm:w-48"></div>
         </div>
       </div>
 
