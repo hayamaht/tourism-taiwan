@@ -18,7 +18,8 @@
     </div>
   </div>
 </div>
-<div class="mt-10">
+
+<div class="mt-10 container mx-auto">
   <ng-template #loading>
     <div class="flex items-center justify-center">
       <div
@@ -31,72 +32,73 @@
     </div>
   </ng-template>
 
-  <div class="flex items-center justify-between ">
-    <h1 class="text-2xl font-bold pl-4 my-2
-      border-l-4 border-rose-400">
-      <span class="text-rose-500">消息</span>
-    </h1>
-  </div>
-
-  <ng-container *ngIf="news$|async as news; else loading">
-    <ng-container *ngFor="let n of news">
-      <h2>{{ n.Title }}</h2>
-    </ng-container>
-  </ng-container>
-
-
-  <div class="flex items-center justify-between ">
-    <h1 class="text-2xl font-bold pl-4 my-2
-      border-l-4 border-rose-400">
-      <span class="text-rose-500">本月份活動</span>
-    </h1>
-    <app-city-selector (cityEvent)="onCityChange($event)"></app-city-selector>
-  </div>
-  <ng-container *ngIf="thisActivities$|async as activities; else loading">
-    <div class="grid gap-2 grid-cols-1 lg:grid-cols-2">
-      <ng-template #noData>
-        <div class="col-span-2 text-center border
-          border-gray-200 bg-gray-100 py-10">
-          目前沒有資料
-        </div>
-      </ng-template>
-      <ng-container *ngIf="activities.length > 0; else noData">
-        <ng-container *ngFor="let activity of activities; let i=index">
-          <app-card-feature *ngIf="i === 0; else other"
-              class="lg:col-span-2 ring-4 ring-orange-400 rounded bg-orange-50"
-              [activity]="activity"></app-card-feature>
-          <ng-template #other>
-            <app-card-feature [activity]="activity"></app-card-feature>
-          </ng-template>
-        </ng-container>
-      </ng-container>
-
-    </div>
-  </ng-container>
-
-  <div class="flex items-center justify-between mt-10">
-    <h1 class="text-2xl font-bold pl-4 my-2
-      border-l-4 border-red-700">
-      <span class="text-red-700">下月份活動</span>
-    </h1>
-    <app-city-selector (cityEvent)="onCityChangeNext($event)"></app-city-selector>
-  </div>
-  <ng-container *ngIf="nextActivities$|async as activities; else loading">
-
-    <ng-template #noData2>
-      <div class="text-center">
-        目前沒有資料
+  <div class="md:flex md:flex-row-reverse">
+    <div class="mb-10 md:ml-10 md:w-2/5">
+      <div class="flex items-center justify-between ">
+        <h1 class="text-2xl font-bold pl-4 my-2
+          border-l-4 border-rose-400">
+          <span class="text-rose-500">消息</span>
+        </h1>
       </div>
-    </ng-template>
-    <div class="grid gap-2 grid-cols-1 lg:grid-cols-2 ">
-
-      <ng-container *ngIf="activities.length > 0; else noData2">
-        <ng-container *ngFor="let activity of activities">
-          <app-card-feature [activity]="activity"></app-card-feature>
+      <ng-container *ngIf="news$|async as news; else loading">
+        <ng-container *ngFor="let n of news">
+          <app-item-news
+            [news]="n"
+          ></app-item-news>
         </ng-container>
       </ng-container>
-
     </div>
-  </ng-container>
 
+    <div class="md:w-4/6">
+      <div class="flex items-center justify-between ">
+        <h1 class="text-2xl font-bold pl-4 my-2
+          border-l-4 border-rose-400">
+          <span class="text-rose-500">本月份活動</span>
+        </h1>
+        <app-city-selector (cityEvent)="onCityChange($event)"></app-city-selector>
+      </div>
+      <ng-container *ngIf="thisActivities$|async as activities; else loading">
+        <div class="grid gap-2 ">
+          <ng-template #noData>
+            <div class="text-center border
+              border-gray-200 bg-gray-100 py-10">
+              目前沒有資料
+            </div>
+          </ng-template>
+          <ng-container *ngIf="activities.length > 0; else noData">
+            <ng-container *ngFor="let activity of activities; let i=index">
+              <app-card-feature *ngIf="i === 0; else other"
+                  class="ring-4 ring-orange-400 rounded bg-orange-50"
+                  [activity]="activity"></app-card-feature>
+              <ng-template #other>
+                <app-card-feature [activity]="activity"></app-card-feature>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <div class="flex items-center justify-between mt-10">
+        <h1 class="text-2xl font-bold pl-4 my-2
+          border-l-4 border-red-700">
+          <span class="text-red-700">下月份活動</span>
+        </h1>
+        <app-city-selector (cityEvent)="onCityChangeNext($event)"></app-city-selector>
+      </div>
+      <ng-container *ngIf="nextActivities$|async as activities; else loading">
+        <ng-template #noData2>
+          <div class="text-center">
+            目前沒有資料
+          </div>
+        </ng-template>
+        <div class="grid gap-2">
+          <ng-container *ngIf="activities.length > 0; else noData2">
+            <ng-container *ngFor="let activity of activities">
+              <app-card-feature [activity]="activity"></app-card-feature>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>

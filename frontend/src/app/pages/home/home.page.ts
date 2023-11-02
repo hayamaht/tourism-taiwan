@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
@@ -15,6 +15,8 @@ import { CitySelectorComponent } from 'src/app/components/city-selector/city-sel
 import { CardFeatureComponent } from 'src/app/components/card-feature/card-feature.component';
 import { NewsService } from 'src/app/services/news.service';
 import { News } from 'src/app/models/news.model';
+import { ItemNewsComponent } from 'src/app/components/item-news/item-news.component';
+
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,7 @@ import { News } from 'src/app/models/news.model';
   imports: [
     CommonModule,
     CardActivityComponent, CitySelectorComponent,
-    CardFeatureComponent,
+    CardFeatureComponent, ItemNewsComponent,
   ],
 })
 export class HomePage implements OnInit {
@@ -35,6 +37,8 @@ export class HomePage implements OnInit {
   nextActivities$!: Observable<any>;
   news$!: Observable<News[]>;
   month = new Date().getMonth() + 2;
+  thisNews: any;
+  isModalOpen = false;
 
   ngOnInit(): void {
     initTE({ Collapse, Ripple });
@@ -56,8 +60,14 @@ export class HomePage implements OnInit {
     );
   }
 
+  seeNews(news: News) {
+    this.thisNews = news;
+    this.isModalOpen = true;
+    console.log(this.thisNews);
+  }
+
   getStarted() {
-    this.#router.navigateByUrl('/spots')
+    this.#router.navigateByUrl('/spots');
   }
 
   #getActivities(month: 'this'|'next', cityName = CityName.Taipei) {

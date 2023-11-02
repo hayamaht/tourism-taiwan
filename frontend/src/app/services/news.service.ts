@@ -13,9 +13,13 @@ export class NewsService {
   #apiURL = environment.apiURL;
 
   get(page = 1, limit = 30) {
+    const now = new Date();
+    const d = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
     const url = this.#apiURL +
       '/v2/Tourism/Bus/News/TaiwanTrip' +
       `?$format=JSON` +
+      `&$orderby=PublishTime desc` +
+      `&$filter=date(EndTime) le ` + d +
       `&$top=${limit}` +
       `&$skip=${((page - 1)*limit)}`;
 
