@@ -81,19 +81,19 @@
     </div>
 
 
-    <a *ngIf="!isLoggin"
+    <a *ngIf="!user.email"
       routerLink="/login"
       class="btn btn-primary">
         登入
     </a>
     <!-- Right elements -->
-    <ng-container *ngIf="isLoggin" >
+    <ng-container *ngIf="user && user.email" >
       <div class="dropdown dropdown-end">
         <div tabindex="0" class="btn btn-ghost">
           <div class="avatar placeholder">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
               <ng-container *ngIf="user!.photoUrl; else other">
-                <img [src]="user!.photoUrl"
+                <img title="avatar" [src]="user!.photoUrl"
                   [alt]="user!.name">
               </ng-container>
               <ng-template #other>

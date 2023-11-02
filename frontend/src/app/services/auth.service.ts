@@ -12,7 +12,7 @@ export class AuthService {
   static USER_LS_KEY = 'tourism-user';
 
   #http = inject(HttpClient);
-  #socialAuthService = inject(SocialAuthService);
+  //#socialAuthService = inject(SocialAuthService);
   #userSubjest = new BehaviorSubject<User>(
     this._getUserFromLocalStoage()
   );
@@ -33,17 +33,17 @@ export class AuthService {
   //     return {...socalUser, ...user};
   //   })
   // );
-  authState$ = this.#socialAuthService.authState.pipe(
-    tap(user => {
-      console.log(user);
-      this.user = {
-        ...user,
-        address: '',
-        token: '',
-        isAdmin: false
-      };
-    })
-  );
+  // authState$ = this.#socialAuthService.authState.pipe(
+  //   tap(user => {
+  //     console.log(user);
+  //     this.user = {
+  //       ...user,
+  //       address: '',
+  //       token: '',
+  //       isAdmin: false
+  //     };
+  //   })
+  // );
 
   user$ = this.#userSubjest.asObservable().pipe(
     tap(user => {
@@ -78,36 +78,36 @@ export class AuthService {
    *   e.g: FacebookLoginProvider.PROVIDER_ID,\
    *        GoogleLoginProvider.PROVODER_ID does not work here.
    */
-  signInWithProvider(providerId: string) {
-    this.#socialAuthService.signIn(
-      providerId
-    ).then(soicalUser => {
-      console.log(soicalUser);
-      const user:User = {
-        ...soicalUser,
-        isAdmin: false,
-        token: '',
-        address: ''
-      };
-      this._setUserToLocalStoage(user);
-      this.#userSubjest.next(user);
-    }).catch(reason => {
-      console.log(reason);
-    });
-  }
+  // signInWithProvider(providerId: string) {
+  //   this.#socialAuthService.signIn(
+  //     providerId
+  //   ).then(soicalUser => {
+  //     console.log(soicalUser);
+  //     const user:User = {
+  //       ...soicalUser,
+  //       isAdmin: false,
+  //       token: '',
+  //       address: ''
+  //     };
+  //     this._setUserToLocalStoage(user);
+  //     this.#userSubjest.next(user);
+  //   }).catch(reason => {
+  //     console.log(reason);
+  //   });
+  // }
 
-  refreshAuthToken() {
-    console.log('refreshAuthToken');
-    this.#socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
-  }
+  // refreshAuthToken() {
+  //   console.log('refreshAuthToken');
+  //   this.#socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+  // }
 
-  refreshAccessToken() {
-    this.#socialAuthService.refreshAccessToken(GoogleLoginProvider.PROVIDER_ID);
-  }
+  // refreshAccessToken() {
+  //   this.#socialAuthService.refreshAccessToken(GoogleLoginProvider.PROVIDER_ID);
+  // }
 
-  getAccessToken() {
-    this.#socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID);
-  }
+  // getAccessToken() {
+  //   this.#socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID);
+  // }
 
   register(user: UserRegister) {
     return this.#http.post<User>(USER_REGISTER_URL, user).pipe(
@@ -126,7 +126,7 @@ export class AuthService {
   }
 
   logout() {
-    this.#socialAuthService.signOut();
+    //this.#socialAuthService.signOut();
     this.#userSubjest.next({} as User);
     localStorage.removeItem(AuthService.USER_LS_KEY);
     window.location.reload();

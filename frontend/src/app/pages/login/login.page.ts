@@ -44,21 +44,22 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     initTE({ Input, Ripple });
-    this.#authService.authState$.subscribe(user => {
-      console.log(user);
-      this.user = user;
-      this.#router.navigateByUrl('/');
-    });
+    // this.#authService.authState$.subscribe(user => {
+    //   console.log(user);
+    //   this.user = user;
+    //   this.#router.navigateByUrl('/');
+    // });
+    this.user = this.#authService.currentUser;
     this.returnURL = this.#route
       .snapshot
       .queryParams['returnURL'];
   }
 
-  signInWithFB() {
-    this.#authService.signInWithProvider(
-      FacebookLoginProvider.PROVIDER_ID
-    );
-  }
+  // signInWithFB() {
+  //   this.#authService.signInWithProvider(
+  //     FacebookLoginProvider.PROVIDER_ID
+  //   );
+  // }
 
   submit() {
     console.log(this.form.errors);
