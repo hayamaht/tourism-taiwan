@@ -1,3 +1,4 @@
+import { TourismCat } from './models/tourism-cat.model';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -19,4 +20,5 @@ import { FooterComponent } from './components/footer/footer.component';
     NavbarComponent, FooterComponent
   ],
 })
-export class AppComponent {}
+export class AppComponent {
+}

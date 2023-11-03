@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     initTE({ Collapse, Ripple, Dropdown });
     this.user = this.#authService.currentUser;
-    console.log(this.user);
+    //console.log(this.user);
     // this.#authService.userObser$.subscribe(user => {
     //   console.log(user);
     // });
