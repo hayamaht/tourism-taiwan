@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
 import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
+import { forkJoin, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,27 @@ export class TourismService {
 
   #apiURL = environment.apiURL;
 
-  // getAll(type: TourismCat) {
-  //   const p = type.toString();
-  //   const url = this.#apiURL +
-  //     '/v2/Tourism/' + p +
-  //     '?$format=JSON';
-  //   return this.#getHttp(url);
-  // }
+  search(keyword: string) {
+    return forkJoin([
+      this.searchByType(keyword, TourismCat.Activity),
+      this.searchByType(keyword, TourismCat.ScenicSpot),
+      this.searchByType(keyword, TourismCat.Hotel),
+      this.searchByType(keyword, TourismCat.Restaurant),
+    ]);
+  }
+
+  searchByType(keyword: string, type: TourismCat) {
+    const p = type.toString();
+    let url = this.#apiURL +
+      '/v2/Tourism/' + p +
+      '?$format=JSON' +
+      `&$select=${p+'Name'}` +
+      `&$filter=contains(${p+'Name'}, '${keyword}') or ` +
+        `contains(Description, '${keyword}')`;
+    console.log(url);
+    return this.#tokenService.getHttp(url);
+  }
+
   getActivitesByMonth(
     cityName: CityName,
     mohtn: 'this'|'next',

@@ -1,1 +1,10 @@
-<p>search works!</p>
+<div class="container mx-auto">
+  <div class="flex justify-center">
+    <!-- <app-search></app-search> -->
+    <input type="search" title="search"
+      name="search" id="search"
+      placeholder="請輸入您要搜尋景點、旅遊活動"
+      class="input input-bordered input-primary"/>
+  </div>
+</div>
+{{ result$|async|json}}
