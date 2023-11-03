@@ -3,7 +3,8 @@ import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
 import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, toArray } from 'rxjs';
+import { SearchResult } from '../models/search-result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,16 @@ export class TourismService {
   #apiURL = environment.apiURL;
 
   search(keyword: string) {
+    keyword = keyword.trim();
     return forkJoin([
-      this.searchByType(keyword, TourismCat.Activity),
       this.searchByType(keyword, TourismCat.ScenicSpot),
+      this.searchByType(keyword, TourismCat.Activity),
       this.searchByType(keyword, TourismCat.Hotel),
       this.searchByType(keyword, TourismCat.Restaurant),
-    ]);
+    ]).pipe(
+      map(([v1, v2, v3, v4]) => [...v1, ...v2, ...v3, ...v4]),
+      //tap(v => console.log(v)),
+    );
   }
 
   searchByType(keyword: string, type: TourismCat) {
@@ -27,11 +32,25 @@ export class TourismService {
     let url = this.#apiURL +
       '/v2/Tourism/' + p +
       '?$format=JSON' +
-      `&$select=${p+'Name'}` +
+      `&$select=${p+'ID'},${p+'Name'},Description` +
       `&$filter=contains(${p+'Name'}, '${keyword}') or ` +
         `contains(Description, '${keyword}')`;
-    console.log(url);
-    return this.#tokenService.getHttp(url);
+    //console.log(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map((v: any) => {
+        let a:any[] = [];
+        for(let i in v) {
+          a[parseInt(i)] = {
+            id: v[i][`${p+'ID'}`],
+            type: p,
+            name: v[i][`${p+'Name'}`],
+            description: v[i]['Description'],
+          } as SearchResult;
+        }
+        return a;
+      }),
+      //tap(value => console.log(value)),
+    ) as Observable<SearchResult[]>;
   }
 
   getActivitesByMonth(
