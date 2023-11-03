@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { of, switchMap, tap } from 'rxjs';
+import { mergeMap, of, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,37 +16,43 @@ export class TokenService {
   #expiresIn!: number|null;
   #currentTime = Date.now();
 
-  getTokenIsLive() {
-    const bool = this.#getTokenExpire();
-    const t = localStorage.getItem(TokenService.ACCESS_NAME_LS);
-    if(bool || !t) {
-      return this.#getToken();
-    }
-    return of( {
-      access_token: this.#accesToken,
-      expires_in: this.#expiresIn,
-    } );
-  }
-
   getHttp(url: string) {
-    return this.getTokenIsLive().pipe(
-      switchMap(_ => {
+    return this.#getTokenIsLive().pipe(
+      switchMap(v => {
+        //console.log(`---- getHttp(): ${v}`);
         return this.#http.get(url, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${this.#accesToken}`
           }
         });
-      })
+      }),
     );
+  }
+
+  #getTokenIsLive() {
+    const bool = this.#getTokenExpire();
+    const t = localStorage.getItem(TokenService.ACCESS_NAME_LS);
+    if(bool || !t) {
+      //console.log(`---- getTokenIsLive(): false`);
+      return this.#getToken();
+    }
+    //console.log(`---- getTokenIsLive(): true`);
+    return of( {
+      access_token: this.#accesToken,
+      expires_in: this.#expiresIn,
+    } );
   }
 
   #getTokenExpire() {
     const t = Date.now() - this.#currentTime;
+    //console.log(`---- getTokenExpire(): t=${t}`);
     if (this.#expiresIn && t <= this.#expiresIn) {
+      //console.log(`---- getTokenExpire(): false`);
       return false;
     }
-    this.#getToken();
+    //this.#getToken();
+    //console.log(`---- getTokenExpire(): true`);
     return true;
   }
 
@@ -63,7 +69,7 @@ export class TokenService {
     ).pipe(
       tap((value: any) => {
         const v = JSON.stringify(value);
-        localStorage.setItem('tourism_access', v);
+        localStorage.setItem(TokenService.ACCESS_NAME_LS, v);
         // console.log('---- getToken ----');
         // console.log(v)
         // console.log('-------------------')
