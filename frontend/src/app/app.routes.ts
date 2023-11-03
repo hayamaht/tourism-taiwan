@@ -12,11 +12,14 @@ import { BikePage } from './pages/bike/bike.page';
 import { BikeDetailPage } from './pages/bike-detail/bike-detail.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
+import { SearchPage } from './pages/search/search.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
   { path:'login', component: LoginPage },
   { path:'register', component: RegisterPage },
+  { path:'search', component: SearchPage },
+  { path:'search/:search', component: SearchPage },
   { path:'spots', component: SpotsPage },
   { path:'spots/:city', component: SpotsPage },
   { path:'spot/:id', component: SpotDetailPage },

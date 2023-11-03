@@ -80,39 +80,46 @@
       </ul>
     </div>
 
+    <div class="flex items-center space-x-1">
+      <a type="button" routerLink="/search"
+        class="btn btn-ghost btn-circle text-black/50 hover:btn-primary">
+        <span class="material-symbols-rounded font-bold text-2xl">
+          search
+        </span>
+      </a>
 
-    <a *ngIf="!user.email"
-      routerLink="/login"
-      class="btn btn-primary">
-        登入
-    </a>
-    <!-- Right elements -->
-    <ng-container *ngIf="user && user.email" >
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" class="btn btn-ghost">
-          <div class="avatar placeholder">
-            <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-              <ng-container *ngIf="user!.photoUrl; else other">
-                <img title="avatar" [src]="user!.photoUrl"
-                  [alt]="user!.name">
-              </ng-container>
-              <ng-template #other>
-                <span>X</span>
-              </ng-template>
+      <a *ngIf="!user.email"
+        routerLink="/login"
+        class="btn btn-primary">
+          登入
+      </a>
+      <!-- Right elements -->
+      <ng-container *ngIf="user && user.email" >
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" class="btn btn-ghost">
+            <div class="avatar placeholder">
+              <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
+                <ng-container *ngIf="user!.photoUrl; else other">
+                  <img title="avatar" [src]="user!.photoUrl"
+                    [alt]="user!.name">
+                </ng-container>
+                <ng-template #other>
+                  <span>X</span>
+                </ng-template>
+              </div>
             </div>
           </div>
+          <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+            <li><a>Item 1</a></li>
+            <li>
+              <button type="button"
+                (click)="logout()">
+                登出
+              </button>
+            </li>
+          </ul>
         </div>
-        <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-          <li><a>Item 1</a></li>
-          <li>
-            <button type="button"
-              (click)="logout()">
-              登出
-            </button>
-          </li>
-        </ul>
-      </div>
-    </ng-container>
-
+      </ng-container>
+    </div>
   </div>
 </nav>
