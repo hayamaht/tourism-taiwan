@@ -20,7 +20,7 @@ export class SpotDetailPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  spot$!: Observable<Spot>;
+  spot!: Spot;
 
   ngOnInit(): void {
     initTE({ Carousel, Lightbox });
@@ -31,10 +31,16 @@ export class SpotDetailPage implements OnInit {
         this.#router.navigateByUrl('spots');
         return;
       }
-      this.spot$ = this.#tourismService.getById(
+      this.#tourismService.getById(
         TourismCat.ScenicSpot,
         id
-      );
+      ).subscribe(spot => {
+        if (!spot) {
+          this.#router.navigateByUrl('spots');
+          return;
+        }
+        this.spot = spot;
+      });
     });
   }
 

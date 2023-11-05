@@ -4,22 +4,72 @@
   </div>
 </ng-template>
 
-<ng-container *ngIf="spot$|async as spot; else loading">
+<ng-container *ngIf="spot else loading">
   <article>
-    <div>
-      <a (click)="goBack()">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-        </svg>
+    <div class="sticky top-16 -m-4 backdrop-blur bg-white/30 z-10 flex items-center">
+      <a (click)="goBack()"
+        class="btn btn-circle btn-ghost">
+        <span class="material-symbols-rounded">
+          arrow_back
+        </span>
       </a>
+      <div class="">
+        {{ spot.ScenicSpotName }}
+      </div>
     </div>
 
-    <h1 class="text-3xl lg:text-5xl font-bold text-center
-      m-4 mb-6">
+    <h1 class="text-2xl lg:text-4xl font-bold text-center my-6">
       {{ spot.ScenicSpotName }}
     </h1>
 
-    <div class="relative flex gap-3 w-full snap-x overflow-x-auto">
+    <div class="flex items-center space-x-2 my-2 mb-5 justify-center">
+      <span class="badge badge-outline badge-info ">
+        {{ spot.City }}
+      </span>
+      <span *ngIf="spot.Class1"
+        class="badge badge-accent">{{ spot.Class1 }}</span>
+      <span *ngIf="spot.Class2"
+        class="badge badge-warning">{{ spot.Class2 }}</span>
+      <span *ngIf="spot.Class3"
+        class="badge badge-error"
+      >{{ spot.Class3 }}</span>
+      <span *ngIf="spot.Level"
+        class="badge badge-outline">
+        {{ spot.Level }}
+      </span>
+    </div>
+
+    <div class="md:flex md:space-x-5 space-y-2">
+      <div class="md:flex-1">
+        <div class="text-justify">
+          {{ spot.DescriptionDetail }}
+        </div>
+
+        <div class="flex items-center">
+          <div class="">
+            <span class="material-symbols-rounded">
+              call
+            </span>
+            <span class="">
+              {{ spot.Phone }}
+            </span>
+          </div>
+          <div></div>
+        </div>
+
+      </div>
+      <div class="md:flex-1">
+        <app-map
+          [name]="spot.ScenicSpotName"
+          [lat]="spot.Position.PositionLat"
+          [lon]="spot.Position.PositionLon"
+        ></app-map>
+      </div>
+    </div>
+
+
+
+    <!-- <div class="relative flex gap-3 w-full snap-x overflow-x-auto">
       <div class="snap-center shrink-0">
         <div class="shrink-0 w-4 sm:w-48"></div>
       </div>
@@ -47,35 +97,10 @@
       <div class="snap-center shrink-0">
         <div class="shrink-0 w-4 sm:w-48"></div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="my-5 ">
-      {{ spot.DescriptionDetail }}
-    </div>
 
-    <div class="flex items-center space-x-2 my-2 justify-stretch">
-      <span class="px-3 py-1 rounded bg-info-100 text-info-600">
-        {{ spot.City }}
-      </span>
-      <ng-container *ngIf="spot.Class1">
-        <span class="px-3 py-1 mx-1 rounded-full bg-orange-100
-        text-orange-500">{{ spot.Class1 }}</span>
-      </ng-container>
-      <ng-container *ngIf="spot.Class2">
-        <span class="px-3 py-1 mx-1 rounded-full bg-yellow-100
-        text-yellow-600">{{ spot.Class2 }}</span>
-      </ng-container>
-      <ng-container *ngIf="spot.Class3">
-        <span class="px-3 py-1 mx-1 rounded-full bg-blue-100
-      text-blue-500">{{ spot.Class3 }}</span>
-      </ng-container>
 
-      <ng-container *ngIf="spot.Level">
-        <span class="p-0 px-3 bg-slate-100 text-slate-500">
-          {{ spot.Level }}
-        </span>
-      </ng-container>
-    </div>
 
     <div class="md:flex">
       <div class="flex-1">
@@ -206,11 +231,11 @@
         </div>
       </div>
       <div class="flex-auto">
-        <app-map
+        <!-- <app-map
           [name]="spot.ScenicSpotName"
           [lat]="spot.Position.PositionLat"
           [lon]="spot.Position.PositionLon"
-        ></app-map>
+        ></app-map> -->
 <!--
         <ng-container>
           <app-map
