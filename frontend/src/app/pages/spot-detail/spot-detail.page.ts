@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { Spot } from 'src/app/models/spot.model';
 
 @Component({
   selector: 'app-spot-detail',
@@ -19,14 +20,18 @@ export class SpotDetailPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  spots$!: Observable<any>;
+  spot$!: Observable<Spot>;
 
   ngOnInit(): void {
     initTE({ Carousel, Lightbox });
+    window.scrollTo({ top: 0, left:0, behavior: 'smooth'});
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (!id) return;
-      this.spots$ = this.#tourismService.getById(
+      if (!id) {
+        this.#router.navigateByUrl('spots');
+        return;
+      }
+      this.spot$ = this.#tourismService.getById(
         TourismCat.ScenicSpot,
         id
       );

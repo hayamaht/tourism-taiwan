@@ -5,6 +5,7 @@ import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
 import { Observable, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, toArray } from 'rxjs';
 import { SearchResult } from '../models/search-result.model';
+import { Spot } from '../models/spot.model';
 
 @Injectable({
   providedIn: 'root'
@@ -118,9 +119,10 @@ export class TourismService {
       '?$format=JSON';
     url = url + `&$filter=${t} eq '${id}'`
 
-    return this.#tokenService.getHttp(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map((vs: any) => {
+        return vs[0]
+      })
+    ) as Observable<Spot>;
   }
-
-
-
 }

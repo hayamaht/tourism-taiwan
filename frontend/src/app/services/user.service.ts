@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { tap } from 'rxjs';
 import { UserFavorite, } from '../models/user.model';
 import { USER_FAVORITES_URL, USER_FAVORITE_URL, } from 'src/urls';
-import { TourismCat } from '../models/tourism-cat.model';
+
 
 @Injectable({
   providedIn: 'root'
