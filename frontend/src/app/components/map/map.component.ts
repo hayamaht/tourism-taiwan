@@ -6,7 +6,13 @@ import * as leaflet from 'leaflet';
   selector: 'app-map',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './map.component.html',
+  template: `
+<div class="map-container  ">
+  <div class="map-frame" >
+    <div id="map" class="-z-0"></div>
+  </div>
+</div>
+  `,
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit {
@@ -18,7 +24,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   map!: leaflet.Map;
 
   ngOnInit(): void {
-    console.log(`lat=${this.lat}, lon=${this.lon}`)
+    leaflet.Icon.Default.imagePath = 'assets/leaflet/'
+    //console.log(`lat=${this.lat}, lon=${this.lon}`)
   }
 
   ngAfterViewInit(): void {
@@ -29,7 +36,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     if(this.lat && this.lon) {
       this.#setMap(this.lat, this.lon);
       this.#setTiles();
-      this.#setPopup();
+      this.#setMarker();
     } else if (this.geometry) {
       const type = this.geometry.geometry.type;
       const lat = (type === "MultiLineString")
@@ -59,9 +66,17 @@ export class MapComponent implements OnInit, AfterViewInit {
     }).addTo(this.map);
   }
 
+  #setMarker() {
+    if (!this.lat || !this.lon || !this.name) return;
+    leaflet.marker([this.lat, this.lon])
+      .addTo(this.map)
+      .bindPopup(this.name)
+      .openPopup();
+  }
+
   #setPopup() {
     if (!this.lat || !this.lon || !this.name) return;
-    leaflet.popup()
+    return leaflet.popup()
       .setLatLng([this.lat, this.lon])
       .setContent(this.name)
       .openOn(this.map);
