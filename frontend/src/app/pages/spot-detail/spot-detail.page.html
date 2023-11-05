@@ -53,73 +53,94 @@
           {{ spot.DescriptionDetail }}
         </div>
 
-        <div title="Phone" class="flex items-center space-x-2 my-1
+        <div>
+          <div title="Phone" class="flex space-x-2 my-1
           bg-gray-50 border border-gray-200 rounded">
-          <div class="bg-info px-2 bg-gradient-to-r
-            from-slate-50 to-slate-300
-            rounded-l
-            border-r border-r-white">
-            <span class="material-symbols-rounded text-xl">
-              call
-            </span>
+            <div class="bg-info px-2 bg-gradient-to-r
+              from-slate-50 to-slate-300
+              rounded-l
+              border-r border-r-white">
+              <span class="material-symbols-rounded text-xl">
+                call
+              </span>
+            </div>
+            <div class="self-center">
+              {{ spot.Phone }}
+            </div>
           </div>
-          <div class="">
-            {{ spot.Phone }}
+
+          <div title="Address" class="flex  space-x-2 my-1
+            bg-gray-50 border border-gray-200 rounded">
+            <div class="px-2 bg-gradient-to-r
+              from-slate-50 to-slate-300
+              rounded-l
+              border-r border-r-white">
+              <span class="material-symbols-rounded text-xl">
+                home
+              </span>
+            </div>
+            <div class="">
+              <span class="border border-slate-500
+                bg-slate-100 text-slate-500
+                font-mono text-sm px-1 empty:hidden">{{ spot.ZipCode }}</span> {{ spot.Address }}
+            </div>
+          </div>
+
+          <div title="OpenTime" class="flex space-x-2 my-1
+            bg-gray-50 border border-gray-200 rounded">
+            <div class="px-2 bg-gradient-to-r
+            from-slate-50 to-slate-300 rounded-l
+            border-r border-r-white ">
+              <span class="material-symbols-rounded text-xl">schedule</span>
+            </div>
+            <div class="self-center">
+              {{ spot.OpenTime }}
+            </div>
+          </div>
+
+          <div title="Website" class="flex space-x-2 my-1
+          bg-gray-50 border border-gray-200 rounded">
+            <div class="bg-info px-2 bg-gradient-to-r
+              from-slate-50 to-slate-300
+              rounded-l
+              border-r border-r-white">
+              <span class="material-symbols-rounded text-xl">
+                public
+              </span>
+            </div>
+            <a *ngIf="spot.WebsiteUrl" href="{{ spot.WebsiteUrl }}" target="_blank">
+              <span class="underline underline-offset-4
+              decoration-primary text-sm text-slate-600">
+                開啟視窗
+                <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="w-3 h-3 inline-block">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              </span>
+            </a>
           </div>
         </div>
 
-        <div title="Address" class="flex items-center space-x-2 my-1
-          bg-gray-50 border border-gray-200 rounded">
-          <div class="px-2 bg-gradient-to-r
-            from-slate-50 to-slate-300
-            rounded-l
-            border-r border-r-white">
-            <span class="material-symbols-rounded text-xl">
-              home
-            </span>
-          </div>
-          <div class="">
-            <span class="border border-slate-500
-              bg-slate-100 text-slate-500
-              font-mono text-sm px-1 empty:hidden">{{ spot.ZipCode }}</span> {{ spot.Address }}
-          </div>
+        <div class="mt-4 space-y-2">
+          <img *ngIf="spot.Picture.PictureUrl1"
+            title="{{ spot.Picture.PictureDescription1 }}"
+            [src]="spot.Picture.PictureUrl1"
+            [alt]="spot.Picture.PictureDescription1"
+            class="object-cover">
+          <img *ngIf="spot.Picture.PictureUrl2"
+            title="{{ spot.Picture.PictureDescription2 }}"
+            [src]="spot.Picture.PictureUrl2"
+            [alt]="spot.Picture.PictureDescription2"
+            class="object-cover">
+          <img *ngIf="spot.Picture.PictureUrl3"
+            title="{{ spot.Picture.PictureDescription3 }}"
+            [src]="spot.Picture.PictureUrl3"
+            [alt]="spot.Picture.PictureDescription3"
+            class="object-cover">
         </div>
 
-        <div title="OpenTime" class="flex space-x-2 my-1
-          bg-gray-50 border border-gray-200 rounded">
-          <div class="px-2 bg-gradient-to-r
-          from-slate-50 to-slate-300 rounded-l
-          border-r border-r-white ">
-            <span class="material-symbols-rounded text-xl">schedule</span>
-          </div>
-          <div class="">
-            {{ spot.OpenTime }}
-          </div>
-        </div>
-
-        <div title="Website" class="flex items-center space-x-2 my-1
-        bg-gray-50 border border-gray-200 rounded">
-          <div class="bg-info px-2 bg-gradient-to-r
-            from-slate-50 to-slate-300
-            rounded-l
-            border-r border-r-white">
-            <span class="material-symbols-rounded text-xl">
-              public
-            </span>
-          </div>
-          <a *ngIf="spot.WebsiteUrl" href="{{ spot.WebsiteUrl }}" target="_blank">
-            <span class="underline underline-offset-4
-            decoration-primary text-sm text-slate-600">
-              開啟視窗
-              <svg xmlns="http://www.w3.org/2000/svg"
-              fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor"
-              class="w-3 h-3 inline-block">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-              </svg>
-            </span>
-          </a>
-        </div>
       </div>
       <div class="md:flex-1 space-y-4">
         <app-map
@@ -129,9 +150,9 @@
         ></app-map>
 
         <div class="space-y-1">
-          <div title="TicketInfo" class="flex items-center space-x-3 bg-stone-50
+          <div title="TicketInfo" class="flex space-x-3 bg-stone-50
           border border-stone-200 ">
-            <div class="text-sm bg-stone-300 text-neutral px-3 py-1">
+            <div class="shrink-0 text-sm bg-stone-300 text-neutral px-3 py-1">
             票價資訊
             </div>
             <div class="">
@@ -140,9 +161,9 @@
           </div>
 
           <div title="ParkingInfo"
-            class="flex items-center space-x-3 bg-stone-50
+            class="flex space-x-3 bg-stone-50
               border border-stone-200 ">
-            <div class="text-sm bg-stone-300 text-neutral px-3 py-1">
+            <div class="shrink-0 text-sm bg-stone-300 text-neutral px-3 py-1">
               停車資訊
             </div>
             <div class="">
@@ -150,9 +171,9 @@
             </div>
           </div>
 
-          <div title="TravelInfo" class="flex items-center space-x-3 bg-stone-50
+          <div title="TravelInfo" class="flex space-x-3 bg-stone-50
           border border-stone-200 ">
-            <div class="text-sm bg-stone-300 text-neutral px-3 py-1">
+            <div class="shrink-0 text-sm bg-stone-300 text-neutral px-3 py-1">
               交通資訊
             </div>
             <div class="">
@@ -198,37 +219,11 @@
                   <img [src]="item.Picture.PictureUrl1"
                     [alt]="item.Picture.PictureDescription1"
                     title="{{item.Picture.PictureDescription1}}"
-                    class="w-20 h-20 object-cover">
+                    class="w-16 h-16 object-cover">
                 </div>
               </ng-container>
             </ng-container>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="spot.Picture" class="m-4">
-      <div class="relative flex gap-3 w-full snap-x overflow-x-auto">
-        <div *ngIf="spot.Picture.PictureUrl1"
-        class="snap-center shrink-0 first:pl-8 last:pr-8">
-          <img title="{{ spot.Picture.PictureDescription1 }}"
-            [src]="spot.Picture.PictureUrl1"
-            [alt]="spot.Picture.PictureDescription1"
-            class="w-80 object-cover">
-        </div>
-        <div *ngIf="spot.Picture.PictureUrl2"
-        class="snap-center shrink-0 first:pl-8 last:pr-8">
-          <img title="{{ spot.Picture.PictureDescription2 }}"
-            [src]="spot.Picture.PictureUrl2"
-            [alt]="spot.Picture.PictureDescription2"
-            class="w-80 object-cover">
-        </div>
-        <div *ngIf="spot.Picture.PictureUrl3"
-        class="snap-center shrink-0 first:pl-8 last:pr-8">
-          <img title="{{ spot.Picture.PictureDescription3 }}"
-            [src]="spot.Picture.PictureUrl3"
-            [alt]="spot.Picture.PictureDescription3"
-            class="w-80 object-cover">
         </div>
       </div>
     </div>
