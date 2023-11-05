@@ -4,22 +4,22 @@
   </div>
 </ng-template>
 
-<ng-container *ngIf="spot else loading">
-  <article>
-    <div class="sticky top-16 -m-4 backdrop-blur-md bg-stone-100/70 z-10 flex items-center">
-      <a (click)="goBack()"
-        class="btn btn-ghost ">
-        <span class="material-symbols-rounded">
-          arrow_back
-        </span>
+<div class="sticky top-16 -m-4 backdrop-blur-md bg-stone-100/70 z-10 flex items-center">
+  <a (click)="goBack()"
+    class="btn btn-ghost ">
+    <span class="material-symbols-rounded">
+      arrow_back
+    </span>
 
-        <div class="">
-          返回
-        </div>
-      </a>
+    <div class="">
+      返回
     </div>
+  </a>
+</div>
 
-    <h1 class="text-2xl lg:text-4xl font-bold text-center my-6">
+<ng-container *ngIf="spot else loading">
+  <article class="container mx-auto">
+    <h1 class="text-2xl lg:text-4xl font-bold text-center my-8">
       {{ spot.ScenicSpotName }}
     </h1>
 
@@ -40,7 +40,7 @@
       </span>
     </div>
 
-    <div class="-mx-4 mb-6 mt-2">
+    <div class="mb-6 mt-2">
       <img title="{{ spot.Picture.PictureDescription1 }}"
       [src]="spot.Picture.PictureUrl1"
       [alt]="spot.Picture.PictureDescription1"
@@ -120,9 +120,6 @@
             </span>
           </a>
         </div>
-
-
-
       </div>
       <div class="md:flex-1 space-y-4">
         <app-map
@@ -187,6 +184,26 @@
           </span>
         </div>
 
+        <div title="Near By">
+          <h3 class="text-xl font-bold">附近的景點</h3>
+          <div class="bg-stone-50 border border-stone-200 p-2 space-y-1">
+            <ng-container *ngIf="nearbys$|async as nearbys; else loading">
+              <ng-container *ngFor="let item of nearbys">
+                <div class="flex items-center justify-between pb-1 border-b border-b-black/10">
+                  <h4 class="link link-info">
+                    <a routerLink="/spot/{{ item.ScenicSpotID }}">
+                      {{ item.ScenicSpotName }}
+                    </a>
+                  </h4>
+                  <img [src]="item.Picture.PictureUrl1"
+                    [alt]="item.Picture.PictureDescription1"
+                    title="{{item.Picture.PictureDescription1}}"
+                    class="w-20 h-20 object-cover">
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
       </div>
     </div>
 

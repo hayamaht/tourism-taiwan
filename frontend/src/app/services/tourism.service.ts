@@ -97,10 +97,7 @@ export class TourismService {
     limit = 15,
     orderBy?: string
   ) {
-    const p = type.toString();
-    let url = this.#apiURL +
-      '/v2/Tourism/' + p + '/' + cityName.toString() +
-      '?$format=JSON';
+    let url = this.#getTourismURL(type, cityName);
     url = url + '&$top=' + limit;
     url = url + '&$skip=' + ((page - 1) * limit);
 
@@ -112,17 +109,30 @@ export class TourismService {
   }
 
   getById(type: TourismCat, id: string ) {
-    const p = type.toString();
-    const t = p + 'ID';
-    let url = this.#apiURL +
-      '/v2/Tourism/' + p +
-      '?$format=JSON';
-    url = url + `&$filter=${t} eq '${id}'`
-
+    let url = this.#getTourismURL(type);
+    url = url + `&$filter=${type+'ID'} eq '${id}'`
+    // console.log(url);
     return this.#tokenService.getHttp(url).pipe(
       map((vs: any) => {
         return vs[0]
       })
     ) as Observable<Spot>;
+  }
+
+  getNearByLocations(lat: number, lon:number) {
+    let url = this.#getTourismURL(TourismCat.ScenicSpot);
+    url = url + `&$spatialFilter=nearby(Position, ${lat}, ${lon}, 3000)`
+    return this.#tokenService.getHttp(url).pipe(
+
+    ) as Observable<Spot[]>;
+  }
+
+  #getTourismURL(type: TourismCat, cityName?: CityName) {
+    let url = this.#apiURL +
+      '/v2/Tourism/' + type.toString();
+    if (cityName) {
+      url = url + '/' + cityName.toString();
+    }
+    return url + '?$format=JSON';
   }
 }
