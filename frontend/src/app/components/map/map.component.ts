@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as leaflet from 'leaflet';
 
@@ -15,13 +15,21 @@ import * as leaflet from 'leaflet';
   `,
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() lat?: number;
   @Input() lon?: number;
   @Input() name?: string;
   @Input() geometry?: any;
 
+  #isReset = false;
   map!: leaflet.Map;
+  marker!: leaflet.Marker;
+
+  ngOnChanges() {
+    if (this.#isReset) {
+      this.#setMarker();
+    }
+  }
 
   ngOnInit(): void {
     leaflet.Icon.Default.imagePath = 'assets/leaflet/'
@@ -29,7 +37,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.#initMap();
+    //console.log('---- ngAfterViewInit ----');
+    if (!this.#isReset) {
+      this.#initMap();
+      this.#isReset = true;
+    }
   }
 
   #initMap() {
@@ -67,8 +79,13 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   #setMarker() {
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+    }
     if (!this.lat || !this.lon || !this.name) return;
-    leaflet.marker([this.lat, this.lon])
+    this.map
+      .setView([this.lat, this.lon], 16);
+    this.marker = leaflet.marker([this.lat, this.lon])
       .addTo(this.map)
       .bindPopup(this.name)
       .openPopup();
