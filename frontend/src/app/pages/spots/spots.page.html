@@ -1,72 +1,50 @@
-<h1 class="text-3xl font-bold text-center">
-  觀光景點
-</h1>
-
-<app-city-selector (cityEvent)="getSpots($event)"></app-city-selector>
-
-<ng-template #loading>
-  <div class="flex items-center justify-center">
-    <div
-      class="inline-block text-center h-8 w-8 animate-spin
-      rounded-full border-4 text-primary
-      border-solid border-current border-r-transparent
-      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-      role="status">
+<section class="container mx-auto">
+  <div class="sm:flex sm:items-center sm:justify-between">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl md:text-3xl font-bold shrink-0 ">
+        觀光景點
+      </h1>
+      <app-city-selector
+        (cityEvent)="getSpots($event)"
+      ></app-city-selector>
+    </div>
+    <div class="text-center">
+      <div class="join">
+        <button class="join-item btn btn-sm inline-block">
+          <span class="material-symbols-rounded">
+            keyboard_arrow_left
+          </span>
+        </button>
+        <button class="join-item btn btn-sm hidden sm:inline-block">1</button>
+        <button class="join-item btn btn-sm hidden sm:inline-block">2</button>
+        <button class="join-item btn btn-sm hidden sm:inline-block">3</button>
+        <button class="join-item btn btn-sm hidden sm:inline-block">4</button>
+        <button class="join-item btn btn-sm inline-block">
+          <span class="material-symbols-rounded">
+            keyboard_arrow_right
+          </span>
+        </button>
+      </div>
     </div>
   </div>
-</ng-template>
-<ng-container *ngIf="spots$|async as spots; else loading">
 
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
-  </div>
-
-  <div class="grid gap-1 grid-cols-1 md:grid-cols-2
-  lg:grid-cols-3 xl:grid-cols-4">
-    <ng-container *ngFor="let spot of spots">
-
-      <app-card-spot [spot]="spot"
-        class="w-full p-1"
-      ></app-card-spot>
-
+  <div>
+    <ng-template #loading>
+      <div class="flex items-center justify-center">
+        <span class="text-primary loading loading-spinner loading-lg"></span>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="spots$|async as spots; else loading">
+      <div class="grid grid-cols-1 sm:grid-cols-2
+        lg:grid-cols-4 gap-4">
+        <ng-container *ngFor="let spot of spots">
+          <app-card-spot [spot]="spot"
+            class="transition ease-in-out duration-100
+              hover:drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"
+          ></app-card-spot>
+        </ng-container>
+      </div>
     </ng-container>
   </div>
-
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
-  </div>
-</ng-container>
+  <div class="m-40 w-full"></div>
+</section>

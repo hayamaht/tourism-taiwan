@@ -16,6 +16,7 @@ module.exports = {
     require("daisyui"),
     require("tw-elements/dist/plugin.cjs"),
     require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
   ],
   daisyui: {
     themes: ['emerald', 'business']

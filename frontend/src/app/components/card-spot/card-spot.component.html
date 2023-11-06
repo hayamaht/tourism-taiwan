@@ -1,4 +1,37 @@
-<div
+
+<div class="bg-white rounded shadow hover:ring-4 hover:ring-primary">
+  <a routerLink="/spot/{{ spot.ScenicSpotID }}">
+    <ng-template #def>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+        alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+        class="object-contain h-52 w-full rounded-t-lg bg-stone-200/70">
+    </ng-template>
+    <ng-container *ngIf="spot.Picture.PictureUrl1; else def">
+      <img title="{{ spot.Picture.PictureDescription }}"
+        [src]="spot.Picture.PictureUrl1"
+        [alt]="spot.Picture.PictureDescription1"
+        class="object-cover h-52 w-full rounded-t">
+    </ng-container>
+  </a>
+  <div class="m-2 flex justify-between items-center">
+    <a routerLink="/spot/{{ spot.ScenicSpotID }}" class="link">
+      <span class="text-lg">{{ spot.ScenicSpotName }}</span>
+    </a>
+    <ng-container *ngIf="user?.email">
+      <button (click)="fav()" class="btn btn-circle btn-ghost">
+        <span *ngIf="!spot.favorite"
+          class="material-symbols-outlined">
+          favorite
+        </span>
+        <span *ngIf="spot.favorite"
+          class="material-symbols-rounded text-red-500">
+          favorite
+        </span>
+      </button>
+    </ng-container>
+  </div>
+</div>
+<!-- <div
   class="block rounded-lg bg-white shadow-md">
   <a routerLink="/spot/{{ spot.ScenicSpotID }}">
     <ng-template #def>
@@ -74,4 +107,4 @@
       閱讀
     </a>
   </div>
-</div>
+</div> -->

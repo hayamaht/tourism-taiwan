@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { combineLatest, combineLatestInit } from 'rxjs/internal/observable/combineLatest';
+import { Spot } from 'src/app/models/spot.model';
 
 @Component({
   selector: 'app-spots',
@@ -77,6 +78,7 @@ export class SpotsPage implements OnInit {
     this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`)
     this.#getSpotsByCity();
   }
+
 
   #goTop() {
     window.scrollTo({
