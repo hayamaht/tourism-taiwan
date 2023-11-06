@@ -90,6 +90,20 @@ export class TourismService {
     return this.#tokenService.getHttp(url);
   }
 
+  getCountByType(
+    type: TourismCat,
+    cityName?: CityName,
+  ) {
+    let url = this.#getTourismURL(type, cityName);
+    url = url + '&$count=true';
+    return this.#tokenService.getHttp(url).pipe(
+      map(vs => {
+        const len = (vs as []).length;
+        return len
+      }),
+    ) as Observable<number>;
+  }
+
   getByCityName(
     type: TourismCat,
     cityName: CityName,
@@ -121,7 +135,10 @@ export class TourismService {
 
   getNearByLocations(lat: number, lon:number) {
     let url = this.#getTourismURL(TourismCat.ScenicSpot);
-    url = url + `&$spatialFilter=nearby(Position, ${lat}, ${lon}, 3000)`
+    url = url + `&$spatialFilter=` +
+      `nearby(Position, ${lat}, ${lon}, 3000)` +
+      `&$top=30`;
+
     return this.#tokenService.getHttp(url).pipe(
 
     ) as Observable<Spot[]>;

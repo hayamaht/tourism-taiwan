@@ -1,19 +1,19 @@
-import { Favorite } from './../../../../../backend/src/models/favorite.model';
+
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { BehaviorSubject, forkJoin, map, merge, mergeAll, Observable, switchMap, tap } from 'rxjs';
-import { CityName } from 'src/app/models/city-name.model';
+import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
-import { combineLatest, combineLatestInit } from 'rxjs/internal/observable/combineLatest';
-import { Spot } from 'src/app/models/spot.model';
+import { Favorite } from 'src/app/models/favorite.model';
+
 
 @Component({
   selector: 'app-spots',
@@ -25,7 +25,7 @@ import { Spot } from 'src/app/models/spot.model';
   ],
 })
 export class SpotsPage implements OnInit {
-  static ROW_PER_PAGE = 15;
+  static ROW_PER_PAGE = 20;
 
   #route = inject(ActivatedRoute);
   #router = inject(Router);
@@ -39,21 +39,19 @@ export class SpotsPage implements OnInit {
   user!: User;
   city!: string;
   page = 1;
-  stopCount = false;
+  count = 0;
+  totalPages = 0;
 
   ngOnInit() {
-    initTE({ Ripple });
     this.user = this.#authService.currentUser;
-
-    // this.#userService
-    //   .getByOwnerFavorites(this.user.email)
-    //   .subscribe(favs => {
-    //     this.favs = favs as Favorite[];
-    //     console.log(this.favs);
-    //   });
-
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
+      this.#tourismService
+        .getCountByType(TourismCat.ScenicSpot, this.city as CityName)
+        .subscribe(len => {
+          this.count = len;
+          this.totalPages = Math.ceil(this.count / SpotsPage.ROW_PER_PAGE);
+        });
       this.#getSpotsByCity();
     });
     this.#route.queryParamMap.subscribe(param => {
@@ -65,6 +63,12 @@ export class SpotsPage implements OnInit {
 
   getSpots(cityName: string) {
     this.#router.navigate(['spots', cityName]);
+  }
+
+  gotoPage(n: number) {
+    this.page = n;
+    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
+    this.#getSpotsByCity();
   }
 
   prevPage() {
@@ -100,8 +104,6 @@ export class SpotsPage implements OnInit {
     ]).pipe(
       tap(_ => this.#goTop()),
       map(([v1, v2]) => {
-        const len = (v2 as []).length;
-        this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;
         const fv = v1 as Favorite[];
         const ss = v2 as [];
         for(let i in ss) {
