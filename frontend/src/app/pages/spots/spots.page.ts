@@ -1,5 +1,5 @@
 
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { initTE, Ripple } from 'tw-elements';
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { Favorite } from 'src/app/models/favorite.model';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { Favorite } from 'src/app/models/favorite.model';
   standalone: true,
   templateUrl: './spots.page.html',
   imports: [
-    CommonModule, RouterModule,
+    CommonModule, RouterModule, FormsModule,
     CardSpotComponent, CitySelectorComponent,
   ],
 })
@@ -41,8 +42,12 @@ export class SpotsPage implements OnInit {
   page = 1;
   count = 0;
   totalPages = 0;
+  selectedPage = 1;
 
   ngOnInit() {
+    // this.select.changes.subscribe((v: any) => {
+    //   console.log(v);
+    // })
     this.user = this.#authService.currentUser;
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
@@ -56,9 +61,17 @@ export class SpotsPage implements OnInit {
     });
     this.#route.queryParamMap.subscribe(param => {
       const p = parseInt(param.get('page')||'1');
-      this.page = p;
-      this.#getSpotsByCity();
+      this.selectedPage = p;
+      this.gotoPage(p);
     });
+  }
+
+  onPageChange(event: any) {
+    const v = parseInt(event.target.value)
+    this.gotoPage(v);
+  }
+  onPageLoad(event: any) {
+    console.log(event);
   }
 
   getSpots(cityName: string) {
@@ -67,19 +80,25 @@ export class SpotsPage implements OnInit {
 
   gotoPage(n: number) {
     this.page = n;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
-    this.#getSpotsByCity();
+    this.#gotoPage();
   }
 
   prevPage() {
     this.page -= 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
-    this.#getSpotsByCity();
+    this.#gotoPage();
   }
 
   nextPage() {
     this.page += 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`)
+    this.#gotoPage();
+  }
+
+  #gotoPage() {
+    this.#router.navigate([], {
+      relativeTo: this.#route,
+      queryParams: { page: this.page },
+      queryParamsHandling: 'merge'
+    });
     this.#getSpotsByCity();
   }
 
