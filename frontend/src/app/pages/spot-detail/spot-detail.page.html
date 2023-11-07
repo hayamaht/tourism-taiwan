@@ -150,6 +150,36 @@
             class="object-cover">
         </div>
 
+        <div title="Near By Hotels" class="my-8">
+          <h3 class="text-xl font-bold">附近的旅宿</h3>
+          <div class="bg-stone-50 border border-stone-200
+            p-2 space-y-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <ng-container *ngIf="nearbyHotels|async as nearbys; else loading">
+              <ng-container *ngFor="let item of nearbys">
+                <div class="flex items-center justify-start
+                  pb-1 border-b border-b-black/10 space-x-2">
+                  <ng-container *ngIf="item.Picture.PictureUrl1; else elseTemplate">
+                    <img [src]="item.Picture.PictureUrl1"
+                    [alt]="item.Picture.PictureDescription1"
+                    title="{{item.Picture.PictureDescription1}}"
+                    class="w-16 h-16 object-cover">
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                      alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+                      class="object-contain h-16 w-16 rounded-t-lg bg-stone-200/70">
+                  </ng-template>
+                  <h4 class="link link-neutral">
+                    <a routerLink="/spot/{{ item.HotelID }}">
+                      {{ item.HotelName }}
+                    </a>
+                  </h4>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+
       </div>
       <div class="md:flex-1 space-y-4">
         <app-map
@@ -217,9 +247,10 @@
           </span>
         </div>
 
-        <div title="Near By">
+        <div title="Near By Spots">
           <h3 class="text-xl font-bold">附近的景點</h3>
-          <div class="bg-stone-50 border border-stone-200 p-2 space-y-1">
+          <div class="bg-stone-50 border border-stone-200
+          p-2 space-y-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
             <ng-container *ngIf="nearbys$|async as nearbys; else loading">
               <ng-container *ngFor="let item of nearbys">
                 <div class="flex items-center justify-between pb-1 border-b border-b-black/10">

@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { initTE, Carousel, Lightbox } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { Spot } from 'src/app/models/spot.model';
@@ -25,10 +25,9 @@ export class SpotDetailPage implements OnInit {
 
   spot!: Spot;
   nearbys$!: Observable<Spot[]>;
+  nearbyHotels!: Observable<any>;
 
   ngOnInit(): void {
-    //initTE({ Carousel, Lightbox });
-
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (!id) {
@@ -41,12 +40,19 @@ export class SpotDetailPage implements OnInit {
       ).pipe(
         tap(_ => this.#goTop()),
         map(spot => {
+          if (!spot) {
+            this.#router.navigateByUrl('spots');
+            return spot;
+          }
           const p = {
             lat: spot.Position.PositionLat,
             lon: spot.Position.PositionLon,
           };
           this.nearbys$ = this.#tourismService
-            .getNearByLocations(p.lat, p.lon);
+            .getNearByLocations(p.lat, p.lon, TourismCat.ScenicSpot);
+          this.nearbyHotels = this.#tourismService
+            .getNearByLocations(p.lat, p.lon, TourismCat.Hotel);
+
           if (spot.Keyword) {
             const ks = spot.Keyword.split(',');
             spot.keywords = ks;

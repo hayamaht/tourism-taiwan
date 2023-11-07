@@ -133,15 +133,15 @@ export class TourismService {
     ) as Observable<Spot>;
   }
 
-  getNearByLocations(lat: number, lon:number) {
-    let url = this.#getTourismURL(TourismCat.ScenicSpot);
+  getNearByLocations(lat: number, lon:number, type: TourismCat) {
+    let url = this.#getTourismURL(type);
     url = url + `&$spatialFilter=` +
       `nearby(Position, ${lat}, ${lon}, 10000)` +
       `&$top=15`;
 
     return this.#tokenService.getHttp(url).pipe(
 
-    ) as Observable<Spot[]>;
+    ) as Observable<any>;
   }
 
   #getTourismURL(type: TourismCat, cityName?: CityName) {
