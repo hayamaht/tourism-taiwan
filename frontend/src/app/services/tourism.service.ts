@@ -136,8 +136,8 @@ export class TourismService {
   getNearByLocations(lat: number, lon:number) {
     let url = this.#getTourismURL(TourismCat.ScenicSpot);
     url = url + `&$spatialFilter=` +
-      `nearby(Position, ${lat}, ${lon}, 3000)` +
-      `&$top=30`;
+      `nearby(Position, ${lat}, ${lon}, 10000)` +
+      `&$top=15`;
 
     return this.#tokenService.getHttp(url).pipe(
 
