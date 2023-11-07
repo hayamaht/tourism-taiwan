@@ -36,6 +36,7 @@ export interface Spot {
   TicketInfo: string;
   Remarks: string;
   Keyword: string;
+  keywords: string[];
   City: string;
   SrcUpdateTime: Date;
   UpdateTime: Date;

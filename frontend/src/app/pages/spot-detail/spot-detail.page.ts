@@ -47,6 +47,10 @@ export class SpotDetailPage implements OnInit {
           };
           this.nearbys$ = this.#tourismService
             .getNearByLocations(p.lat, p.lon);
+          if (spot.Keyword) {
+            const ks = spot.Keyword.split(',');
+            spot.keywords = ks;
+          }
           return spot;
         })
       ).subscribe(spot => {
