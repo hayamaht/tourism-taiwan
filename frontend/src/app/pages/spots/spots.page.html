@@ -1,34 +1,44 @@
-<section class="container mx-auto">
-  <div class="sm:flex sm:items-center sm:justify-between">
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl md:text-3xl font-bold shrink-0 ">
-        觀光景點
-      </h1>
-      <app-city-selector
-        (cityEvent)="getSpots($event)"
-      ></app-city-selector>
-    </div>
-    <div class="text-center">
-      <div class="join">
-        <button class="join-item btn btn-sm inline-block">
-          <span class="material-symbols-rounded">
-            keyboard_arrow_left
-          </span>
-        </button>
-        <button class="join-item btn btn-sm hidden sm:inline-block">1</button>
-        <button class="join-item btn btn-sm hidden sm:inline-block">2</button>
-        <button class="join-item btn btn-sm hidden sm:inline-block">3</button>
-        <button class="join-item btn btn-sm hidden sm:inline-block">4</button>
-        <button class="join-item btn btn-sm inline-block">
-          <span class="material-symbols-rounded">
-            keyboard_arrow_right
-          </span>
-        </button>
+<section >
+  <div class="sticky top-16 -m-4 px-24 z-10  backdrop-blur-md shadow">
+    <div class="container mx-auto sm:flex sm:items-center sm:justify-between">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl md:text-3xl font-bold shrink-0 ">
+          觀光景點
+        </h1>
+        <app-city-selector
+          (cityEvent)="getSpots($event)"
+        ></app-city-selector>
+      </div>
+      <div class="text-center">
+        <div class="join">
+          <button (click)="prevPage()"
+            [disabled]="page===1"
+            class="join-item btn btn-sm btn-primary">
+            <span class="material-symbols-rounded">
+              keyboard_arrow_left
+            </span>
+          </button>
+          <select #pagination title="pagination"
+            [(ngModel)]="selectedPage"
+            (change)="onPageChange($event)"
+            class="join-item select select-sm leading-4">
+            <option *ngFor="let j of [].constructor(totalPages); let i=index"
+              value="{{i+1}}">第 {{ i+1 }} 頁</option>
+          </select>
+
+          <button (click)="nextPage()"
+            [disabled]="page === totalPages"
+            class="join-item btn btn-sm  btn-primary">
+            <span class="material-symbols-rounded">
+              keyboard_arrow_right
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div>
+  <div class="container mx-auto my-10">
     <ng-template #loading>
       <div class="flex items-center justify-center">
         <span class="text-primary loading loading-spinner loading-lg"></span>
@@ -46,5 +56,4 @@
       </div>
     </ng-container>
   </div>
-  <div class="m-40 w-full"></div>
 </section>

@@ -1,10 +1,9 @@
-import { Favorite } from './../../../../../backend/src/models/favorite.model';
+
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { BehaviorSubject, forkJoin, map, merge, mergeAll, Observable, switchMap, tap } from 'rxjs';
+import { forkJoin, map, Observable, tap } from 'rxjs';
 import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
@@ -12,20 +11,21 @@ import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
-import { combineLatest, combineLatestInit } from 'rxjs/internal/observable/combineLatest';
-import { Spot } from 'src/app/models/spot.model';
+import { Favorite } from 'src/app/models/favorite.model';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-spots',
   standalone: true,
   templateUrl: './spots.page.html',
   imports: [
-    CommonModule, RouterModule,
+    CommonModule, RouterModule, FormsModule,
     CardSpotComponent, CitySelectorComponent,
   ],
 })
 export class SpotsPage implements OnInit {
-  static ROW_PER_PAGE = 15;
+  static ROW_PER_PAGE = 20;
 
   #route = inject(ActivatedRoute);
   #router = inject(Router);
@@ -39,46 +39,73 @@ export class SpotsPage implements OnInit {
   user!: User;
   city!: string;
   page = 1;
-  stopCount = false;
+  count = 0;
+  totalPages = 0;
+  selectedPage = 1;
 
   ngOnInit() {
-    initTE({ Ripple });
     this.user = this.#authService.currentUser;
 
-    // this.#userService
-    //   .getByOwnerFavorites(this.user.email)
-    //   .subscribe(favs => {
-    //     this.favs = favs as Favorite[];
-    //     console.log(this.favs);
-    //   });
+    this.#route.paramMap.subscribe(params => {
+      const city = params.get('city') || CityName.Taipei;
+      const page = parseInt(params.get('page') || '1');
+      const cs = Object.keys(CityName);
+      const b = cs.filter((v) => v === city);
 
-    this.#route.paramMap.subscribe(param => {
-      this.city = param.get('city') || 'Taipei';
+      if (b.length === 0 || isNaN(page)) {
+        this.#router.navigate(['spots', 'Taipei',1]);
+        return;
+      }
+
+      this.city = city;
       this.#getSpotsByCity();
+      this.#tourismService
+        .getCountByType(TourismCat.ScenicSpot, city as CityName)
+        .subscribe(len => {
+          this.count = len;
+          this.totalPages = Math.ceil(len / SpotsPage.ROW_PER_PAGE);
+          this.page = page;
+          this.selectedPage = page;
+          if (this.page <= 0 || this.page > this.totalPages) {
+            this.#router.navigate(['../', 1], {
+              relativeTo: this.#route
+            });
+          } else {
+            this.gotoPage(this.page);
+          }
+        });
     });
-    this.#route.queryParamMap.subscribe(param => {
-      const p = parseInt(param.get('page')||'1');
-      this.page = p;
-      this.#getSpotsByCity();
-    });
+  }
+
+  onPageChange(event: any) {
+    const v = parseInt(event.target.value)
+    this.gotoPage(v);
   }
 
   getSpots(cityName: string) {
     this.#router.navigate(['spots', cityName]);
   }
 
+  gotoPage(n: number) {
+    this.page = n;
+    this.#gotoPage();
+  }
+
   prevPage() {
     this.page -= 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`);
-    this.#getSpotsByCity();
+    this.#gotoPage();
   }
 
   nextPage() {
     this.page += 1;
-    this.#location.replaceState(`spots/${this.city}`, `page=${this.page}`)
-    this.#getSpotsByCity();
+    this.#gotoPage();
   }
 
+  #gotoPage() {
+    this.#location.replaceState(`spots/${this.city}/${this.page}`);
+    this.selectedPage = this.page;
+    this.#getSpotsByCity();
+  }
 
   #goTop() {
     window.scrollTo({
@@ -100,8 +127,6 @@ export class SpotsPage implements OnInit {
     ]).pipe(
       tap(_ => this.#goTop()),
       map(([v1, v2]) => {
-        const len = (v2 as []).length;
-        this.stopCount = (len < SpotsPage.ROW_PER_PAGE) ? true : false;
         const fv = v1 as Favorite[];
         const ss = v2 as [];
         for(let i in ss) {
