@@ -137,7 +137,7 @@ export class TourismService {
     let url = this.#getTourismURL(TourismCat.ScenicSpot);
     url = url + `&$spatialFilter=` +
       `nearby(Position, ${lat}, ${lon}, 3000)` +
-      `&$top=30j`;
+      `&$top=30`;
 
     return this.#tokenService.getHttp(url).pipe(
 

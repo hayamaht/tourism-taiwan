@@ -49,10 +49,9 @@ export class SpotsPage implements OnInit {
     this.#route.paramMap.subscribe(params => {
       const city = params.get('city') || CityName.Taipei;
       const page = parseInt(params.get('page') || '1');
-
       const cs = Object.keys(CityName);
       const b = cs.filter((v) => v === city);
-      console.log(city, page, b);
+
       if (b.length === 0 || isNaN(page)) {
         this.#router.navigate(['spots', 'Taipei',1]);
         return;
@@ -65,7 +64,6 @@ export class SpotsPage implements OnInit {
         .subscribe(len => {
           this.count = len;
           this.totalPages = Math.ceil(len / SpotsPage.ROW_PER_PAGE);
-
           this.page = page;
           this.selectedPage = page;
           if (this.page <= 0 || this.page > this.totalPages) {
