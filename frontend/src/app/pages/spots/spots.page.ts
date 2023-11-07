@@ -1,11 +1,10 @@
 
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
-import { BehaviorSubject, forkJoin, map, merge, mergeAll, Observable, switchMap, tap } from 'rxjs';
-import { CityName, CityNameTW } from 'src/app/models/city-name.model';
+import { forkJoin, map, Observable, tap } from 'rxjs';
+import { CityName } from 'src/app/models/city-name.model';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
@@ -45,33 +44,44 @@ export class SpotsPage implements OnInit {
   selectedPage = 1;
 
   ngOnInit() {
-    // this.select.changes.subscribe((v: any) => {
-    //   console.log(v);
-    // })
     this.user = this.#authService.currentUser;
-    this.#route.paramMap.subscribe(param => {
-      this.city = param.get('city') || 'Taipei';
+
+    this.#route.paramMap.subscribe(params => {
+      const city = params.get('city') || CityName.Taipei;
+      const page = parseInt(params.get('page') || '1');
+
+      const cs = Object.keys(CityName);
+      const b = cs.filter((v) => v === city);
+      console.log(city, page, b);
+      if (b.length === 0 || isNaN(page)) {
+        this.#router.navigate(['spots', 'Taipei',1]);
+        return;
+      }
+
+      this.city = city;
+      this.#getSpotsByCity();
       this.#tourismService
-        .getCountByType(TourismCat.ScenicSpot, this.city as CityName)
+        .getCountByType(TourismCat.ScenicSpot, city as CityName)
         .subscribe(len => {
           this.count = len;
-          this.totalPages = Math.ceil(this.count / SpotsPage.ROW_PER_PAGE);
+          this.totalPages = Math.ceil(len / SpotsPage.ROW_PER_PAGE);
+
+          this.page = page;
+          this.selectedPage = page;
+          if (this.page <= 0 || this.page > this.totalPages) {
+            this.#router.navigate(['../', 1], {
+              relativeTo: this.#route
+            });
+          } else {
+            this.gotoPage(this.page);
+          }
         });
-      this.#getSpotsByCity();
-    });
-    this.#route.queryParamMap.subscribe(param => {
-      const p = parseInt(param.get('page')||'1');
-      this.selectedPage = p;
-      this.gotoPage(p);
     });
   }
 
   onPageChange(event: any) {
     const v = parseInt(event.target.value)
     this.gotoPage(v);
-  }
-  onPageLoad(event: any) {
-    console.log(event);
   }
 
   getSpots(cityName: string) {
@@ -94,14 +104,10 @@ export class SpotsPage implements OnInit {
   }
 
   #gotoPage() {
-    this.#router.navigate([], {
-      relativeTo: this.#route,
-      queryParams: { page: this.page },
-      queryParamsHandling: 'merge'
-    });
+    this.#location.replaceState(`spots/${this.city}/${this.page}`);
+    this.selectedPage = this.page;
     this.#getSpotsByCity();
   }
-
 
   #goTop() {
     window.scrollTo({

@@ -20,8 +20,9 @@ export const routes: Routes = [
   { path:'register', component: RegisterPage },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
-  { path:'spots', component: SpotsPage },
-  { path:'spots/:city', component: SpotsPage },
+  { path:'spots', redirectTo: 'spots/Taipei/1' },
+  { path:'spots/:city', redirectTo: 'spots/:city/1' },
+  { path:'spots/:city/:page', component: SpotsPage },
   { path:'spot/:id', component: SpotDetailPage },
   { path:'activities', component: ActivitiesPage },
   { path:'activities/:city', component: ActivitiesPage },
@@ -36,5 +37,5 @@ export const routes: Routes = [
   { path:'bike/:city', component: BikePage },
   { path:'bike/:city/:name', component: BikeDetailPage },
 
-  // { path: '**', redirectTo: '', }
+  { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
