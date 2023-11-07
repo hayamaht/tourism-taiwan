@@ -99,18 +99,22 @@
           <div tabindex="0" class="btn btn-ghost">
             <div class="avatar placeholder">
               <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-                <ng-container *ngIf="user!.photoUrl; else other">
-                  <img title="avatar" [src]="user!.photoUrl"
-                    [alt]="user!.name">
+                <ng-container *ngIf="user.photoUrl; else other">
+                  <img title="avatar" [src]="user.photoUrl"
+                    [alt]="user.name">
                 </ng-container>
                 <ng-template #other>
-                  <span>X</span>
+                  <span>{{ user.name.substr(0,1) }}</span>
                 </ng-template>
               </div>
             </div>
           </div>
           <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-            <li><a>Item 1</a></li>
+            <li>
+              <button type="button" routerLink="/{{ user.name }}">
+                帳號
+              </button>
+            </li>
             <li>
               <button type="button"
                 (click)="logout()">
