@@ -47,7 +47,7 @@ export class AuthService {
 
   user$ = this.#userSubjest.asObservable().pipe(
     tap(user => {
-      console.log(user);
+      //console.log(user);
       this.user = user;
     })
   );

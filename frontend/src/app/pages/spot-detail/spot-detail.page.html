@@ -41,10 +41,19 @@
     </div>
 
     <div class="mb-6 mt-2">
-      <img title="{{ spot.Picture.PictureDescription1 }}"
-      [src]="spot.Picture.PictureUrl1"
-      [alt]="spot.Picture.PictureDescription1"
-      class="w-full h-56 object-cover">
+      <ng-container *ngIf="spot.Picture.PictureUrl1; else elseTemplate">
+        <img title="{{ spot.Picture.PictureDescription1 }}"
+          [src]="spot.Picture.PictureUrl1"
+          [alt]="spot.Picture.PictureDescription1"
+          class="w-full h-56 object-cover">
+      </ng-container>
+      <ng-template #elseTemplate>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+        alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+        class="object-contain h-56 w-full rounded-t-lg bg-stone-200/70">
+
+      </ng-template>
+
     </div>
 
     <div class="md:flex md:space-x-5 space-y-2">
@@ -216,10 +225,19 @@
                       {{ item.ScenicSpotName }}
                     </a>
                   </h4>
-                  <img [src]="item.Picture.PictureUrl1"
+                  <ng-container *ngIf="item.Picture.PictureUrl1; else elseTemplate">
+                    <img [src]="item.Picture.PictureUrl1"
                     [alt]="item.Picture.PictureDescription1"
                     title="{{item.Picture.PictureDescription1}}"
                     class="w-16 h-16 object-cover">
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                      alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+                      class="object-contain h-16 w-16 rounded-t-lg bg-stone-200/70">
+
+                  </ng-template>
+
                 </div>
               </ng-container>
             </ng-container>

@@ -34,6 +34,5 @@ export class SearchPage implements OnInit {
         params['search']
       );
     });
-    //this.result$ = this.#tourismService.search('蟹');
   }
 }

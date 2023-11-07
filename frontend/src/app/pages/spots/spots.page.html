@@ -1,72 +1,59 @@
-<h1 class="text-3xl font-bold text-center">
-  觀光景點
-</h1>
+<section >
+  <div class="sticky top-16 -m-4 px-24 z-10  backdrop-blur-md shadow">
+    <div class="container mx-auto sm:flex sm:items-center sm:justify-between">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl md:text-3xl font-bold shrink-0 ">
+          觀光景點
+        </h1>
+        <app-city-selector
+          (cityEvent)="getSpots($event)"
+        ></app-city-selector>
+      </div>
+      <div class="text-center">
+        <div class="join">
+          <button (click)="prevPage()"
+            [disabled]="page===1"
+            class="join-item btn btn-sm btn-primary">
+            <span class="material-symbols-rounded">
+              keyboard_arrow_left
+            </span>
+          </button>
+          <select #pagination title="pagination"
+            [(ngModel)]="selectedPage"
+            (change)="onPageChange($event)"
+            class="join-item select select-sm leading-4">
+            <option *ngFor="let j of [].constructor(totalPages); let i=index"
+              value="{{i+1}}">第 {{ i+1 }} 頁</option>
+          </select>
 
-<app-city-selector (cityEvent)="getSpots($event)"></app-city-selector>
-
-<ng-template #loading>
-  <div class="flex items-center justify-center">
-    <div
-      class="inline-block text-center h-8 w-8 animate-spin
-      rounded-full border-4 text-primary
-      border-solid border-current border-r-transparent
-      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-      role="status">
+          <button (click)="nextPage()"
+            [disabled]="page === totalPages"
+            class="join-item btn btn-sm  btn-primary">
+            <span class="material-symbols-rounded">
+              keyboard_arrow_right
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</ng-template>
-<ng-container *ngIf="spots$|async as spots; else loading">
 
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
-  </div>
-
-  <div class="grid gap-1 grid-cols-1 md:grid-cols-2
-  lg:grid-cols-3 xl:grid-cols-4">
-    <ng-container *ngFor="let spot of spots">
-
-      <app-card-spot [spot]="spot"
-        class="w-full p-1"
-      ></app-card-spot>
-
+  <div class="container mx-auto my-10">
+    <ng-template #loading>
+      <div class="flex items-center justify-center">
+        <span class="text-primary loading loading-spinner loading-lg"></span>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="spots$|async as spots; else loading">
+      <div class="grid grid-cols-1 sm:grid-cols-2
+        lg:grid-cols-4 gap-4">
+        <ng-container *ngFor="let spot of spots">
+          <app-card-spot [spot]="spot"
+            class="transition ease-in-out duration-100
+              hover:drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"
+          ></app-card-spot>
+        </ng-container>
+      </div>
     </ng-container>
   </div>
-
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
-  </div>
-</ng-container>
+</section>
