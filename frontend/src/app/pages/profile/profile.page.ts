@@ -45,6 +45,7 @@ export class ProfilePage implements OnInit {
       this.#userService.getSettings(user.email).subscribe(s => {
         this.setting = s;
         this.form.get('city')?.patchValue(s.city);
+        this.form.get('name')?.patchValue(s.name);
       });
     });
   }

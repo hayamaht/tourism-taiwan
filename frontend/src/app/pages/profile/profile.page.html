@@ -1,20 +1,17 @@
 <section >
-  <div class="sticky top-16 -m-4 px-24 z-10  backdrop-blur-md shadow">
+  <!-- <div class="sticky top-16 -m-4 px-24 z-10  backdrop-blur-md shadow">
     <ul class="menu menu-horizontal w-full">
-      <li><a href="/{{user.name}}#profile">個人簡介</a></li>
-      <li><a href="/{{user.name}}#settings">設定</a></li>
-      <li><a href="/{{user.name}}#test">test</a></li>
+      <li><a href="/user/{{user.name}}/#profile">個人簡介</a></li>
+      <li><a href="/user/{{user.name}}/#settings">設定</a></li>
+      <li><a href="/user/{{user.name}}/#test">test</a></li>
     </ul>
-  </div>
+  </div> -->
   <div class="space-x-4 w-full">
-    <div class="container mx-auto my-10">
+    <div class="container mx-auto">
 
-      {{ form.value|json}}
+      <!-- {{ form.value|json}} -->
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <section >
-          <h2 class="text-xl font-bold" id="profile">
-            PROFILE
-          </h2>
           <div class="m-2 p-2 border border-stone-400
             bg-white rounded space-y-2">
             <div class="sm:flex items-center justify-between sm:space-x-2">
@@ -34,9 +31,6 @@
         </section>
 
         <section >
-          <h2 class="text-xl font-bold" id="settings">
-            SETTINGS
-          </h2>
 
           <div class="m-2 p-2 border border-stone-400
             bg-white rounded">
@@ -67,13 +61,7 @@
           </div>
         </section>
 
-        <section id="test">
-          <h2 class="text-xl font-bold" id="test">TEST</h2>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolorum ea itaque blanditiis ullam consequatur commodi molestias numquam at placeat eius? Inventore debitis quas a beatae illo. Eveniet, molestias iste.
-        </section>
+
       </form>
     </div>
   </div>
