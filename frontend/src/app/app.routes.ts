@@ -15,6 +15,7 @@ import { RegisterPage } from './pages/register/register.page';
 import { SearchPage } from './pages/search/search.page';
 import { ProfilePage } from './pages/profile/profile.page';
 import { authGuard } from './guards/auth.guard';
+import { ScenesPage } from './pages/scenes/scenes.page';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
@@ -29,6 +30,7 @@ export const routes: Routes = [
     //   { path:'test', component: ProfilePage, },
     // ]
   },
+  { path:'scenes', component: ScenesPage },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
   { path:'spots', redirectTo: 'spots/Taipei/1' },
@@ -38,12 +40,12 @@ export const routes: Routes = [
   { path:'activities', component: ActivitiesPage },
   { path:'activities/:city', component: ActivitiesPage },
   { path:'activity/:id', component: ActivityDetailPage },
-  { path:'hotels', component: HotelsPage },
-  { path:'hotels/:city', component: HotelsPage },
-  { path:'hotel/:id', component: HotelDetailPage },
-  { path:'restaurants', component: RestaurantsPage },
-  { path:'restaurants/:city', component: RestaurantsPage },
-  { path:'restaurant/:id', component: RestaurantDetailPage },
+  // { path:'hotels', component: HotelsPage },
+  // { path:'hotels/:city', component: HotelsPage },
+  // { path:'hotel/:id', component: HotelDetailPage },
+  // { path:'restaurants', component: RestaurantsPage },
+  // { path:'restaurants/:city', component: RestaurantsPage },
+  // { path:'restaurant/:id', component: RestaurantDetailPage },
   { path:'bike', component: BikePage },
   { path:'bike/:city', component: BikePage },
   { path:'bike/:city/:name', component: BikeDetailPage },
