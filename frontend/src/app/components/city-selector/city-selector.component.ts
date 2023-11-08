@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { initTE, Ripple, Select, Carousel, Dropdown,  } from 'tw-elements';
 import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -38,7 +37,6 @@ export class CitySelectorComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    initTE({ Ripple, Select });
     this.#route.paramMap.subscribe(params => {
       const c = params.get('city');
       if (!c) return;

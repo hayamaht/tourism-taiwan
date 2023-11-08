@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { initTE, Ripple } from 'tw-elements';
 import { RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User, UserFavorite } from 'src/app/models/user.model';
@@ -25,7 +24,6 @@ export class CardSpotComponent implements OnInit {
   user: User|undefined;
 
   ngOnInit(): void {
-    initTE({ Ripple });
     this.user = this.#authService.currentUser;
   }
 

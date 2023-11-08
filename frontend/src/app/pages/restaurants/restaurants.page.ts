@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardRestaurantComponent } from 'src/app/components/card-restaurant/card-restaurant.component';
 import { TourismService } from 'src/app/services/tourism.service';
@@ -32,7 +31,6 @@ export class RestaurantsPage implements OnInit {
   stopCount = false;
 
   ngOnInit() {
-    initTE({ Ripple });
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'NewTaipei';
       this.#getRestaurantsByCity();

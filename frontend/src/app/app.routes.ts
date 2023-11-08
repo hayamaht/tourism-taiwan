@@ -22,7 +22,12 @@ export const routes: Routes = [
   { path:'register', component: RegisterPage },
   {
     path:':username', component: ProfilePage,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    // children: [
+    //   { path:'profile', component: ProfilePage, },
+    //   { path:'settings', component: ProfilePage, },
+    //   { path:'test', component: ProfilePage, },
+    // ]
   },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },

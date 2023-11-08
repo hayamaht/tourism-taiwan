@@ -3,12 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
 import { Observable, single } from 'rxjs';
-import {
-  Collapse,
-  Ripple,
-  initTE,
-} from "tw-elements";
-
 import { CityName } from 'src/app/models/city-name.model';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
@@ -39,7 +33,6 @@ export class HomePage implements OnInit {
   month = new Date().getMonth() + 2;
 
   ngOnInit(): void {
-    initTE({ Collapse, Ripple });
     this.thisActivities$ = this.#getActivities('this');
     this.nextActivities$ = this.#getActivities('next');
     this.news$ = this.#newsService.get();

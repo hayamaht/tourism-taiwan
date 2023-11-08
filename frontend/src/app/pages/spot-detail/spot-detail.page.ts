@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, AfterViewInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { initTE, Carousel, Lightbox } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, map, of, tap } from 'rxjs';

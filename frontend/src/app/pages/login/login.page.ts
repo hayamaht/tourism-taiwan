@@ -5,7 +5,6 @@ import { SocialLoginModule, SocialAuthService,
   FacebookLoginProvider, GoogleLoginProvider,
   SocialUser, GoogleSigninButtonModule
 } from '@abacritt/angularx-social-login';
-import { Input, Ripple, initTE, } from "tw-elements";
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { of } from 'rxjs';
@@ -43,7 +42,6 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit(): void {
-    initTE({ Input, Ripple });
     // this.#authService.authState$.subscribe(user => {
     //   console.log(user);
     //   this.user = user;

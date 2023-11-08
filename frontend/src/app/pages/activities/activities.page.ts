@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { CityName } from 'src/app/models/city-name.model';
 import { Observable, map, tap } from 'rxjs';
@@ -32,7 +31,6 @@ export class ActivitiesPage implements OnInit {
   stopCount = false;
 
   ngOnInit(): void {
-    initTE({ Ripple });
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
       this.#getActivitiesByCity();
