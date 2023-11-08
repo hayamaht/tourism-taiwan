@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { Favorite } from 'src/app/models/favorite.model';
 import { FormsModule } from '@angular/forms';
+import { Setting } from 'src/app/models/setting.model';
 
 
 @Component({
@@ -34,9 +35,11 @@ export class SpotsPage implements OnInit {
   #authService = inject(AuthService);
   #userService = inject(UserService);
 
+  selectedCity!: string
   spots$!:  Observable<any>;
   favs!: Favorite[];
   user!: User;
+  setting!: Setting;
   city!: string;
   page = 1;
   count = 0;
@@ -44,7 +47,15 @@ export class SpotsPage implements OnInit {
   selectedPage = 1;
 
   ngOnInit() {
-    this.user = this.#authService.currentUser;
+    this.#authService.user$.subscribe(user => {
+      this.user = user;
+      if (!user.email) return;
+      this.#userService.getSettings(user.email).subscribe(s => {
+        this.setting = s;
+        this.selectedCity = s.city;
+      });
+
+    });
 
     this.#route.paramMap.subscribe(params => {
       const city = params.get('city') || CityName.Taipei;

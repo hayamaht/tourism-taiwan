@@ -6,6 +6,7 @@
           觀光景點
         </h1>
         <app-city-selector
+          [selectedCity]="selectedCity"
           (cityEvent)="getSpots($event)"
         ></app-city-selector>
       </div>

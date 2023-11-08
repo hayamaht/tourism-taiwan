@@ -4,28 +4,10 @@
     <!-- Hamburger button for mobile view -->
     <button
       type="button"
-      data-te-collapse-init
-      data-te-target="#navbarSupportedContent1"
-      aria-controls="navbarSupportedContent1"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
       class="hamburger-btn">
-      <!-- Hamburger icon -->
-      <!-- <span class="[&>svg]:w-7">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          class="h-7 w-7">
-          <path
-            fill-rule="evenodd"
-            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-            clip-rule="evenodd" />
-        </svg>
-      </span> -->
       <span class="material-symbols-outlined">
         menu
-        </span>
+      </span>
     </button>
 
     <a routerLink="/"
@@ -111,7 +93,7 @@
           </div>
           <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
             <li>
-              <button type="button" routerLink="/{{ user.name }}">
+              <button type="button" routerLink="/user/{{ user.name }}">
                 帳號
               </button>
             </li>
