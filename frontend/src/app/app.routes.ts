@@ -13,11 +13,22 @@ import { BikeDetailPage } from './pages/bike-detail/bike-detail.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { SearchPage } from './pages/search/search.page';
+import { ProfilePage } from './pages/profile/profile.page';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path:'', component: HomePage },
   { path:'login', component: LoginPage },
   { path:'register', component: RegisterPage },
+  {
+    path:'user/:username', component: ProfilePage,
+    canActivate: [authGuard],
+    // children: [
+    //   { path:'profile', component: ProfilePage, },
+    //   { path:'settings', component: ProfilePage, },
+    //   { path:'test', component: ProfilePage, },
+    // ]
+  },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
   { path:'spots', redirectTo: 'spots/Taipei/1' },

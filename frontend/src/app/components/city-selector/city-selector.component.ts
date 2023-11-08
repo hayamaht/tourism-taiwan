@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { initTE, Ripple, Select, Carousel, Dropdown,  } from 'tw-elements';
 import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -26,7 +25,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 </form>
   `
 })
-export class CitySelectorComponent implements OnInit {
+export class CitySelectorComponent implements OnInit, OnChanges  {
+  @Input() selectedCity!: string;
   @Output() cityEvent = new EventEmitter<string>();
 
   #route = inject(ActivatedRoute);
@@ -34,18 +34,24 @@ export class CitySelectorComponent implements OnInit {
 
   citiesTW = Object.entries(CityNameTW);
   form = this.#fb.group({
-    city: ['Taipei', ]
+    city: [CityName.Taipei, ]
   });
 
   ngOnInit(): void {
-    initTE({ Ripple, Select });
     this.#route.paramMap.subscribe(params => {
       const c = params.get('city');
       if (!c) return;
       this.form.patchValue({
-        city: c
-      })
+        city: c as CityName
+      });
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.selectedCity) return;
+    this.form.patchValue({
+      city: this.selectedCity as CityName
+    })
   }
 
   onChange(cityName: string) {

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { initTE, Ripple } from 'tw-elements';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -15,6 +14,5 @@ export class CardHotelComponent {
   @Input() hotel: any;
 
   ngOnInit(): void {
-    initTE({ Ripple });
   }
 }

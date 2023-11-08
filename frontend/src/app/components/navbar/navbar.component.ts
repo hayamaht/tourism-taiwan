@@ -1,8 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { initTE, Ripple, Collapse, Dropdown } from 'tw-elements';
-import { User } from 'src/app/models/user.model';
+import { RouterModule } from '@angular/router';import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -19,7 +17,6 @@ export class NavbarComponent implements OnInit {
   isLoggin = false;
 
   ngOnInit() {
-    initTE({ Collapse, Ripple, Dropdown });
     this.user = this.#authService.currentUser;
     this.#authService.user$.subscribe(user => {
       if (!user.email) {

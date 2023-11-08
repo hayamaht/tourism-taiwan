@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { User, UserModel } from "../models/user.model";
 import { sample_users } from '../data';
 import { Favorite, FavoriteModel } from '../models/favorite.model';
+import { SettingModel } from '../models/setting.model';
 
 const router = Router();
 
@@ -108,6 +109,57 @@ router.delete('/favorite', asyncHandler(
       tourismId
     })
     res.send();
+  }
+));
+
+router.post('/get_settings', asyncHandler(
+  async (req, res) => {
+    const { email } = req.body;
+    const user = await UserModel.findOne({ email });
+    const settings = await SettingModel.findOne({ email });
+
+    if(!user) {
+      res.status(400)
+      .send('User is not found!');
+      return;
+    }
+
+    if (!settings) {
+      res.status(400)
+        .send('Setting is not found!');
+      return;
+    }
+
+    res.send(settings);
+
+  }
+));
+router.post('/settings', asyncHandler(
+  async (req, res) => {
+    const { email, city, name } = req.body;
+    const user = await UserModel.findOne({ email });
+    const settings = await SettingModel.findOne({ email });
+
+    if(!user) {
+      res.status(400)
+      .send('User is not found!');
+      return;
+    }
+
+    if (!settings) {
+      const newSettings = {
+        email, city, name
+      };
+      const dbSettings = await SettingModel.create(newSettings);
+      res.send(dbSettings);
+      return;
+    }
+
+    settings.city = city;
+    settings.name = name;
+    settings.save();
+    res.send(settings._id);
+    
   }
 ));
 
