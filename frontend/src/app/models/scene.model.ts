@@ -1,3 +1,5 @@
+import { TourismCat } from "./tourism-cat.model";
+
 interface CanVisit { openTime?: string; }
 interface CanTravel { travelInfo: string; }
 interface CanPicture { pictures: Picture[]; }
@@ -28,7 +30,7 @@ interface Period {
   end: Date;
 }
 
-export interface Spot {
+interface _Spot {
   id: string;
   name: string;
   description: string;
@@ -42,7 +44,7 @@ export interface Spot {
   parkingInfo?: string;
 }
 
-interface EventScene extends Spot {
+interface EventScene extends _Spot {
   particpation: string; //活動參與對象
   location: string; //主要活動地點名稱
   organizer: string; //活動主辦單位
@@ -52,7 +54,7 @@ interface EventScene extends Spot {
   charge: string; // 費用標示
 }
 
-interface Scene extends Spot {
+interface Scene extends _Spot {
   zipCode: string;
 }
 
@@ -118,6 +120,17 @@ export type Hotel = Scene & CanPicture & CanGrade & CanFax & CanSpec & CanServic
 
 export type Activity = EventScene & CanPicture & CanRemarks & CanClasses & CanTravel;
 
+export type Spot = ScenicSpot | Restaurant | Hotel | Activity;
+
+export const toSpot = (type:TourismCat, item: any): Spot => {
+  switch(type) {
+    case TourismCat.ScenicSpot: return toScenicSpot(item);
+    case TourismCat.Hotel: return toHotel(item);
+    case TourismCat.Restaurant: return toRestaurant(item);
+    case TourismCat.Activity: return toActivity(item);
+    default: return {} as Spot;
+  }
+}
 
 export const toScenicSpot = (scenicSpot: any): ScenicSpot => {
   return {

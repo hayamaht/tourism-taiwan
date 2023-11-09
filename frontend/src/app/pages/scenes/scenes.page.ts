@@ -5,10 +5,11 @@ import { CitySelectorComponent } from 'src/app/components/city-selector/city-sel
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Spot } from 'src/app/models/scene.model';
 import { CityName } from 'src/app/models/city-name.model';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 
 @Component({
   selector: 'app-scenes',
@@ -17,7 +18,7 @@ import { TourismCat } from 'src/app/models/tourism-cat.model';
   imports: [
     CommonModule,
     TypeSelectorComponent, CitySelectorComponent,
-    PaginationComponent,
+    PaginationComponent, CardSpotComponent
   ],
 })
 export class ScenesPage implements OnInit {
@@ -25,6 +26,7 @@ export class ScenesPage implements OnInit {
   #router = inject(Router);
   #tourismService = inject(TourismService);
 
+  randomSpots$!: Observable<Spot[]>;
   spots$!: Observable<Spot[]>;
 
   ngOnInit(): void {
@@ -32,13 +34,16 @@ export class ScenesPage implements OnInit {
       const city = params.get('city');
       const type = params.get('type');
 
-      console.log(`City: ${city}, Type: ${type}`);
-
-      this.spots$ = (!type && !city) ? this.#tourismService.getRandom() :
+      this.randomSpots$ = (!type && !city) ? this.#tourismService.getRandom() :
         (!type) ? this.#tourismService.getRandom(undefined, city as CityName) :
         (!city) ? this.#tourismService.getRandom(type as TourismCat) :
-        this.#tourismService.getSpots(type as TourismCat, city as CityName);
+        of();
 
+      if(!type || !city) return;
+
+      this.spots$ = this.#tourismService.getSpots(
+        type as TourismCat, city as CityName
+      );
     });
   }
 

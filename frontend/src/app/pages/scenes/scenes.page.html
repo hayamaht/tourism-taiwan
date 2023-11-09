@@ -1,4 +1,4 @@
-<div class="sticky top-0 bg-white drop-shadow">
+<div class="sticky top-0 z-10 bg-white drop-shadow">
   <div class="space-y-1 p-1 sm:flex sm:space-y-0 ">
     <div class="flex items-center space-x-2 justify-evenly p-2">
       <span class="material-symbols-outlined text-2xl text-secondary">
@@ -18,17 +18,32 @@
 </div>
 
 <section class="container mx-auto my-4">
+  <ng-template #loading>
+    <span class="loading loading-spinner"></span>
+  </ng-template>
+  <ng-container *ngIf="randomSpots$|async as spots;">
+    <ng-template #noData></ng-template>
+    <ng-container *ngIf="spots.length > 0; else noData">
+      <div class="m-4 grid grid-cols-4 gap-4">
+        <ng-container *ngFor="let spot of spots">
+          <!-- {{ spot|json}} -->
+          <app-card-spot [spot]="spot"
+            class="transition ease-in-out duration-100
+            drop-shadow-md hover:-translate-x-2 hover:-translate-y-2"></app-card-spot>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
 
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div><div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div><div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iusto rem id dolorum ab doloribus, repudiandae nisi, incidunt ipsum voluptatum inventore dignissimos hic provident! Quidem illo vero repellendus molestias! Enim.</div>
+  <ng-container *ngIf="spots$|async as spots; else loading">
+    <ng-container *ngIf="spots.length > 0">
+      <div class="m-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <ng-container *ngFor="let spot of spots">
+          <app-card-spot [spot]="spot"
+            class="transition ease-in-out duration-100
+            drop-shadow-md hover:-translate-x-2 hover:-translate-y-2"></app-card-spot>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
 </section>

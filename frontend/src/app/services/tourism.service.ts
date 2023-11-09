@@ -1,4 +1,4 @@
-import { toActivity } from './../models/scene.model';
+import { toActivity, toSpot } from './../models/scene.model';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
@@ -57,12 +57,37 @@ export class TourismService {
 
   getRandom(type?: TourismCat, city?: CityName) {
     console.log(`Type: ${type}, City: ${city}`);
-    // let url = this.#getTourismURL();
-    return of();
+    let url ='';
+    if (!type) type = this.#getRandomType();
+    if (!city) city = this.#getRandomCity();
+
+    url = url + this.#getTourismURL(type, city);
+    url = url + '&$top=20';
+    console.log(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map(spots => this.#toSpots(type as TourismCat, spots))
+    );
   }
 
-  getSpots(type: TourismCat, city: CityName) {
-    return of();
+  getSpots(
+    type: TourismCat,
+    city: CityName,
+    page = 1,
+    limit = 20,
+    orderBy?: string
+  ) {
+    console.log(`type: ${type}, city: ${city}`);
+    let url = this.#getTourismURL(type, city);
+    url = url + '&$top=' + limit;
+    url = url + '&$skip=' + ((page - 1) * limit);
+
+    if (orderBy) {
+      url = url + '&$orderby=' + orderBy;
+    }
+    console.log(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map(spots => this.#toSpots(type, spots)),
+    );
   }
 
   getActivitesByMonth(
@@ -159,6 +184,23 @@ export class TourismService {
     return this.#tokenService.getHttp(url).pipe(
 
     ) as Observable<Spot>;
+  }
+
+  #toSpots(type: TourismCat, spots: any) {
+    const ss = spots as any[];
+    return ss.map(s => toSpot(type, s));
+  }
+
+  #getRandomType() {
+    const types = Object.keys(TourismCat);
+    const n = Math.floor(Math.random() * 3);
+    return types[n] as TourismCat;
+  }
+
+  #getRandomCity() {
+    const cities = Object.keys(CityName);
+    const n = Math.floor(Math.random() * cities.length);
+    return cities[n] as CityName;
   }
 
   #getTourismURL(type: TourismCat, cityName?: CityName) {
