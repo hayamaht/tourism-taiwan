@@ -43,7 +43,7 @@ export class RestaurantsPage implements OnInit {
   }
 
   getRestaurants(cityName: string) {
-    this.#router.navigate(['restaurants', cityName]);
+    // this.#router.navigate(['restaurants', cityName]);
   }
 
   prevPage() {
@@ -75,8 +75,8 @@ export class RestaurantsPage implements OnInit {
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
-        const len = (items as []).length;
-        this.stopCount = (len < RestaurantsPage.ROW_PER_PAGE) ? true : false;
+        //const len = (items as []).length;
+        //this.stopCount = (len < RestaurantsPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );

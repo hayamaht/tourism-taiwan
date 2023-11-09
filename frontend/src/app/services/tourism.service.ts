@@ -1,3 +1,4 @@
+import { toActivity } from './../models/scene.model';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
@@ -5,7 +6,7 @@ import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
 import { Observable, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, toArray } from 'rxjs';
 import { SearchResult } from '../models/search-result.model';
-import { Spot } from '../models/spot.model';
+import { Spot } from '../models/scene.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,16 @@ export class TourismService {
     ) as Observable<SearchResult[]>;
   }
 
+  getRandom(type?: TourismCat, city?: CityName) {
+    console.log(`Type: ${type}, City: ${city}`);
+    // let url = this.#getTourismURL();
+    return of();
+  }
+
+  getSpots(type: TourismCat, city: CityName) {
+    return of();
+  }
+
   getActivitesByMonth(
     cityName: CityName,
     mohtn: 'this'|'next',
@@ -87,7 +98,11 @@ export class TourismService {
       `&$top=${limit}` +
       `&$skip=${((page - 1)*limit)}`;
 
-    return this.#tokenService.getHttp(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map((ss: any) => {
+        return ss.map((s: any) => toActivity(s))
+      })
+    );
   }
 
   getCountByType(
@@ -119,18 +134,20 @@ export class TourismService {
       url = url + '&$orderby=' + orderBy;
     }
     // console.log(url);
-    return this.#tokenService.getHttp(url);
+    return this.#tokenService.getHttp(url) as Observable<Spot[]>;
   }
 
   getById(type: TourismCat, id: string ) {
+    if (!id) return of();
+
     let url = this.#getTourismURL(type);
     url = url + `&$filter=${type+'ID'} eq '${id}'`
     // console.log(url);
     return this.#tokenService.getHttp(url).pipe(
       map((vs: any) => {
-        return vs[0]
+        return vs[0] as Spot;
       })
-    ) as Observable<Spot>;
+    );
   }
 
   getNearByLocations(lat: number, lon:number, type: TourismCat) {
@@ -141,7 +158,7 @@ export class TourismService {
 
     return this.#tokenService.getHttp(url).pipe(
 
-    ) as Observable<any>;
+    ) as Observable<Spot>;
   }
 
   #getTourismURL(type: TourismCat, cityName?: CityName) {

@@ -1,6 +1,12 @@
 export enum TourismCat {
   ScenicSpot = 'ScenicSpot',
-  Activity = 'Activity',
   Hotel = 'Hotel',
   Restaurant = 'Restaurant',
+  Activity = 'Activity',
+}
+export enum TourismCategoryTW {
+  ScenicSpot = '景點',
+  Hotel = '住宿',
+  Restaurant = '餐廳',
+  Activity = '活動',
 }

@@ -14,6 +14,7 @@ import { User } from 'src/app/models/user.model';
 import { Favorite } from 'src/app/models/favorite.model';
 import { FormsModule } from '@angular/forms';
 import { Setting } from 'src/app/models/setting.model';
+import { Spot } from 'src/app/models/scene.model';
 
 
 @Component({
@@ -139,7 +140,7 @@ export class SpotsPage implements OnInit {
       tap(_ => this.#goTop()),
       map(([v1, v2]) => {
         const fv = v1 as Favorite[];
-        const ss = v2 as [];
+        const ss = v2 as Spot[];
         for(let i in ss) {
           const spot = ss[i] as any;
           const id = spot.ScenicSpotID;

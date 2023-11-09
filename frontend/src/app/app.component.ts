@@ -1,4 +1,3 @@
-import { TourismCat } from './models/tourism-cat.model';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -10,9 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
   standalone: true,
   template: `
 <app-navbar></app-navbar>
-<div class="m-4">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
 <app-footer></app-footer>
   `,
   imports: [
@@ -20,5 +17,16 @@ import { FooterComponent } from './components/footer/footer.component';
     NavbarComponent, FooterComponent
   ],
 })
-export class AppComponent {
+export class AppComponent {//implements OnInit {
+  // #tourismService = inject(TourismService);
+
+  // ngOnInit(): void {
+  //   this.#tourismService
+  //     .getById(TourismCat.ScenicSpot, 'C1_376530000A_000133')
+  //     .pipe()
+  //     .subscribe((vs: any) => {
+  //       const s = toScenicSpot(vs);
+  //       console.log(s);
+  //     });
+  // }
 }

@@ -5,7 +5,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, map, of, tap } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Spot } from 'src/app/models/spot.model';
 
 @Component({
   selector: 'app-spot-detail',
@@ -22,8 +21,8 @@ export class SpotDetailPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  spot!: Spot;
-  nearbys$!: Observable<Spot[]>;
+  spot!: any;
+  nearbys$!: Observable<any>;
   nearbyHotels!: Observable<any>;
 
   ngOnInit(): void {
@@ -44,18 +43,18 @@ export class SpotDetailPage implements OnInit {
             return spot;
           }
           const p = {
-            lat: spot.Position.PositionLat,
-            lon: spot.Position.PositionLon,
+            lat: spot.position.lat,
+            lon: spot.position.lng,
           };
           this.nearbys$ = this.#tourismService
             .getNearByLocations(p.lat, p.lon, TourismCat.ScenicSpot);
           this.nearbyHotels = this.#tourismService
             .getNearByLocations(p.lat, p.lon, TourismCat.Hotel);
 
-          if (spot.Keyword) {
-            const ks = spot.Keyword.split(',');
-            spot.keywords = ks;
-          }
+          // if (spot.Keyword) {
+          //   const ks = spot.Keyword.split(',');
+          //   spot.keywords = ks;
+          // }
           return spot;
         })
       ).subscribe(spot => {

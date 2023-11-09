@@ -30,7 +30,11 @@ export const routes: Routes = [
     //   { path:'test', component: ProfilePage, },
     // ]
   },
-  { path:'scenes', component: ScenesPage },
+  {
+    path:'scenes',
+    loadComponent: () => import('./pages/scenes/scenes.page')
+      .then(m => m.ScenesPage)
+  },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
   { path:'spots', redirectTo: 'spots/Taipei/1' },
