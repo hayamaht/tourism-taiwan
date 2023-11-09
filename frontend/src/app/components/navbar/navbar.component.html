@@ -1,117 +1,77 @@
-<nav class="navbar">
-  <div class="flex w-full flex-wrap items-center
-    justify-between ">
-    <!-- Hamburger button for mobile view -->
-    <button
-      type="button"
-      class="hamburger-btn">
-      <span class="material-symbols-outlined">
-        menu
-      </span>
-    </button>
-
+<div class="navbar bg-cyan-400">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <span class="material-symbols-outlined">
+          menu
+          </span>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content
+        mt-3 z-10 p-2 shadow bg-base-100 rounde w-52">
+        <li><a routerLink="activities"
+          routerLinkActive="btn-active"
+        >活動項目</a></li>
+        <li><a routerLink="scenes"
+          routerLinkActive="btn-active"
+        >景點旅餐</a></li>
+      </ul>
+    </div>
     <a routerLink="/"
-      class="font-bold text-sm text-neutral-50 uppercase
-      tracking-widest">
+      class="font-bold text-sm text-neutral-50 uppercase btn btn-ghost">
       <span><span class="text-orange-200">T</span>ourism</span>
     </a>
-
-    <!-- Collapsible navigation container -->
-    <div id="navbarSupportedContent1" data-te-collapse-item
-      class="!visible hidden flex-grow basis-[100%] ml-4 mt-4
-        items-center  lg:!flex lg:basis-auto lg:mt-0">
-      <!-- Left navigation links -->
-      <ul data-te-navbar-nav-ref
-        class="list-style-none  flex justify-items-center flex-col pl-0
-          lg:flex-row">
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- activites link -->
-          <a data-te-nav-link-ref
-            routerLink="activities"
-            class="navbar-menu-item"
-          >活動項目</a>
+  </div>
+  <div class="navbar-center hidden md:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li>
+        <a routerLink="activities"
+        routerLinkActive="btn-secondary"
+        >活動項目</a>
+      </li>
+      <li><a routerLink="scenes"
+        routerLinkActive="btn-secondary"
+      >景點旅餐</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end space-x-1">
+    <button type="button" routerLink="search"
+      class="btn btn-circle btn-ghost">
+      <span class="material-symbols-outlined">
+        search
+      </span>
+    </button>
+    <a *ngIf="!user.email"
+      routerLink="login"
+      class="btn btn-secondary">
+        登入
+    </a>
+    <div *ngIf="user.email" class="dropdown dropdown-end">
+      <div tabindex="0" class="btn btn-ghost">
+        <div class="avatar placeholder">
+          <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
+            <ng-container *ngIf="user.photoUrl; else other">
+              <img title="avatar" [src]="user.photoUrl"
+                [alt]="user.name">
+            </ng-container>
+            <ng-template #other>
+              <span>{{ user.name.substr(0,1) }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+        <li>
+          <button type="button" routerLink="/user/{{ user.name }}">
+            帳號
+          </button>
         </li>
-
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- activites link -->
-          <a routerLink="scenes" class="navbar-menu-item"
-          >景點旅餐</a>
-        </li>
-
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- spot link -->
-          <a data-te-nav-link-ref
-            routerLink="spots"
-            class="navbar-menu-item"
-          >觀光景點</a>
-        </li>
-
-        <!-- <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <a data-te-nav-link-ref
-            routerLink="hotels"
-            class="navbar-menu-item"
-          >觀光旅宿</a>
-        </li>
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <a data-te-nav-link-ref
-            routerLink="restaurants"
-            class="navbar-menu-item"
-          >觀光餐飲</a>
-        </li> -->
-        <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-          <!-- restaurants link -->
-          <a data-te-nav-link-ref
-            routerLink="bike"
-            class="navbar-menu-item"
-          >自行車道</a>
+        <li>
+          <button type="button"
+            (click)="logout()">
+            登出
+          </button>
         </li>
       </ul>
     </div>
-
-    <div class="flex items-center space-x-1">
-      <a type="button" routerLink="/search"
-        class="btn btn-ghost btn-circle text-black/50 hover:btn-primary">
-        <span class="material-symbols-rounded font-bold text-2xl">
-          search
-        </span>
-      </a>
-
-      <a *ngIf="!user.email"
-        routerLink="/login"
-        class="btn btn-primary">
-          登入
-      </a>
-      <!-- Right elements -->
-      <ng-container *ngIf="user && user.email" >
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" class="btn btn-ghost">
-            <div class="avatar placeholder">
-              <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-                <ng-container *ngIf="user.photoUrl; else other">
-                  <img title="avatar" [src]="user.photoUrl"
-                    [alt]="user.name">
-                </ng-container>
-                <ng-template #other>
-                  <span>{{ user.name.substr(0,1) }}</span>
-                </ng-template>
-              </div>
-            </div>
-          </div>
-          <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-            <li>
-              <button type="button" routerLink="/user/{{ user.name }}">
-                帳號
-              </button>
-            </li>
-            <li>
-              <button type="button"
-                (click)="logout()">
-                登出
-              </button>
-            </li>
-          </ul>
-        </div>
-      </ng-container>
-    </div>
   </div>
-</nav>
+</div>
