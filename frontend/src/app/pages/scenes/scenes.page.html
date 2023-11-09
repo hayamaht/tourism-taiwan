@@ -4,12 +4,33 @@
       <span class="material-symbols-outlined text-2xl text-secondary">
         tour
       </span>
-      <app-type-selector
-        (typeChange)="onTypeChange($event)">
-      </app-type-selector>
-      <app-city-selector
-        (cityChange)="onCityChange($event)">
-      </app-city-selector>
+      <form [formGroup]="form" class="space-x-1">
+        <select id="type" name="type" title="type"
+          formControlName="type"
+          (change)="onTypeChange($event)"
+          class="select select-sm select-bordered leading-3 min-w-min max-w-xs">
+          <option value="" disabled>- 類型 -</option>
+          <option *ngFor="let t of typesTW"
+            value="{{t[0]}}" >
+            {{ t[1] }}
+          </option>
+        </select>
+        <select id="city" name="city" title="city"
+          formControlName="city"
+          (change)="onCityChange($event)"
+          class="select select-sm select-bordered leading-3 min-w-min max-w-xs">
+          <option value="" selected disabled>- 城市 -</option>
+          <option *ngFor="let c of citiesTW"
+            [value]="c[0]"
+          >{{ c[1] }}</option>
+        </select>
+        <!-- <app-type-selector
+          (typeChange)="onTypeChange($event)">
+        </app-type-selector> -->
+        <!-- <app-city-selector formControlName="city"
+          (cityChange)="onCityChange($event)">
+        </app-city-selector> -->
+      </form>
     </div>
     <div class="text-center sm:text-right sm:flex-1">
       <app-pagination></app-pagination>
@@ -27,9 +48,9 @@
       <div class="m-4 grid grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots">
           <!-- {{ spot|json}} -->
-          <app-card-spot [spot]="spot"
+          <app-card-spot [type]="type" [spot]="spot"
             class="transition ease-in-out duration-100
-            drop-shadow-md hover:-translate-x-2 hover:-translate-y-2"></app-card-spot>
+            drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"></app-card-spot>
         </ng-container>
       </div>
     </ng-container>
@@ -39,9 +60,9 @@
     <ng-container *ngIf="spots.length > 0">
       <div class="m-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots">
-          <app-card-spot [spot]="spot"
+          <app-card-spot [type]="type" [spot]="spot"
             class="transition ease-in-out duration-100
-            drop-shadow-md hover:-translate-x-2 hover:-translate-y-2"></app-card-spot>
+            drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"></app-card-spot>
         </ng-container>
       </div>
     </ng-container>

@@ -1,5 +1,5 @@
 <div class="bg-white rounded shadow hover:ring-4 hover:ring-primary">
-  <a routerLink="/secnicspot/{{ spot.id }}">
+  <a routerLink="/{{ path }}/{{ spot.id }}">
     <ng-template #def>
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
         alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
@@ -13,7 +13,7 @@
     </ng-container>
   </a>
   <div class="m-2 flex justify-between items-center">
-    <a routerLink="/secnicspot/{{ spot.id }}" class="link">
+    <a routerLink="/{{ path }}/{{ spot.id }}" class="link">
       <span class="text-lg">{{ spot.name }}</span>
     </a>
     <!-- <ng-container *ngIf="user?.email">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, OnChanges, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TourismCat, TourismCategoryTW } from 'src/app/models/tourism-cat.model';
 import { FormsModule } from '@angular/forms';
@@ -20,12 +20,13 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class TypeSelectorComponent implements OnInit {
-  // @Input() selected!: string;
+  //@Input() selected!: string;
   @Output() typeChange = new EventEmitter<string>();
 
   typesTW = Object.entries(TourismCategoryTW);
 
   ngOnInit(): void {
+    //console.log(this.selected);
   }
 
   onChange(event: any) {

@@ -14,11 +14,13 @@ import { Spot } from 'src/app/models/scene.model';
   imports: [CommonModule, RouterModule, ],
 })
 export class CardSpotComponent implements OnInit {
+  @Input() type!: string;
   @Input() spot!: Spot;
 
   #authService = inject(AuthService);
   #userService = inject(UserService);
 
+  path!: string;
   user: User|undefined;
 
   ngOnInit(): void {
