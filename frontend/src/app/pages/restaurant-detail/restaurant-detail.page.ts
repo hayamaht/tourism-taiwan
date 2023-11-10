@@ -19,7 +19,7 @@ export class RestaurantDetailPage {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  restaurants!: Restaurant;
+  restaurant!: Restaurant;
 
   ngOnInit(): void {
     this.#route.paramMap.subscribe(params => {
@@ -34,14 +34,13 @@ export class RestaurantDetailPage {
       ).pipe(
         tap(_ => this.#goTop())
       ).subscribe(r => {
-        this.restaurants = r as Restaurant
+        this.restaurant = r as Restaurant
       })
     });
   }
 
   goBack() {
     this.#location.back()
-    //this.#router.navigate(['..']);
   }
 
   #goTop() {
