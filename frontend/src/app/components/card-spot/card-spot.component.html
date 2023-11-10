@@ -16,7 +16,7 @@
     <a routerLink="/{{ spot._type }}/{{ spot.id }}" class="link">
       <span class="text-lg">{{ spot.name }}</span>
     </a>
-    <!-- <ng-container *ngIf="user?.email">
+    <ng-container *ngIf="user?.email">
       <button (click)="fav()" class="btn btn-circle btn-ghost">
         <span *ngIf="!spot.favorite"
           class="material-symbols-outlined">
@@ -27,6 +27,6 @@
           favorite
         </span>
       </button>
-    </ng-container> -->
+    </ng-container>
   </div>
 </div>

@@ -50,8 +50,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/hotel-detail//hotel-detail.page')
       .then(m => m.HotelDetailPage)
   },
-  { path:'search', component: SearchPage },
-  { path:'search/:search', component: SearchPage },
+  {
+    path:'search',
+    loadComponent: () => import('./pages/search/search.page')
+      .then(m=> m.SearchPage)
+  },
+  {
+    path:'search/:search',
+    loadComponent: () => import('./pages/search/search.page')
+      .then(m=> m.SearchPage),
+  },
   // { path:'spots', redirectTo: 'spots/Taipei/1' },
   // { path:'spots/:city', redirectTo: 'spots/:city/1' },
   // { path:'spots/:city/:page', component: SpotsPage },

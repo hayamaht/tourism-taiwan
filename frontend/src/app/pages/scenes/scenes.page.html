@@ -41,12 +41,14 @@
     <ng-container *ngIf="spots.length > 0; else noData">
       <h2 class="text-2xl font-bold">{{ title }}</h2>
 
-      <div class="m-4 grid grid-cols-4 gap-4">
+      <div class="m-4 grid grid-cols-1 md:grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots; let i=index;">
-          <app-card-spot [type]="type" [spot]="spot"
+          <app-card-spot [type]="spot._type" [spot]="spot"
             [ngClass]="{
-              'col-span-3': i === 0,
-              'col-span-2': i === 6 || i === 7,
+              'md:col-span-3': i === 0,
+              'md:col-start-2': i=== 13,
+              'md:col-end-5': i=== 13,
+              'md:col-span-2': i === 6 || i === 7,
             }"
             class="transition ease-in-out duration-100
             drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"></app-card-spot>
@@ -60,7 +62,7 @@
     <ng-container *ngIf="spots.length > 0; else noData">
       <div class="m-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots">
-          <app-card-spot [type]="type" [spot]="spot"
+          <app-card-spot [type]="spot._type" [spot]="spot"
             class="transition ease-in-out duration-100
             drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"></app-card-spot>
         </ng-container>

@@ -1,3 +1,4 @@
+import { Favorite } from "./favorite.model";
 import { TourismCat } from "./tourism-cat.model";
 
 interface CanTravel { travelInfo: string; }
@@ -58,6 +59,7 @@ interface EventScene extends _Spot {
 interface Scene extends _Spot {
   zipCode: string;
   openTime: string;
+  favorite: boolean;
 }
 
 const toPicturesArray = (pictures: any): Picture[] => {

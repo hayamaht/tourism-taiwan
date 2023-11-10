@@ -24,28 +24,29 @@ export class CardSpotComponent implements OnInit {
   user: User|undefined;
 
   ngOnInit(): void {
+    console.log(this.type);
     this.user = this.#authService.currentUser;
   }
 
   fav() {
-    // if (!this.user) return;
+    if (!this.user)  return;
 
-    // if (!this.spot.favorite) {
-    //   this.#userService.setFavoriteOnCat({
-    //     email: this.user.email,
-    //     tourismCategory: TourismCat.ScenicSpot.toString(),
-    //     tourismId: this.spot.ScenicSpotID
-    //   } as UserFavorite).subscribe(_ => {
-    //     this.spot.favorite = true;
-    //   });
-    // } else {
-    //   this.#userService.removeFavoriteOnCat({
-    //     email: this.user.email,
-    //     tourismCategory: TourismCat.ScenicSpot.toString(),
-    //     tourismId: this.spot.ScenicSpotID
-    //   } as UserFavorite).subscribe(_ => {
-    //     this.spot.favorite = false;
-    //   });
-    // }
+    if (!this.spot.favorite) {
+      this.#userService.setFavoriteOnCat({
+        email: this.user.email,
+        tourismCategory: TourismCat.ScenicSpot.toString(),
+        tourismId: this.spot.id
+      } as UserFavorite).subscribe(_ => {
+        this.spot.favorite = true;
+      });
+    } else {
+      this.#userService.removeFavoriteOnCat({
+        email: this.user.email,
+        tourismCategory: TourismCat.ScenicSpot.toString(),
+        tourismId: this.spot.id,
+      } as UserFavorite).subscribe(_ => {
+        this.spot.favorite = false;
+      });
+    }
   }
 }
