@@ -4,9 +4,10 @@ import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
 import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
-import { Observable, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, toArray } from 'rxjs';
+import { Observable, catchError, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, throwError, toArray } from 'rxjs';
 import { SearchResult } from '../models/search-result.model';
 import { Spot } from '../models/scene.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -162,16 +163,18 @@ export class TourismService {
     return this.#tokenService.getHttp(url) as Observable<Spot[]>;
   }
 
-  getById(type: TourismCat, id: string ) {
+  getById(type: TourismCat, id: string ): Observable<Spot|undefined> {
     if (!id) return of();
 
     let url = this.#getTourismURL(type);
     url = url + `&$filter=${type+'ID'} eq '${id}'`
-    // console.log(url);
+    console.log(url);
     return this.#tokenService.getHttp(url).pipe(
+      catchError(this.#handleError),
       map((vs: any) => {
-        return vs[0] as Spot;
-      })
+        if (vs.length <= 0) return
+        return toSpot(type, vs[0]);
+      }),
     );
   }
 
@@ -182,8 +185,22 @@ export class TourismService {
       `&$top=20`;
 
     return this.#tokenService.getHttp(url).pipe(
+      map(spots => this.#toSpots(type, spots)),
+    ) as Observable<Spot[]>;
+  }
 
-    ) as Observable<Spot>;
+  #handleError(error: HttpErrorResponse): any {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
   #toSpots(type: TourismCat, spots: any) {

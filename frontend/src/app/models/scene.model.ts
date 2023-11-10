@@ -1,6 +1,5 @@
 import { TourismCat } from "./tourism-cat.model";
 
-interface CanVisit { openTime?: string; }
 interface CanTravel { travelInfo: string; }
 interface CanPicture { pictures: Picture[]; }
 interface CanLevel { level: string }
@@ -12,7 +11,8 @@ interface CanGrade { grade: string; }
 interface CanFax { fax: string; }
 interface CanSpec { spec: string; }
 interface CanService { serviceInfo: string; }
-interface CanClasses { claess: string[]; }
+interface CanClasses { classes: string[]; }
+//interface CanVisit { openTime: string; }
 
 interface Position {
   lat: number;
@@ -31,6 +31,7 @@ interface Period {
 }
 
 interface _Spot {
+  _type: string;
   id: string;
   name: string;
   description: string;
@@ -56,6 +57,7 @@ interface EventScene extends _Spot {
 
 interface Scene extends _Spot {
   zipCode: string;
+  openTime: string;
 }
 
 const toPicturesArray = (pictures: any): Picture[] => {
@@ -112,28 +114,29 @@ const toPeriod = (start: string, end: string): Period => {
   }
 }
 
-export type ScenicSpot = Scene & CanVisit & CanTravel & CanPicture & CanLevel & CanParking & CanTicket & CanRemarks & CanKeywords & CanClasses ;
+export type ScenicSpot = Scene & CanTravel & CanPicture & CanLevel & CanParking & CanTicket & CanRemarks & CanKeywords & CanClasses ;
 
-export type Restaurant = Scene & CanVisit & CanPicture & CanClasses;
+export type Restaurant = Scene & CanPicture & CanClasses;
 
 export type Hotel = Scene & CanPicture & CanGrade & CanFax & CanSpec & CanService & CanClasses;
 
 export type Activity = EventScene & CanPicture & CanRemarks & CanClasses & CanTravel;
 
-export type Spot = ScenicSpot | Restaurant | Hotel | Activity;
+export type Spot =  ScenicSpot | Restaurant | Hotel;
+export type EventSpot = Activity;
 
 export const toSpot = (type:TourismCat, item: any): Spot => {
   switch(type) {
     case TourismCat.ScenicSpot: return toScenicSpot(item);
     case TourismCat.Hotel: return toHotel(item);
     case TourismCat.Restaurant: return toRestaurant(item);
-    case TourismCat.Activity: return toActivity(item);
     default: return {} as Spot;
   }
 }
 
 export const toScenicSpot = (scenicSpot: any): ScenicSpot => {
   return {
+    _type: 'ScenicSpot',
     id: scenicSpot.ScenicSpotID,
     name: scenicSpot.ScenicSpotName,
     description: scenicSpot.Description,
@@ -145,7 +148,7 @@ export const toScenicSpot = (scenicSpot: any): ScenicSpot => {
     pictures: toPicturesArray(scenicSpot.Picture),
     position: toPosition(scenicSpot.Position),
     mapURL: scenicSpot.MapUrl,
-    claess: toClassesArray(
+    classes: toClassesArray(
       scenicSpot.Class1,scenicSpot.Class2,scenicSpot.Class3
     ),
     level: scenicSpot.Level,
@@ -162,6 +165,7 @@ export const toScenicSpot = (scenicSpot: any): ScenicSpot => {
 
 export const toRestaurant = (restaurant: any): Restaurant => {
   return {
+    _type: 'Restaurant',
     id: restaurant.RestaurantID,
     name: restaurant.RestaurantName,
     description: restaurant.Description,
@@ -172,7 +176,7 @@ export const toRestaurant = (restaurant: any): Restaurant => {
     websiteURL: restaurant.WebsiteUrl,
     pictures: toPicturesArray(restaurant.Picture),
     position: toPosition(restaurant.Position),
-    claess: toClassesArray(restaurant.Class),
+    classes: toClassesArray(restaurant.Class),
     mapURL: restaurant.MapUrl,
     parkingInfo: restaurant.ParkingInfo,
     city: restaurant.City,
@@ -182,6 +186,7 @@ export const toRestaurant = (restaurant: any): Restaurant => {
 
 export const toHotel = (hotel: any): Hotel => {
   return {
+    _type:'Hotel',
     id: hotel.HotelID,
     name: hotel.HotelName,
     description: hotel.Description,
@@ -193,7 +198,7 @@ export const toHotel = (hotel: any): Hotel => {
     websiteURL: hotel.WebsiteUrl,
     pictures: toPicturesArray(hotel.Picture),
     position: toPosition(hotel.Position),
-    claess: toClassesArray(hotel.Class),
+    classes: toClassesArray(hotel.Class),
     mapURL: hotel.MapUrl,
     spec: hotel.Spec,
     serviceInfo: hotel.ServiceInfo,
@@ -205,6 +210,7 @@ export const toHotel = (hotel: any): Hotel => {
 
 export const toActivity = (activity: any): Activity => {
   return {
+    _type:'Activity',
     id: activity.ActivityID,
     name: activity.ActivityName,
     description: activity.Description,
@@ -219,7 +225,7 @@ export const toActivity = (activity: any): Activity => {
     websiteURL: activity.WebsiteUrl,
     pictures: toPicturesArray(activity.Picture),
     position: toPosition(activity.Positiion),
-    claess: toClassesArray(activity.Class1, activity.Class2),
+    classes: toClassesArray(activity.Class1, activity.Class2),
     mapURL: activity.MapUrl,
     travelInfo: activity.TravelInfo,
     parkingInfo: activity.ParkingInfo,

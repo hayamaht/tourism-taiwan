@@ -35,12 +35,22 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/scenes/scenes.page')
       .then(m => m.ScenesPage)
   },
+  {
+    path:'ScenicSpot/:id',
+    loadComponent: () => import('./pages/spot-detail/spot-detail.page')
+      .then(m => m.SpotDetailPage)
+  },
+  {
+    path:'Restaurant/:id',
+    loadComponent: () => import('./pages/restaurant-detail/restaurant-detail.page')
+      .then(m => m.RestaurantDetailPage)
+  },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
-  { path:'spots', redirectTo: 'spots/Taipei/1' },
-  { path:'spots/:city', redirectTo: 'spots/:city/1' },
-  { path:'spots/:city/:page', component: SpotsPage },
-  { path:'spot/:id', component: SpotDetailPage },
+  // { path:'spots', redirectTo: 'spots/Taipei/1' },
+  // { path:'spots/:city', redirectTo: 'spots/:city/1' },
+  // { path:'spots/:city/:page', component: SpotsPage },
+  // { path:'spot/:id', component: SpotDetailPage },
   { path:'activities', component: ActivitiesPage },
   { path:'activities/:city', component: ActivitiesPage },
   { path:'activity/:id', component: ActivityDetailPage },
@@ -50,9 +60,9 @@ export const routes: Routes = [
   // { path:'restaurants', component: RestaurantsPage },
   // { path:'restaurants/:city', component: RestaurantsPage },
   // { path:'restaurant/:id', component: RestaurantDetailPage },
-  { path:'bike', component: BikePage },
-  { path:'bike/:city', component: BikePage },
-  { path:'bike/:city/:name', component: BikeDetailPage },
+  // { path:'bike', component: BikePage },
+  // { path:'bike/:city', component: BikePage },
+  // { path:'bike/:city/:name', component: BikeDetailPage },
 
   { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
