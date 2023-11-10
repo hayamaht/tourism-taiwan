@@ -32,7 +32,6 @@
   </div>
 </div>
 
-
 <section class="container mx-auto my-4">
   <ng-template #loading>
     <span class="loading loading-spinner"></span>
@@ -40,7 +39,7 @@
   <ng-container *ngIf="randomSpots$|async as spots; else loading">
     <ng-template #noData></ng-template>
     <ng-container *ngIf="spots.length > 0; else noData">
-
+      <h2 class="text-2xl font-bold">{{ title }}</h2>
 
       <div class="m-4 grid grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots; let i=index;">

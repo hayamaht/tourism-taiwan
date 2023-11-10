@@ -41,6 +41,7 @@ export class ScenesPage implements OnInit {
 
   city!: string;
   type!: string;
+  title!: string;
 
   get random() {
     const r = Math.floor(Math.random() * 4);
@@ -56,6 +57,11 @@ export class ScenesPage implements OnInit {
       this.form.patchValue({
         type, city
       });
+
+      this.title = (!type && !city) ? '隨機產生' :
+        (!type) ? '從類型隨機產生' :
+        (!city) ? '從城市隨機產生' :
+        '';
 
       this.randomSpots$ = (!type && !city) ? this.#tourismService.getRandom() :
         (!type) ? this.#tourismService.getRandom(undefined, city as CityName) :
