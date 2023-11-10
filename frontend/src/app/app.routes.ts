@@ -45,6 +45,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/restaurant-detail/restaurant-detail.page')
       .then(m => m.RestaurantDetailPage)
   },
+  {
+    path:'Hotel/:id',
+    loadComponent: () => import('./pages/hotel-detail//hotel-detail.page')
+      .then(m => m.HotelDetailPage)
+  },
   { path:'search', component: SearchPage },
   { path:'search/:search', component: SearchPage },
   // { path:'spots', redirectTo: 'spots/Taipei/1' },

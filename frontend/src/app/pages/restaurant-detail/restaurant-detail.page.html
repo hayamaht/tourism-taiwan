@@ -6,7 +6,7 @@
   </ng-template>
   <ng-container *ngIf="restaurant else loading">
     <div class="sticky top-0 backdrop-blur-md bg-white
-    z-10 flex items-center justify-between mx-2">
+    z-10 flex items-center justify-between ">
       <a (click)="goBack()"
         class="btn btn-ghost ">
         <span class="material-symbols-rounded">
@@ -18,7 +18,7 @@
         </div>
       </a>
       <ng-container *ngIf="restaurant.phone">
-        <div>
+        <div class="mr-2">
           <button class="btn btn-warning btn-sm">
             <span class="material-symbols-outlined text-sm">
               call
