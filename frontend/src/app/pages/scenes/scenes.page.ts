@@ -42,6 +42,12 @@ export class ScenesPage implements OnInit {
   city!: string;
   type!: string;
 
+  get random() {
+    const r = Math.floor(Math.random() * 4);
+    console.log(r)
+    return r;
+  }
+
   ngOnInit(): void {
     this.#route.queryParamMap.subscribe(params => {
       const city = params.get('city');
@@ -54,20 +60,20 @@ export class ScenesPage implements OnInit {
       this.randomSpots$ = (!type && !city) ? this.#tourismService.getRandom() :
         (!type) ? this.#tourismService.getRandom(undefined, city as CityName) :
         (!city) ? this.#tourismService.getRandom(type as TourismCat) :
-        of();
+        of([]);
+      this.spots$ = (type && city)
+        ? this.#tourismService.getSpots(type as TourismCat, city as CityName)
+        : of([]);
 
       if(!type || !city) return;
 
       this.type = type;
       this.city = city;
-      this.spots$ = this.#tourismService.getSpots(
-        type as TourismCat, city as CityName
-      );
+
     });
   }
 
-  onTypeChange(event: any) {
-    console.log(event.currentTarget);
+  onTypeChange(event: any) {;
     this.#router.navigate([], {
       queryParams: {
         type: event.currentTarget.value
@@ -77,7 +83,6 @@ export class ScenesPage implements OnInit {
   }
 
   onCityChange(event: any) {
-    console.log(event.currentTarget);
     this.#router.navigate([], {
       queryParams: {
         city: event.currentTarget.value
@@ -85,6 +90,5 @@ export class ScenesPage implements OnInit {
       queryParamsHandling: 'merge'
     });
   }
-
 
 }

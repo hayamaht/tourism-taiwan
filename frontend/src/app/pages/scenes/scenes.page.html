@@ -24,12 +24,6 @@
             [value]="c[0]"
           >{{ c[1] }}</option>
         </select>
-        <!-- <app-type-selector
-          (typeChange)="onTypeChange($event)">
-        </app-type-selector> -->
-        <!-- <app-city-selector formControlName="city"
-          (cityChange)="onCityChange($event)">
-        </app-city-selector> -->
       </form>
     </div>
     <div class="text-center sm:text-right sm:flex-1">
@@ -38,17 +32,23 @@
   </div>
 </div>
 
+
 <section class="container mx-auto my-4">
   <ng-template #loading>
     <span class="loading loading-spinner"></span>
   </ng-template>
-  <ng-container *ngIf="randomSpots$|async as spots;">
+  <ng-container *ngIf="randomSpots$|async as spots; else loading">
     <ng-template #noData></ng-template>
     <ng-container *ngIf="spots.length > 0; else noData">
+
+
       <div class="m-4 grid grid-cols-4 gap-4">
-        <ng-container *ngFor="let spot of spots">
-          <!-- {{ spot|json}} -->
+        <ng-container *ngFor="let spot of spots; let i=index;">
           <app-card-spot [type]="type" [spot]="spot"
+            [ngClass]="{
+              'col-span-3': i === 0,
+              'col-span-2': i === 6 || i === 7,
+            }"
             class="transition ease-in-out duration-100
             drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1"></app-card-spot>
         </ng-container>
@@ -56,8 +56,9 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="spots$|async as spots; else loading">
-    <ng-container *ngIf="spots.length > 0">
+  <ng-container *ngIf="spots$|async as spots;else loading">
+    <ng-template #noData></ng-template>
+    <ng-container *ngIf="spots.length > 0; else noData">
       <div class="m-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ng-container *ngFor="let spot of spots">
           <app-card-spot [type]="type" [spot]="spot"
