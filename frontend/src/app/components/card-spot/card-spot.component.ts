@@ -24,7 +24,6 @@ export class CardSpotComponent implements OnInit {
   user: User|undefined;
 
   ngOnInit(): void {
-    console.log(this.type);
     this.user = this.#authService.currentUser;
   }
 

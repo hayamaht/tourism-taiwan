@@ -1,4 +1,3 @@
-import { toActivity, toSpot } from './../models/scene.model';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
@@ -8,12 +7,15 @@ import { Observable, catchError, combineLatest, combineLatestAll, forkJoin, map,
 import { SearchResult } from '../models/search-result.model';
 import { Spot } from '../models/scene.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from './user.service';
+import { toActivity, toSpot } from './../models/scene.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TourismService {
   #tokenService = inject(TokenService);
+  #userService = inject(UserService);
 
   #apiURL = environment.apiURL;
 
@@ -85,9 +87,12 @@ export class TourismService {
     if (orderBy) {
       url = url + '&$orderby=' + orderBy;
     }
-    console.log(url);
+    //console.log(url);
     return this.#tokenService.getHttp(url).pipe(
-      map(spots => this.#toSpots(type, spots)),
+      map(spots => {
+        const ss = this.#toSpots(type, spots);
+        return ss
+      }),
     );
   }
 

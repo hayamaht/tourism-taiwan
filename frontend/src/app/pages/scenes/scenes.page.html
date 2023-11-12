@@ -27,7 +27,12 @@
       </form>
     </div>
     <div class="text-center sm:text-right sm:flex-1">
-      <app-pagination></app-pagination>
+      <ng-container *ngIf="type && city">
+        <app-pagination [total]="totalPages"
+        [page]="page" [selectedPage]="page"
+      ></app-pagination>
+      </ng-container>
+
     </div>
   </div>
 </div>

@@ -1,16 +1,21 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { TypeSelectorComponent } from 'src/app/components/type-selector/type-selector.component';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable, of } from 'rxjs';
+import { Observable, forkJoin, map, of, tap } from 'rxjs';
 import { Spot } from 'src/app/models/scene.model';
 import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { TourismCat, TourismCategoryTW } from 'src/app/models/tourism-cat.model';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { Favorite } from 'src/app/models/favorite.model';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { Setting } from 'src/app/models/setting.model';
 
 @Component({
   selector: 'app-scenes',
@@ -23,10 +28,13 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
 })
 export class ScenesPage implements OnInit {
+  #location = inject(Location);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
-  #tourismService = inject(TourismService);
   #fb = inject(FormBuilder);
+  #tourismService = inject(TourismService);
+  #userService = inject(UserService);
+  #authService = inject(AuthService);
 
   randomSpots$!: Observable<Spot[]>;
   spots$!: Observable<Spot[]>;
@@ -42,17 +50,33 @@ export class ScenesPage implements OnInit {
   city!: string;
   type!: string;
   title!: string;
-
-  get random() {
-    const r = Math.floor(Math.random() * 4);
-    console.log(r)
-    return r;
-  }
+  page = 1;
+  user!: User;
+  setting!: Setting;
+  selectedCity!: CityName;
+  count = 0;
+  totalPages = 0;
+  selectedPage = 1;
+  // get random() {
+  //   const r = Math.floor(Math.random() * 4);
+  //   console.log(r)
+  //   return r;
+  // }
 
   ngOnInit(): void {
+    this.#authService.user$.subscribe(user => {
+      this.user = user;
+      if (!user.email) return;
+      this.#userService.getSettings(user.email).subscribe(s => {
+        this.setting = s;
+        this.selectedCity = s.city;
+      });
+    });
+
     this.#route.queryParamMap.subscribe(params => {
       const city = params.get('city');
       const type = params.get('type');
+      const page = params.get('p') || '1';
 
       this.form.patchValue({
         type, city
@@ -76,6 +100,21 @@ export class ScenesPage implements OnInit {
       this.type = type;
       this.city = city;
 
+      this.#tourismService
+        .getCountByType(type as TourismCat, city as CityName)
+        .subscribe(len => {
+          this.count = len;
+          this.totalPages = Math.ceil(len / 20);
+          this.page = parseInt(page);
+          this.selectedPage = parseInt(page);
+          if (this.page <= 0 || this.page > this.totalPages) {
+            this.#router.navigate(['../', 1], {
+              relativeTo: this.#route
+            });
+          } else {
+            this.gotoPage(this.page);
+          }
+        });
     });
   }
 
@@ -95,6 +134,63 @@ export class ScenesPage implements OnInit {
       },
       queryParamsHandling: 'merge'
     });
+  }
+
+  gotoPage(n: number) {
+    this.page = n;
+    this.#gotoPage();
+  }
+
+  prevPage() {
+    this.page -= 1;
+    this.#gotoPage();
+  }
+
+  nextPage() {
+    this.page += 1;
+    this.#gotoPage();
+  }
+
+  #gotoPage() {
+    //this.#location.replaceState(`spots/${this.city}/${this.page}`);
+    this.selectedPage = this.page;
+    this.#getSpotsByCity();
+  }
+
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  #getSpotsByCity() {
+    this.spots$ = forkJoin([
+      this.#userService.getByOwnerFavorites(this.user.email),
+      this.#tourismService.getSpots(
+        this.type as TourismCat,
+        this.city as CityName,
+        this.page,
+      )
+    ]).pipe(
+      tap(_ => this.#goTop()),
+      map(([v1, v2]) => {
+        const fv = v1 as Favorite[];
+        const ss = v2 as Spot[];
+        for(let i in ss) {
+          const spot = ss[i] as Spot;
+          const id = spot.id;
+          for(let j in fv) {
+            if (fv[j].tourismId === id) {
+              spot.favorite = true;
+            }
+          }
+        }
+        console.log(v2);
+        return v2;
+      })
+    );
   }
 
 }
