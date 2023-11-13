@@ -47,7 +47,7 @@ export class PaginationComponent implements OnInit {
   #router = inject(Router);
 
   ngOnInit(): void {
-    console.log(this.page);
+    // console.log(this.page);
   }
 
   onPageChange(event: any) {
@@ -71,7 +71,7 @@ export class PaginationComponent implements OnInit {
   }
 
   #gotoPage() {
-    console.log(this.page);
+    //console.log(this.page);
     this.#router.navigate([], {
       queryParams: {
         p: this.page

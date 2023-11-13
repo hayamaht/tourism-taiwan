@@ -173,7 +173,7 @@ export class TourismService {
 
     let url = this.#getTourismURL(type);
     url = url + `&$filter=${type+'ID'} eq '${id}'`
-    console.log(url);
+    // console.log(url);
     return this.#tokenService.getHttp(url).pipe(
       catchError(this.#handleError),
       map((vs: any) => {
