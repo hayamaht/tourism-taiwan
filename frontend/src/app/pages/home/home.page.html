@@ -33,9 +33,7 @@
       <ng-container *ngIf="news$|async as news; else loading">
         <ng-container *ngIf="news.length > 0 else noData">
           <ng-container *ngFor="let a of news">
-            <div>
-              {{ a.Title }}
-            </div>
+            <app-item-news [news]="a"></app-item-news>
           </ng-container>
         </ng-container>
       </ng-container>
