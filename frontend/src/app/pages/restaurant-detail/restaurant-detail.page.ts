@@ -4,7 +4,8 @@ import { MapComponent } from 'src/app/components/map/map.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { Restaurant } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -18,21 +19,35 @@ export class RestaurantDetailPage {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  restaurants$!: Observable<any>;
+  restaurant!: Restaurant;
 
   ngOnInit(): void {
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (!id) return;
-      this.restaurants$ = this.#tourismService.getById(
+      if (!id) {
+        this.#router.navigateByUrl('scenes');
+        return;
+      }
+      this.#tourismService.getById(
         TourismCat.Restaurant,
         id
-      );
+      ).pipe(
+        tap(_ => this.#goTop())
+      ).subscribe(r => {
+        this.restaurant = r as Restaurant
+      })
     });
   }
 
   goBack() {
     this.#location.back()
-    //this.#router.navigate(['..']);
+  }
+
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 }

@@ -44,7 +44,7 @@ export class HotelsPage {
   }
 
   getHotels(cityName: string) {
-    this.#router.navigate(['hotels', cityName]);
+    //this.#router.navigate(['hotels', cityName]);
   }
 
   prevPage() {
@@ -76,8 +76,8 @@ export class HotelsPage {
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
-        const len = (items as []).length;
-        this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;
+        //const len = (items as []).length;
+        //this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );

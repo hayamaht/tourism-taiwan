@@ -7,7 +7,7 @@
         </h1>
         <app-city-selector
           [selectedCity]="selectedCity"
-          (cityEvent)="getSpots($event)"
+          (cityChange)="getSpots($event)"
         ></app-city-selector>
       </div>
       <div class="text-center">

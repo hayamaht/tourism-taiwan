@@ -7,6 +7,7 @@ import { Observable, map, tap } from 'rxjs';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { Spot } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-activities',
@@ -83,8 +84,8 @@ export class ActivitiesPage implements OnInit {
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
-        const len = (items as []).length;
-        this.stopCount = (len < ActivitiesPage.ROW_PER_PAGE) ? true : false;
+        // const len = (items as Spot[]).length;
+        // this.stopCount = (len < ActivitiesPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );

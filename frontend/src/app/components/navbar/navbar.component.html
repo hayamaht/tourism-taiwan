@@ -1,19 +1,19 @@
 <div class="navbar bg-cyan-400">
   <div class="navbar-start">
     <div class="dropdown">
-      <label tabindex="0" class="btn btn-ghost lg:hidden">
+      <label tabindex="0" class="btn btn-ghost md:hidden">
         <span class="material-symbols-outlined">
           menu
           </span>
       </label>
       <ul tabindex="0" class="menu menu-sm dropdown-content
-        mt-3 z-10 p-2 shadow bg-base-100 rounde w-52">
+        mt-3 z-50 p-2 shadow bg-base-100 rounde w-52">
         <li><a routerLink="activities"
           routerLinkActive="btn-active"
         >活動項目</a></li>
         <li><a routerLink="scenes"
           routerLinkActive="btn-active"
-        >景點旅餐</a></li>
+        >景點餐宿</a></li>
       </ul>
     </div>
     <a routerLink="/"
@@ -30,13 +30,13 @@
       </li>
       <li><a routerLink="scenes"
         routerLinkActive="btn-secondary"
-      >景點旅餐</a></li>
+      >景點餐宿</a></li>
     </ul>
   </div>
   <div class="navbar-end space-x-1">
     <button type="button" routerLink="search"
       class="btn btn-circle btn-ghost">
-      <span class="material-symbols-outlined">
+      <span class="material-symbols-outlined text-2xl">
         search
       </span>
     </button>
@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-      <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+      <ul tabindex="0" class="menu dropdown-content z-50 p-2 shadow bg-base-100 rounded-box w-52 mt-4">
         <li>
           <button type="button" routerLink="/user/{{ user.name }}">
             帳號

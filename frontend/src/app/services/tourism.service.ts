@@ -3,15 +3,19 @@ import { environment } from 'src/environments/environment';
 import { CityName } from '../models/city-name.model';
 import { TourismCat } from '../models/tourism-cat.model';
 import { TokenService } from './token.service';
-import { Observable, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, toArray } from 'rxjs';
+import { Observable, catchError, combineLatest, combineLatestAll, forkJoin, map, merge, mergeAll, mergeMap, of, switchMap, tap, throwError, toArray } from 'rxjs';
 import { SearchResult } from '../models/search-result.model';
-import { Spot } from '../models/spot.model';
+import { Spot } from '../models/scene.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from './user.service';
+import { toActivity, toSpot } from './../models/scene.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TourismService {
   #tokenService = inject(TokenService);
+  #userService = inject(UserService);
 
   #apiURL = environment.apiURL;
 
@@ -54,6 +58,44 @@ export class TourismService {
     ) as Observable<SearchResult[]>;
   }
 
+  getRandom(type?: TourismCat, city?: CityName) {
+    console.log(`Type: ${type}, City: ${city}`);
+    let url ='';
+    if (!type) type = this.#getRandomType();
+    if (!city) city = this.#getRandomCity();
+
+    url = url + this.#getTourismURL(type, city);
+    url = url + '&$top=20';
+    console.log(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map(spots => this.#toSpots(type as TourismCat, spots))
+    );
+  }
+
+  getSpots(
+    type: TourismCat,
+    city: CityName,
+    page = 1,
+    limit = 20,
+    orderBy?: string
+  ) {
+    //console.log(`type: ${type}, city: ${city}`);
+    let url = this.#getTourismURL(type, city);
+    url = url + '&$top=' + limit;
+    url = url + '&$skip=' + ((page - 1) * limit);
+
+    if (orderBy) {
+      url = url + '&$orderby=' + orderBy;
+    }
+    //console.log(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map(spots => {
+        const ss = this.#toSpots(type, spots);
+        return ss
+      }),
+    );
+  }
+
   getActivitesByMonth(
     cityName: CityName,
     mohtn: 'this'|'next',
@@ -87,7 +129,11 @@ export class TourismService {
       `&$top=${limit}` +
       `&$skip=${((page - 1)*limit)}`;
 
-    return this.#tokenService.getHttp(url);
+    return this.#tokenService.getHttp(url).pipe(
+      map((ss: any) => {
+        return ss.map((s: any) => toActivity(s))
+      })
+    );
   }
 
   getCountByType(
@@ -119,18 +165,22 @@ export class TourismService {
       url = url + '&$orderby=' + orderBy;
     }
     // console.log(url);
-    return this.#tokenService.getHttp(url);
+    return this.#tokenService.getHttp(url) as Observable<Spot[]>;
   }
 
-  getById(type: TourismCat, id: string ) {
+  getById(type: TourismCat, id: string ): Observable<Spot|undefined> {
+    if (!id) return of();
+
     let url = this.#getTourismURL(type);
     url = url + `&$filter=${type+'ID'} eq '${id}'`
     // console.log(url);
     return this.#tokenService.getHttp(url).pipe(
+      catchError(this.#handleError),
       map((vs: any) => {
-        return vs[0]
-      })
-    ) as Observable<Spot>;
+        if (vs.length <= 0) return
+        return toSpot(type, vs[0]);
+      }),
+    );
   }
 
   getNearByLocations(lat: number, lon:number, type: TourismCat) {
@@ -140,8 +190,39 @@ export class TourismService {
       `&$top=20`;
 
     return this.#tokenService.getHttp(url).pipe(
+      map(spots => this.#toSpots(type, spots)),
+    ) as Observable<Spot[]>;
+  }
 
-    ) as Observable<any>;
+  #handleError(error: HttpErrorResponse): any {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+  #toSpots(type: TourismCat, spots: any) {
+    const ss = spots as any[];
+    return ss.map(s => toSpot(type, s));
+  }
+
+  #getRandomType() {
+    const types = Object.keys(TourismCat);
+    const n = Math.floor(Math.random() * 3);
+    return types[n] as TourismCat;
+  }
+
+  #getRandomCity() {
+    const cities = Object.keys(CityName);
+    const n = Math.floor(Math.random() * cities.length);
+    return cities[n] as CityName;
   }
 
   #getTourismURL(type: TourismCat, cityName?: CityName) {

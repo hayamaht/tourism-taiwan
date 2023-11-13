@@ -1,113 +1,136 @@
-<ng-template #loading>
-  <div class="flex justify-center">
-    <div class="text-lime-400 inline-block h-8 w-8 animate-spin rounded-full
-    border-4 border-solid border-current border-r-transparent
-    align-[-0.125em]
-    motion-reduce:animate-[spin_1.5s_linear_infinite]"
-  role="status">
-  </div>
-  </div>
-</ng-template>
-<ng-container *ngIf="restaurants$|async as restaurants; else loading">
-  <ng-container *ngFor="let restaurant of restaurants">
-    <article>
-      <div>
-        <a (click)="goBack()">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-          </svg>
-        </a>
-      </div>
-
-      <div class="mb-2 text-center">
-        <span class="px-2 bg-rose-50 border border-rose-500
-        rounded-full text-rose-500">
-          {{ restaurant.City }}
+<section class="">
+  <ng-template #loading>
+    <div class="text-center w-full">
+      <span class="loading loading-spinner"></span>
+    </div>
+  </ng-template>
+  <ng-container *ngIf="restaurant else loading">
+    <div class="sticky top-0 backdrop-blur-md bg-white
+    z-10 flex items-center justify-between ">
+      <a (click)="goBack()"
+        class="btn btn-ghost ">
+        <span class="material-symbols-rounded">
+          arrow_back
         </span>
-      </div>
 
-      <h1 class="text-3xl lg:text-5xl font-bold text-center
-        m-4 mb-6">
-        {{ restaurant.RestaurantName }}
-      </h1>
-
-      <div class="my-2 text-center">
-        <span class="px-2 rounded text-gray-800 border border-gray-500
-        bg-gray-100">{{ restaurant.Class }}</span>
-      </div>
-
-      <div class="md:flex md:space-x-2 space-y-2">
-        <p class="flex-1">{{ restaurant.Description }}</p>
-        <div class="flex-1">
-          <app-map
-            [name]="restaurant.RestaurantName"
-            [lat]="restaurant.Position.PositionLat"
-            [lon]="restaurant.Position.PositionLon"
-          ></app-map>
+        <div class="">
+          返回
         </div>
+      </a>
+      <ng-container *ngIf="restaurant.phone">
+        <div class="mr-2">
+          <button class="btn btn-warning btn-sm">
+            <span class="material-symbols-outlined text-sm">
+              call
+              </span>
+            預約電話
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="space-y-2 container mx-auto my-4">
+      <div class="flex items-center justify-between my-6">
+        <h1 class="text-2xl lg:text-4xl font-bold ">
+          {{ restaurant.name }}
+        </h1>
+        <button class="btn btn-circle btn-ghost">
+          <span class="material-symbols-outlined text-2xl">
+            favorite
+          </span>
+        </button>
+      </div>
+      <div>
+        <img *ngIf="restaurant.pictures.length > 0; else noImage"
+          src="{{ restaurant.pictures[0].url }}"
+          alt="{{ restaurant.pictures[0].alt }}"
+          class="w-full rounded">
+        <ng-template #noImage>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+            alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+            class=" h-56 w-full bg-stone-200/40">
+        </ng-template>
       </div>
 
-      <div class="mt-2 md:flex md:space-x-2 space-y-2">
-        <div class="grow space-y-2">
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">店家地址</div>
-            <div class="p-1 rounded-b">
-              <span>{{ restaurant.ZipCode }}</span>
-              {{ restaurant.Address }}
+      <div class="space-y-2 md:flex md:space-x-2 md:space-y-0">
+        <div class="basis-1/2 space-y-2">
+          <div class="bg-white p-6 rounded">
+            <div class="space-x-1 my-2">
+              <span class="badge badge-outline badge-primary">
+                {{ restaurant.city }}
+              </span>
+              <ng-container *ngIf="restaurant.classes.length > 0">
+                <span *ngFor="let c of restaurant.classes"
+                  class="badge badge-accent">
+                  {{ c }}
+                </span>
+              </ng-container>
             </div>
+
+            <div>{{ restaurant.description }}</div>
           </div>
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">預約電話</div>
-            <div class="p-1 rounded-b">{{ restaurant.Phone }}</div>
+          <div class="bg-white p-4 rounded md:hidden">
+            <span class="text-xs font-bold">地址: </span>
+            <span class="border border-stone-400 font-mono px-1">{{ restaurant.zipCode }}</span>
+              {{ restaurant.address }}
           </div>
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">營業時間</div>
-            <div class="p-1 rounded-b">{{ restaurant.OpenTime }}</div>
+          <div class="bg-white p-4 rounded md:hidden" id="phone">
+            <span class="text-xs font-bold">預約電話</span>
+            {{ restaurant.phone }}
           </div>
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">店家網站網址</div>
-            <div class="p-1 rounded-b">{{ restaurant.WebsiteUrl }}</div>
-          </div>
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">店家地圖/簡圖介紹網址</div>
-            <div class="p-1 rounded-b">{{ restaurant.MapUrl }}</div>
-          </div>
-          <div class="bg-rose-50 border border-rose-500
-          rounded shadow-md">
-            <div class="text-rose-900 bg-rose-200
-            p-1 rounded-t">停車資訊</div>
-            <div class="p-1 rounded-b">{{ restaurant.ParkingInfo }}</div>
+          <div class="bg-white p-4 rounded md:hidden">
+            <span class=" text-xs font-bold">營業時間</span>
+            {{ restaurant.openTime }}
           </div>
         </div>
-        <div class="grow">
-          <ng-container *ngIf="restaurant.Picture.PictureUrl1">
-            <img title="{{ restaurant.Picture.PictureDescription1 }}"
-            [src]="restaurant.Picture.PictureUrl1"
-            [alt]="restaurant.Picture.PictureDescription1">
+        <div class="basis-1/2 space-y-2">
+          <app-map class="rounded"
+            [name]="restaurant.name"
+            [lat]="restaurant.position.lat"
+            [lon]="restaurant.position.lng"
+          ></app-map>
+          <div class="bg-secondary/10 p-6 rounded hidden md:block">
+            <span class="text-xs font-bold">地址: </span>
+            <span class="border border-stone-400 font-mono px-1">{{ restaurant.zipCode }}</span>
+              {{ restaurant.address }}
+          </div>
+          <div class="bg-secondary/10 p-4 rounded hidden md:block">
+            <span class="text-xs font-bold">預約電話</span>
+            {{ restaurant.phone }}
+          </div>
+          <div class="bg-secondary/10 p-4 rounded hidden md:block">
+            <span class=" text-xs font-bold">營業時間</span>
+            {{ restaurant.openTime }}
+          </div>
+          <ng-container *ngIf="restaurant.websiteURL">
+            <div class="bg-secondary/10 p-4 rounded ">
+              <span class="text-xs font-bold">網址</span>
+              <a href="{{ restaurant.websiteURL }}" target="_blank">
+                連結
+                <span class="material-symbols-outlined">
+                  captive_portal
+                </span>
+              </a>
+            </div>
           </ng-container>
-          <ng-container *ngIf="restaurant.Picture.PictureUrl2">
-            <img title="{{ restaurant.Picture.PictureDescription2 }}"
-            [src]="restaurant.Picture.PictureUrl2"
-            [alt]="restaurant.Picture.PictureDescription2">
+          <ng-container *ngIf="restaurant.mapURL">
+            <div class="bg-secondary/10 p-4 rounded">
+              <span class="text-xs font-bold">店家地圖/簡圖介紹網址</span>
+              <a href="{{ restaurant.mapURL }}" target="_blank">
+                連結
+                <span class="material-symbols-outlined">
+                  captive_portal
+                </span>
+              </a>
+            </div>
           </ng-container>
-          <ng-container *ngIf="restaurant.Picture.PictureUrl3">
-            <img title="{{ restaurant.Picture.PictureDescription3 }}"
-            [src]="restaurant.Picture.PictureUrl3"
-            [alt]="restaurant.Picture.PictureDescription3">
+          <ng-container *ngIf="restaurant.parkingInfo">
+            <div class="bg-secondary/10 p-4 rounded">
+              <span class="text-xs font-bold">停車資訊</span>
+              {{ restaurant.parkingInfo }}
+            </div>
           </ng-container>
         </div>
       </div>
-
-    </article>
+    </div>
   </ng-container>
-</ng-container>
+</section>

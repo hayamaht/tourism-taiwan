@@ -5,9 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User, UserFavorite } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Observable } from 'rxjs';
-import { Favorite } from '../../../../../backend/src/models/favorite.model';
-
+import { Spot } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-card-spot',
@@ -16,11 +14,13 @@ import { Favorite } from '../../../../../backend/src/models/favorite.model';
   imports: [CommonModule, RouterModule, ],
 })
 export class CardSpotComponent implements OnInit {
-  @Input() spot: any;
+  @Input() type!: string;
+  @Input() spot!: Spot;
 
   #authService = inject(AuthService);
   #userService = inject(UserService);
 
+  path!: string;
   user: User|undefined;
 
   ngOnInit(): void {
@@ -28,13 +28,13 @@ export class CardSpotComponent implements OnInit {
   }
 
   fav() {
-    if (!this.user) return;
+    if (!this.user)  return;
 
     if (!this.spot.favorite) {
       this.#userService.setFavoriteOnCat({
         email: this.user.email,
         tourismCategory: TourismCat.ScenicSpot.toString(),
-        tourismId: this.spot.ScenicSpotID
+        tourismId: this.spot.id
       } as UserFavorite).subscribe(_ => {
         this.spot.favorite = true;
       });
@@ -42,7 +42,7 @@ export class CardSpotComponent implements OnInit {
       this.#userService.removeFavoriteOnCat({
         email: this.user.email,
         tourismCategory: TourismCat.ScenicSpot.toString(),
-        tourismId: this.spot.ScenicSpotID
+        tourismId: this.spot.id,
       } as UserFavorite).subscribe(_ => {
         this.spot.favorite = false;
       });

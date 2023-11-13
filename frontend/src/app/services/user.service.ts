@@ -27,9 +27,9 @@ export class UserService {
 
   setFavoriteOnCat(fav: UserFavorite) {
     return this.#http.post(USER_FAVORITE_URL, fav).pipe(
-      tap(fav => {
-        console.log(fav);
-      })
+      // tap(fav => {
+      //   console.log(fav);
+      // })
     );
   }
 
@@ -37,9 +37,9 @@ export class UserService {
     return this.#http.delete(USER_FAVORITE_URL, {
       body: fav
     }).pipe(
-      tap(fav => {
-        console.log(fav);
-      })
+      // tap(fav => {
+      //   console.log(fav);
+      // })
     );
   }
 
