@@ -6,7 +6,7 @@ import { PaginationComponent } from 'src/app/components/pagination/pagination.co
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
 import { Observable, forkJoin, map, of, tap } from 'rxjs';
-import { Spot } from 'src/app/models/scene.model';
+import { NormalSpot, Spot } from 'src/app/models/scene.model';
 import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { TourismCat, TourismCategoryTW } from 'src/app/models/tourism-cat.model';
 import { CardSpotComponent } from 'src/app/components/card-spot/card-spot.component';
@@ -185,7 +185,7 @@ export class ScenesPage implements OnInit {
         const fv = v1 as Favorite[];
         const ss = v2 as Spot[];
         for(let i in ss) {
-          const spot = ss[i] as Spot;
+          const spot = ss[i] as NormalSpot;
           const id = spot.id;
           for(let j in fv) {
             if (fv[j].tourismId === id) {

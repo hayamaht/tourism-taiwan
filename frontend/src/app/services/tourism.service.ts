@@ -117,7 +117,7 @@ export class TourismService {
     );
     const start = `${nowYear}-${nowMonth}-${(mohtn === 'next' ? '01' : now.getDate())}`;
     const end = `${nowYear}-${nowMonth}-${lastDay.getDate()}`;
-    console.log(`${start}, ${end}, ${nowStr}`)
+    //console.log(`${start}, ${end}, ${nowStr}`)
     const url = this.#apiURL +
       '/v2/Tourism/' + p +
       '/' + cityName.toString() +
