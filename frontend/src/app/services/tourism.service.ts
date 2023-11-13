@@ -79,7 +79,7 @@ export class TourismService {
     limit = 20,
     orderBy?: string
   ) {
-    console.log(`type: ${type}, city: ${city}`);
+    //console.log(`type: ${type}, city: ${city}`);
     let url = this.#getTourismURL(type, city);
     url = url + '&$top=' + limit;
     url = url + '&$skip=' + ((page - 1) * limit);

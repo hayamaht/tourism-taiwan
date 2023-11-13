@@ -1,29 +1,31 @@
-<div class="bg-white rounded shadow hover:ring-4 hover:ring-primary">
+<div class="relative bg-white rounded shadow hover:ring-8
+hover:ring-primary mb-4 transition ease-in-out duration-100
+drop-shadow-xl hover:-translate-x-1 hover:-translate-y-1 ">
   <a routerLink="/{{ spot._type }}/{{ spot.id }}">
     <ng-template #def>
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
         alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
-        class="object-contain h-52 w-full rounded-t bg-stone-200/70">
+        class="object-contain h-52 w-full rounded bg-stone-200/70">
     </ng-template>
     <ng-container *ngIf="spot.pictures.length > 0; else def">
       <img title="{{ spot.pictures[0].alt }}"
         [src]="spot.pictures[0].url"
         [alt]="spot.pictures[0].url"
-        class="object-cover h-52 w-full rounded-t">
+        class="rounded">
     </ng-container>
   </a>
-  <div class="m-2 flex justify-between items-center">
+  <div class="absolute top-0 left-0 p-2 rounded-t w-full bg-white flex justify-between items-center">
     <a routerLink="/{{ spot._type }}/{{ spot.id }}" class="link">
       <span class="text-lg">{{ spot.name }}</span>
     </a>
     <ng-container *ngIf="user?.email">
-      <button (click)="fav()" class="btn btn-circle btn-ghost">
+      <button (click)="fav()" class="btn btn-xs btn-circle btn-ghost">
         <span *ngIf="!spot.favorite"
-          class="material-symbols-outlined">
+          class="material-symbols-outlined text-xs">
           favorite
         </span>
         <span *ngIf="spot.favorite"
-          class="material-symbols-rounded text-red-500">
+          class="material-symbols-rounded text-xs text-red-500">
           favorite
         </span>
       </button>

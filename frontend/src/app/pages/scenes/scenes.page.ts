@@ -56,7 +56,7 @@ export class ScenesPage implements OnInit {
   selectedCity!: CityName;
   count = 0;
   totalPages = 0;
-  selectedPage = 1;
+  //selectedPage = 1;
   // get random() {
   //   const r = Math.floor(Math.random() * 4);
   //   console.log(r)
@@ -70,16 +70,20 @@ export class ScenesPage implements OnInit {
       this.#userService.getSettings(user.email).subscribe(s => {
         this.setting = s;
         this.selectedCity = s.city;
+
+        // this.form.patchValue({
+        //   city:this.selectedCity
+        // });
       });
     });
 
     this.#route.queryParamMap.subscribe(params => {
-      const city = params.get('city');
       const type = params.get('type');
+      const city = params.get('city');
       const page = params.get('p') || '1';
 
       this.form.patchValue({
-        type, city
+        city, type
       });
 
       this.title = (!type && !city) ? '隨機產生' :
@@ -106,10 +110,12 @@ export class ScenesPage implements OnInit {
           this.count = len;
           this.totalPages = Math.ceil(len / 20);
           this.page = parseInt(page);
-          this.selectedPage = parseInt(page);
+          //this.selectedPage = 1;//parseInt(page);
           if (this.page <= 0 || this.page > this.totalPages) {
-            this.#router.navigate(['../', 1], {
-              relativeTo: this.#route
+            this.#router.navigate([], {
+              //relativeTo: this.#route
+              queryParams: { p: 1 },
+              queryParamsHandling: 'merge'
             });
           } else {
             this.gotoPage(this.page);
@@ -153,7 +159,7 @@ export class ScenesPage implements OnInit {
 
   #gotoPage() {
     //this.#location.replaceState(`spots/${this.city}/${this.page}`);
-    this.selectedPage = this.page;
+    //this.selectedPage = this.page;
     this.#getSpotsByCity();
   }
 
@@ -187,7 +193,6 @@ export class ScenesPage implements OnInit {
             }
           }
         }
-        console.log(v2);
         return v2;
       })
     );
