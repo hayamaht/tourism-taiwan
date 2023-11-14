@@ -66,7 +66,7 @@ export class TourismService {
 
     url = url + this.#getTourismURL(type, city);
     url = url + '&$top=20';
-    console.log(url);
+    //console.log(url);
     return this.#tokenService.getHttp(url).pipe(
       map(spots => this.#toSpots(type as TourismCat, spots))
     );

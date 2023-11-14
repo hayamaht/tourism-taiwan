@@ -10,6 +10,10 @@ import { TourismCat } from 'src/app/models/tourism-cat.model';
 import { Activity, Spot } from 'src/app/models/scene.model';
 import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
 import { FormsModule } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { Setting } from 'src/app/models/setting.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-activities',
@@ -28,34 +32,41 @@ export class ActivitiesPage implements OnInit {
   #router = inject(Router);
   #location = inject(Location);
   #tourismService = inject(TourismService);
+  #userService = inject(UserService);
+  #authService = inject(AuthService);
 
   citiesTW = Object.entries(CityNameTW);
 
   thisMonth$!: Observable<Activity[]>;
   activities$!: Observable<Activity[]>;
   outPeriod$!: Observable<Activity[]>;
+  setting!: Setting;
+  user!: User;
   city!: string;
   selectedCity!: string;
 
   ngOnInit(): void {
+    this.#authService.user$.subscribe(user => {
+      this.user = user;
+      if (!user.email) return;
+      this.#userService.getSettings(user.email).subscribe(s => {
+        this.setting = s;
+        this.city = s.city;
+        this.selectedCity = s.city;
+        this.#getActivitiesByCity();
+      });
+    });
 
     this.#route.paramMap.subscribe(param => {
       let city = this.#checkCity(param.get('city'));
       if (!city) {
         city = CityName.Taipei.toString();
         this.#router.navigate(['activities']);
-        //return
       }
       this.city = city;
       this.selectedCity = this.city;
       this.#getActivitiesByCity();
     });
-    // this.#route.queryParamMap.subscribe(param => {
-    //   const p = parseInt(param.get('p')||'1');
-    //   console.log(p);
-    //   this.page = p;
-    //   this.#getActivitiesByCity();
-    // });
   }
 
   onCityChange(event: any) {
