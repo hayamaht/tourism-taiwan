@@ -56,12 +56,6 @@ export class ScenesPage implements OnInit {
   selectedCity!: CityName;
   count = 0;
   totalPages = 0;
-  //selectedPage = 1;
-  // get random() {
-  //   const r = Math.floor(Math.random() * 4);
-  //   console.log(r)
-  //   return r;
-  // }
 
   ngOnInit(): void {
     this.#authService.user$.subscribe(user => {
@@ -70,7 +64,12 @@ export class ScenesPage implements OnInit {
       this.#userService.getSettings(user.email).subscribe(s => {
         this.setting = s;
         this.selectedCity = s.city;
-
+        this.#router.navigate([], {
+          queryParams: {
+            city: this.selectedCity
+          },
+          queryParamsHandling: 'merge'
+        });
         // this.form.patchValue({
         //   city:this.selectedCity
         // });

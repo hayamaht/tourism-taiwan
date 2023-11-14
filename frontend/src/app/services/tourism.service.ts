@@ -59,7 +59,7 @@ export class TourismService {
   }
 
   getRandom(type?: TourismCat, city?: CityName) {
-    console.log(`Type: ${type}, City: ${city}`);
+    //console.log(`Type: ${type}, City: ${city}`);
     let url ='';
     if (!type) type = this.#getRandomType();
     if (!city) city = this.#getRandomCity();
