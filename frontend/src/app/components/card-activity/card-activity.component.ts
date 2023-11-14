@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
+import { Activity } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-card-activity',
@@ -11,10 +11,7 @@ import { initTE, Ripple } from 'tw-elements';
     CommonModule, RouterModule
   ],
 })
-export class CardActivityComponent implements OnInit {
-  @Input() activity: any;
-
-  ngOnInit(): void {
-    initTE({ Ripple });
-  }
+export class CardActivityComponent {
+  @Input() activity!: Activity;
+  @Input() end = false;
 }

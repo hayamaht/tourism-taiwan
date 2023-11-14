@@ -1,16 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { MapComponent } from 'src/app/components/map/map.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
-import { Observable } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
+import { Hotel } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-hotel-detail',
   standalone: true,
   templateUrl: './hotel-detail.page.html',
-  imports: [CommonModule, MapComponent],
+  imports: [CommonModule, RouterModule, MapComponent],
 })
 export class HotelDetailPage implements OnInit {
   #route = inject(ActivatedRoute);
@@ -18,22 +19,44 @@ export class HotelDetailPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  hotels$!: Observable<any>;
+  hotel!: Hotel;
+  nearbys$!: Observable<Hotel[]>;
 
   ngOnInit(): void {
-    //initTE({ Carousel, Lightbox });
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (!id) return;
-      this.hotels$ = this.#tourismService.getById(
-        TourismCat.Hotel,
-        id
-      );
+      if (!id) {
+        this.#router.navigateByUrl('scenes');
+        return;
+      }
+      this.#tourismService.getById(
+        TourismCat.Hotel, id
+      ).pipe(
+        tap(_ => this.#goTop()),
+        map(h => {
+          if (!h) {
+            this.#router.navigateByUrl('scenes');
+            return
+          }
+          this.nearbys$ = this.#tourismService.getNearByLocations(
+            h.position.lat, h.position.lng, TourismCat.Hotel
+          ) as Observable<Hotel[]>;
+          return h;
+        })
+      ).subscribe(h => this.hotel = h as Hotel);
     });
   }
 
   goBack() {
     this.#location.back()
     //this.#router.navigate(['..']);
+  }
+
+  #goTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 }

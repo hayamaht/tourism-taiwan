@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { initTE, Ripple } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { Observable, map, tap } from 'rxjs';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
@@ -33,7 +32,6 @@ export class HotelsPage {
   stopCount = false;
 
   ngOnInit() {
-    initTE({ Ripple });
     this.#route.paramMap.subscribe(param => {
       this.city = param.get('city') || 'Taipei';
       this.#getHotelsByCity();
@@ -46,7 +44,7 @@ export class HotelsPage {
   }
 
   getHotels(cityName: string) {
-    this.#router.navigate(['hotels', cityName]);
+    //this.#router.navigate(['hotels', cityName]);
   }
 
   prevPage() {
@@ -78,8 +76,8 @@ export class HotelsPage {
     ).pipe(
       tap(_ => this.#goTop()),
       map((items) => {
-        const len = (items as []).length;
-        this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;
+        //const len = (items as []).length;
+        //this.stopCount = (len < HotelsPage.ROW_PER_PAGE) ? true : false;
         return items;
       }),
     );

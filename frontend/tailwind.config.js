@@ -2,7 +2,6 @@
 module.exports = {
   content: [
     "./src/**/*.{html,ts}",
-    "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
     extend: {
@@ -14,7 +13,7 @@ module.exports = {
   darkMode: "class",
   plugins: [
     require("daisyui"),
-    require("tw-elements/dist/plugin.cjs"),
+    //require("tw-elements/dist/plugin.cjs"),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],

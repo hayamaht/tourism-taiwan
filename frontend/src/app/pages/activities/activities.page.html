@@ -1,76 +1,80 @@
-<h1 class="text-3xl font-bold text-center">活動項目</h1>
+<div class="sticky top-0 z-10 bg-white drop-shadow">
+  <div class="p-1
+    flex items-center justify-between">
 
-<app-city-selector
-  (cityEvent)="getActivities($event)"
-></app-city-selector>
+    <h1 class="text-xl font-bold lg:text-3xl">
+      活動項目
+    </h1>
 
-<ng-template #loading>
-  <div class="flex items-center justify-center">
-    <div
-      class="inline-block text-center h-8 w-8 animate-spin
-      rounded-full border-4 text-primary
-      border-solid border-current border-r-transparent
-      align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-      role="status">
-    </div>
+
+    <select id="city" name="city" title="city"
+      (change)="onCityChange($event)"
+      [(ngModel)]="selectedCity"
+      class="select select-sm select-bordered leading-3 min-w-min max-w-xs">
+      <option value="" selected disabled>- 城市 -</option>
+      <option *ngFor="let c of citiesTW"
+        [value]="c[0]"
+      >{{ c[1] }}</option>
+    </select>
   </div>
-</ng-template>
-<ng-container *ngIf="activities$|async as activities; else loading">
+</div>
 
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
-  </div>
+<section class="container mx-auto my-4 p-4">
 
-  <div class="grid gap-1 grid-cols-1 md:grid-cols-2
-  lg:grid-cols-3 xl:grid-cols-4">
-    <ng-container *ngFor="let activity of activities">
-
-      <!-- <app-card [item]="activity"
-        class="w-fit p-1"
-      ></app-card> -->
-      <app-card-activity
-        [activity]="activity"
-        class="w-full p-1"
-      ></app-card-activity>
-
+  <div class="mb-8 bg-white rounded p-2">
+    <h2 class="text-xl font-bold">本月份活動</h2>
+    <ng-container *ngIf="thisMonth$|async as activities; else loading">
+      <div class="">
+        <ng-container *ngFor="let activity of activities">
+          <div class="flex items-center space-x-2">
+            <div class="mb-1">
+              <img *ngIf="activity.pictures.length > 0 else noImg"
+                src="{{ activity.pictures[0].url}}"
+                alt="{{ activity.pictures[0].alt}}"
+                class="h-16 w-16 object-cover">
+              <ng-template #noImg>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                  alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+                  class="object-contain h-16 w-16  bg-stone-200/70">
+              </ng-template>
+            </div>
+            <div>
+              <a routerLink="/Activity/{{ activity.id }}"
+              class="link">
+                {{ activity.name }}
+              </a>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </ng-container>
   </div>
 
-  <div aria-label="Page navigation">
-    <ul class="list-style-none flex justify-center space-x-2 m-2">
-      <li>
-        <button type="button" (click)="prevPage()"
-        [disabled]="(page===1)"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary"
-        >Previous</button>
-      </li>
-      <li>
-        <button type="button" (click)="nextPage()"
-        [disabled]="stopCount"
-        data-te-ripple-init
-        data-te-ripple-color="light"
-        class="btn btn-primary "
-        >Next</button>
-      </li>
-    </ul>
+  <ng-container *ngIf="activities$|async as activities; else loading">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <ng-container *ngFor="let activity of activities">
+        <app-card-activity
+          [activity]="activity"
+          class="w-full p-1"
+        ></app-card-activity>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <h2 class="text-xl font-bold mt-8">已結束活動</h2>
+  <ng-container *ngIf="outPeriod$|async as activities; else loading">
+    <div class="">
+      <ng-container *ngFor="let activity of activities">
+        <app-card-activity
+          [activity]="activity" [end]="true"
+        ></app-card-activity>
+      </ng-container>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <span class="loading loading-spinner text-primary"></span>
   </div>
-</ng-container>
+</ng-template>

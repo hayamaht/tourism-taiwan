@@ -4,29 +4,7 @@
 @tailwind utilities;
 
 @layer components {
-  //
-
-  .navbar {
-    @apply sticky top-0 drop-shadow bg-cyan-500  z-50 justify-between items-center w-full
-      flex flex-nowrap shadow-md shadow-black/5 p-2
-      lg:flex-wrap lg:justify-start;
-  }
-
-  .hamburger-btn {
-    @apply block border-0 bg-transparent px-2
-      text-neutral-100 hover:no-underline hover:shadow-none
-      focus:no-underline focus:shadow-none focus:outline-none
-      focus:ring-0 dark:text-neutral-200 lg:hidden;
-  }
-
-  .navbar-menu-item {
-    @apply text-neutral-100 transition duration-200
-    hover:text-neutral-700 hover:ease-in-out
-    focus:text-neutral-700 disabled:text-black/30
-    motion-reduce:transition-none
-    dark:text-neutral-200 dark:hover:text-neutral-300
-    dark:focus:text-neutral-300 lg:px-2
-    [&.active]:text-black/90
-    dark:[&.active]:text-zinc-400;
+  .btn {
+    @apply transition ease-in-out duration-100 hover:scale-90
   }
 }

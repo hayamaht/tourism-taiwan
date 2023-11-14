@@ -1,12 +1,11 @@
 import { Component, OnInit, inject, AfterViewInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { initTE, Carousel, Lightbox } from 'tw-elements';
 import { TourismService } from 'src/app/services/tourism.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Spot } from 'src/app/models/spot.model';
+import { Hotel, ScenicSpot, Spot } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-spot-detail',
@@ -23,16 +22,16 @@ export class SpotDetailPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  spot!: Spot;
+  spot!: ScenicSpot;
   nearbys$!: Observable<Spot[]>;
+  nearbyHotels$!: Observable<Spot[]>;
 
   ngOnInit(): void {
-    //initTE({ Carousel, Lightbox });
-
     this.#route.paramMap.subscribe(params => {
       const id = params.get('id');
+      //const type = params.get('type');
       if (!id) {
-        this.#router.navigateByUrl('spots');
+        this.#router.navigateByUrl('scenes');
         return;
       }
       this.#tourismService.getById(
@@ -41,21 +40,22 @@ export class SpotDetailPage implements OnInit {
       ).pipe(
         tap(_ => this.#goTop()),
         map(spot => {
-          const p = {
-            lat: spot.Position.PositionLat,
-            lon: spot.Position.PositionLon,
-          };
-          this.nearbys$ = this.#tourismService
-            .getNearByLocations(p.lat, p.lon);
-          return spot;
+          if (!spot) {
+            this.#router.navigateByUrl('scenes');
+            return;
+          }
+
+          this.nearbys$ = this.#tourismService.getNearByLocations(
+            spot.position.lat, spot.position.lng, TourismCat.ScenicSpot
+          );
+
+          this.nearbyHotels$ = this.#tourismService.getNearByLocations(
+            spot.position.lat, spot.position.lng, TourismCat.Hotel
+          );
+
+          return spot
         })
-      ).subscribe(spot => {
-        if (!spot) {
-          this.#router.navigateByUrl('spots');
-          return;
-        }
-        this.spot = spot;
-      });
+      ).subscribe((spot) => this.spot = spot as ScenicSpot);
     });
   }
 
@@ -63,13 +63,13 @@ export class SpotDetailPage implements OnInit {
     this.#location.back()
   }
 
-  goto(id: string) {
-    console.log(id);
-    //this.#location.replaceState(`/spot/${id}`);
-    this.#router.navigateByUrl(`/spot/${id}` ,{
-      onSameUrlNavigation: 'reload'
-    });
-  }
+  // goto(id: string) {
+  //   console.log(id);
+  //   //this.#location.replaceState(`/spot/${id}`);
+  //   this.#router.navigateByUrl(`/spot/${id}` ,{
+  //     onSameUrlNavigation: 'reload'
+  //   });
+  // }
 
   #goTop() {
     window.scrollTo({

@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Input, Ripple, initTE, } from "tw-elements";
 import { UserService } from 'src/app/services/user.service';
 import { UserRegister } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -44,7 +43,6 @@ export class RegisterPage implements OnInit {
   }, );
 
   ngOnInit(): void {
-    initTE({ Input, Ripple });
     this.returnURL = this.#route
       .snapshot
       .queryParams['returnURL'];

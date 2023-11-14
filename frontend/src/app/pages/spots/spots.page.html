@@ -6,7 +6,8 @@
           觀光景點
         </h1>
         <app-city-selector
-          (cityEvent)="getSpots($event)"
+          [selectedCity]="selectedCity"
+          (cityChange)="getSpots($event)"
         ></app-city-selector>
       </div>
       <div class="text-center">

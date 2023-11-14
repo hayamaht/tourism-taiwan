@@ -1,0 +1,68 @@
+<section >
+  <!-- <div class="sticky top-16 -m-4 px-24 z-10  backdrop-blur-md shadow">
+    <ul class="menu menu-horizontal w-full">
+      <li><a href="/user/{{user.name}}/#profile">個人簡介</a></li>
+      <li><a href="/user/{{user.name}}/#settings">設定</a></li>
+      <li><a href="/user/{{user.name}}/#test">test</a></li>
+    </ul>
+  </div> -->
+  <div class="space-x-4 w-full">
+    <div class="container mx-auto">
+
+      <!-- {{ form.value|json}} -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <section >
+          <div class="m-2 p-2 border border-stone-400
+            bg-white rounded space-y-2">
+            <div class="sm:flex items-center justify-between sm:space-x-2">
+              <div>電子信箱</div>
+              <input type="text" [value]="user.email" disabled
+                class="input input-sm input-bordered w-full max-w-xs">
+              <input type="hidden" name="email" id="email"
+              formControlName="email">
+            </div>
+            <div class="sm:flex items-center justify-between sm:space-x-2">
+              <div>名稱</div>
+              <input type="text" name="name" id="name"
+                formControlName="name"
+                class="input input-sm input-bordered w-full max-w-xs">
+            </div>
+          </div>
+        </section>
+
+        <section >
+
+          <div class="m-2 p-2 border border-stone-400
+            bg-white rounded">
+            <div class="flex items-center justify-between">
+              <span>位置</span>
+              <div>
+                <select title="city" name="city" id="city"
+                  formControlName="city"
+                  class="border border-gray-400 p-2 rounded-md w-28">
+                  <!-- <option value="" hidden selected></option> -->
+                  <option *ngFor="let c of citiesTW"
+                    [value]="c[0]"
+                  >{{ c[1] }}</option>
+                </select>
+              </div>
+            </div>
+          <div>
+
+            </div>
+          </div>
+          <div class="text-right mx-2">
+            <button type="submit"
+              [disabled]="form.invalid || form.pristine"
+              class="btn btn-primary">
+              <span class="hidden loading loading-spinner loading-sm"></span>
+              儲存
+            </button>
+          </div>
+        </section>
+
+
+      </form>
+    </div>
+  </div>
+</section>

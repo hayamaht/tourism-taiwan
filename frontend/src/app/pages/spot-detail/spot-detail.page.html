@@ -1,10 +1,5 @@
-<ng-template #loading>
-  <div class="text-center w-full my-10">
-    <span class="loading loading-spinner loading-lg text-primary"></span>
-  </div>
-</ng-template>
-
-<div class="sticky top-16 -m-4 backdrop-blur-md bg-stone-100/70 z-10 flex items-center">
+<div class="sticky top-0 backdrop-blur-md bg-white
+z-10 flex items-center">
   <a (click)="goBack()"
     class="btn btn-ghost ">
     <span class="material-symbols-rounded">
@@ -17,49 +12,49 @@
   </a>
 </div>
 
+<ng-template #loading>
+  <div class="text-center w-full my-10">
+    <span class="loading loading-spinner loading-lg text-primary"></span>
+  </div>
+</ng-template>
+
 <ng-container *ngIf="spot else loading">
   <article class="container mx-auto">
     <h1 class="text-2xl lg:text-4xl font-bold text-center my-8">
-      {{ spot.ScenicSpotName }}
+      {{ spot.name }}
     </h1>
 
     <div class="flex  items-center space-x-2 my-2 mb-5 justify-center">
       <span class="badge badge-outline badge-info shrink-0">
-        {{ spot.City }}
+        {{ spot.city }}
       </span>
-      <span *ngIf="spot.Class1"
-        class="badge badge-accent shrink-0">{{ spot.Class1 }}</span>
-      <span *ngIf="spot.Class2"
-        class="badge badge-warning shrink-0">{{ spot.Class2 }}</span>
-      <span *ngIf="spot.Class3"
-        class="badge badge-success shrink-0"
-      >{{ spot.Class3 }}</span>
-      <span *ngIf="spot.Level"
-        class="badge badge-outline shrink-0">
-        {{ spot.Level }}
-      </span>
+      <ng-container *ngIf="spot.classes.length > 0">
+        <ng-container *ngFor="let c of spot.classes">
+          <span class="badge badge-accent shrink-0">
+            {{ c }}
+          </span>
+        </ng-container>
+      </ng-container>
     </div>
 
     <div class="mb-6 mt-2">
-      <ng-container *ngIf="spot.Picture.PictureUrl1; else elseTemplate">
-        <img title="{{ spot.Picture.PictureDescription1 }}"
-          [src]="spot.Picture.PictureUrl1"
-          [alt]="spot.Picture.PictureDescription1"
+      <ng-container *ngIf="spot.pictures.length > 0; else elseTemplate">
+        <img title="{{ spot.pictures[0].alt }}"
+          [src]="spot.pictures[0].url"
+          [alt]="spot.pictures[0].alt"
           class="w-full h-56 object-cover">
       </ng-container>
       <ng-template #elseTemplate>
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
         alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
-        class="object-contain h-56 w-full rounded-t-lg bg-stone-200/70">
-
+        class="object-contain h-56 w-full bg-stone-200/40">
       </ng-template>
-
     </div>
 
     <div class="md:flex md:space-x-5 space-y-2">
       <div class="md:flex-1">
         <div class="text-justify mb-4">
-          {{ spot.DescriptionDetail }}
+          {{ spot.description }}
         </div>
 
         <div>
@@ -74,7 +69,7 @@
               </span>
             </div>
             <div class="self-center">
-              {{ spot.Phone }}
+              {{ spot.phone }}
             </div>
           </div>
 
@@ -91,7 +86,7 @@
             <div class="">
               <span class="border border-slate-500
                 bg-slate-100 text-slate-500
-                font-mono text-sm px-1 empty:hidden">{{ spot.ZipCode }}</span> {{ spot.Address }}
+                font-mono text-sm px-1 empty:hidden">{{ spot.zipCode }}</span> {{ spot.address }}
             </div>
           </div>
 
@@ -103,7 +98,7 @@
               <span class="material-symbols-rounded text-xl">schedule</span>
             </div>
             <div class="self-center">
-              {{ spot.OpenTime }}
+              {{ spot.openTime }}
             </div>
           </div>
 
@@ -117,7 +112,7 @@
                 public
               </span>
             </div>
-            <a *ngIf="spot.WebsiteUrl" href="{{ spot.WebsiteUrl }}" target="_blank">
+            <a *ngIf="spot.websiteURL" href="{{ spot.websiteURL }}" target="_blank">
               <span class="underline underline-offset-4
               decoration-primary text-sm text-slate-600">
                 開啟視窗
@@ -133,29 +128,49 @@
         </div>
 
         <div class="mt-4 space-y-2">
-          <img *ngIf="spot.Picture.PictureUrl1"
-            title="{{ spot.Picture.PictureDescription1 }}"
-            [src]="spot.Picture.PictureUrl1"
-            [alt]="spot.Picture.PictureDescription1"
+          <ng-container *ngIf="spot.pictures.length > 0">
+            <img *ngFor="let p of spot.pictures"
+            title="{{ p.alt }}"
+            [src]="p.url"
+            [alt]="p.alt"
             class="object-cover">
-          <img *ngIf="spot.Picture.PictureUrl2"
-            title="{{ spot.Picture.PictureDescription2 }}"
-            [src]="spot.Picture.PictureUrl2"
-            [alt]="spot.Picture.PictureDescription2"
-            class="object-cover">
-          <img *ngIf="spot.Picture.PictureUrl3"
-            title="{{ spot.Picture.PictureDescription3 }}"
-            [src]="spot.Picture.PictureUrl3"
-            [alt]="spot.Picture.PictureDescription3"
-            class="object-cover">
+          </ng-container>
+          <div title="Near By Hotels" class="my-8">
+            <h3 class="text-xl font-bold">附近的旅宿</h3>
+            <div class="bg-stone-50 border border-stone-200
+              p-2 space-y-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <ng-container *ngIf="nearbyHotels$|async as nearbys; else loading">
+                <ng-container *ngFor="let item of nearbys">
+                  <div class="flex items-center justify-start
+                    pb-1 border-b border-b-black/10 space-x-2">
+                    <ng-container *ngIf="item.pictures.length > 0; else elseTemplate">
+                      <img [src]="item.pictures[0].url"
+                      [alt]="item.pictures[0].alt"
+                      title="{{item.pictures[0].alt}}"
+                      class="w-16 h-16 object-cover">
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                        alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
+                        class="object-cover shrink-0 h-16 w-16 bg-stone-200/40">
+                    </ng-template>
+                    <h4 class="link link-neutral">
+                      <a routerLink="/loc/Hotel/{{ item.id }}">
+                        {{ item.name }}
+                      </a>
+                    </h4>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
         </div>
-
       </div>
       <div class="md:flex-1 space-y-4">
         <app-map
-          [name]="spot.ScenicSpotName"
-          [lat]="spot.Position.PositionLat"
-          [lon]="spot.Position.PositionLon"
+          [name]="spot.name"
+          [lat]="spot.position.lat"
+          [lon]="spot.position.lng"
         ></app-map>
 
         <div class="space-y-1">
@@ -165,7 +180,7 @@
             票價資訊
             </div>
             <div class="">
-              {{ spot.TicketInfo }}
+              {{ spot.ticketInfo }}
             </div>
           </div>
 
@@ -176,7 +191,7 @@
               停車資訊
             </div>
             <div class="">
-              {{ spot.ParkingInfo }}
+              {{ spot.parkingInfo }}
             </div>
           </div>
 
@@ -186,58 +201,60 @@
               交通資訊
             </div>
             <div class="">
-              {{ spot.TravelInfo }}
+              {{ spot.travelInfo }}
             </div>
           </div>
         </div>
 
-        <div *ngIf="spot.Keyword" title="Keyword" class="flex items-center space-x-2 m-1 ">
+        <div *ngIf="spot.keywords.length" title="Keyword" class="flex items-center space-x-2 m-1 ">
           <svg xmlns="http://www.w3.org/2000/svg"
           fill="none" viewBox="0 0 24 24" stroke-width="1.5"
           stroke="currentColor" class="w-4 h-4 flex-shrink text-primary">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
           </svg>
           <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
-            <span class="bg-slate-200 text-slate-500
-              rounded-full px-3 py-0 before:content-['#']">
-              {{ spot.Keyword }}
-            </span>
+            <div class="space-y-1 space-x-1 flex flex-col">
+              <span *ngFor="let k of spot.keywords"
+                class="bg-slate-200 text-slate-500 w-fit shrink-0
+                rounded-full px-3 py-0 before:content-['#']">
+                {{ k }}
+              </span>
+            </div>
           </span>
         </div>
 
-        <div *ngIf="spot.Remarks" title="Remarks" class="flex items-center space-x-2 m-1 ">
+        <div *ngIf="spot.remarks" title="Remarks" class="flex items-center space-x-2 m-1 ">
           <span class="material-symbols-rounded">
             emoji_objects
             </span>
           <span class="flex-1 pl-3 border-l-2 border-l-primary-500">
-            {{ spot.Remarks }}
+            {{ spot.remarks }}
           </span>
         </div>
 
-        <div title="Near By">
+        <div title="Near By Spots">
           <h3 class="text-xl font-bold">附近的景點</h3>
-          <div class="bg-stone-50 border border-stone-200 p-2 space-y-1">
+          <div class="bg-stone-50 border border-stone-200
+          p-2 space-y-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
             <ng-container *ngIf="nearbys$|async as nearbys; else loading">
               <ng-container *ngFor="let item of nearbys">
                 <div class="flex items-center justify-between pb-1 border-b border-b-black/10">
                   <h4 class="link link-info">
-                    <a routerLink="/spot/{{ item.ScenicSpotID }}">
-                      {{ item.ScenicSpotName }}
+                    <a routerLink="/loc/ScenicSpot/{{ item.id }}">
+                      {{ item.name }}
                     </a>
                   </h4>
-                  <ng-container *ngIf="item.Picture.PictureUrl1; else elseTemplate">
-                    <img [src]="item.Picture.PictureUrl1"
-                    [alt]="item.Picture.PictureDescription1"
-                    title="{{item.Picture.PictureDescription1}}"
+                  <ng-container *ngIf="item.pictures.length > 0; else elseTemplate">
+                    <img [src]="item.pictures[0].url"
+                    [alt]="item.pictures[0].alt"
+                    title="{{item.pictures[0].alt}}"
                     class="w-16 h-16 object-cover">
                   </ng-container>
                   <ng-template #elseTemplate>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
                       alt="Ranjithsiji, CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0, via Wikimedia Commons"
-                      class="object-contain h-16 w-16 rounded-t-lg bg-stone-200/70">
-
+                      class="object-cover shrink-0 h-16 w-16  bg-stone-200/70">
                   </ng-template>
-
                 </div>
               </ng-container>
             </ng-container>

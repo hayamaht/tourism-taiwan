@@ -2,7 +2,7 @@
 自行車道
 </h1>
 
-<app-city-selector (cityEvent)="getBikes($event)"></app-city-selector>
+<app-city-selector (cityChange)="getBikes($event)"></app-city-selector>
 
 <ng-template #loading>
   <div class="flex items-center justify-center">

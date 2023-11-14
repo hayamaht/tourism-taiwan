@@ -26,8 +26,8 @@ import { News, NewsCategory } from 'src/app/models/news.model';
   </div>
 </div>
 
-<dialog #modal id="modal" class="modal ">
-  <div class="modal-box">
+<dialog #modal id="modal" class="modal  ">
+  <div class="modal-box w-11/12 max-w-5xl">
     <h3 class="font-bold text-2xl flex items-center space-x-2">
       <div class="badge badge-outline shrink-0 text-white"
         [ngClass]="setCategoryColor()">
@@ -64,7 +64,7 @@ export class ItemNewsComponent implements OnInit {
       'bg-primary': this.news.NewsCategory === '0',
       'bg-info': this.news.NewsCategory === '1',
       'bg-warning': this.news.NewsCategory === '2',
-      'bg-danger': this.news.NewsCategory === '3',
+      'bg-red-400': this.news.NewsCategory === '3',
     }
   }
 
