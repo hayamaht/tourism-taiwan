@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomePage } from './pages/home/home.page';
-import { ActivitiesPage } from './pages/activities/activities.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { ProfilePage } from './pages/profile/profile.page';
@@ -27,7 +26,13 @@ export const routes: Routes = [
   {
     path:'activities',
     loadComponent: () => import('./pages/activities/activities.page')
-      .then(m => m.ActivitiesPage) },
+      .then(m => m.ActivitiesPage)
+  },
+  {
+    path:'activities/:city',
+    loadComponent: () => import('./pages/activities/activities.page')
+      .then(m => m.ActivitiesPage)
+  },
   {
     path:'ScenicSpot/:id',
     loadComponent: () => import('./pages/spot-detail/spot-detail.page')

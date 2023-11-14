@@ -136,6 +136,41 @@ export class TourismService {
     );
   }
 
+  getActivitiesInPeriod(
+    city: CityName,
+  ) {
+    const d = new Date();
+    const dt = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    let url = this.#getTourismURL(TourismCat.Activity, city);
+    url = url + `&$filter=`
+      + `date(EndTime) ge ${dt}`
+      + `&$orderby=StartTime asc`;
+    return this.#tokenService.getHttp(url).pipe(
+      map((ss: any) => {
+        return ss.map((s: any) => toActivity(s))
+      })
+    );
+  }
+
+  getActivitiesNotInPeriod(
+    city: CityName,
+    page = 1,
+    limit = 20
+  ) {
+    const d = new Date();
+    const dt = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    let url = this.#getTourismURL(TourismCat.Activity, city);
+    url = url + `&$filter=date(EndTime) lt ${dt}`
+      + `&$orderby=StartTime asc`
+      + `&$top=${limit}`
+      + `&$skip=${((page - 1)*limit)}`;
+    return this.#tokenService.getHttp(url).pipe(
+      map((ss: any) => {
+        return ss.map((s: any) => toActivity(s))
+      })
+    );
+  }
+
   getCountByType(
     type: TourismCat,
     cityName?: CityName,
