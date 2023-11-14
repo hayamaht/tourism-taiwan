@@ -2,20 +2,23 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TourismService } from 'src/app/services/tourism.service';
-import { CityName } from 'src/app/models/city-name.model';
+import { CityName, CityNameTW } from 'src/app/models/city-name.model';
 import { Observable, map, tap } from 'rxjs';
 import { CitySelectorComponent } from 'src/app/components/city-selector/city-selector.component';
 import { CardActivityComponent } from 'src/app/components/card-activity/card-activity.component';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Spot } from 'src/app/models/scene.model';
+import { Activity, Spot } from 'src/app/models/scene.model';
+import { PaginationComponent } from 'src/app/components/pagination/pagination.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-activities',
   standalone: true,
   templateUrl: './activities.page.html',
   imports: [
-    CommonModule, RouterModule,
-    CardActivityComponent, CitySelectorComponent
+    CommonModule, RouterModule, FormsModule,
+    CardActivityComponent, CitySelectorComponent,
+    PaginationComponent,
   ],
 })
 export class ActivitiesPage implements OnInit {
@@ -26,44 +29,38 @@ export class ActivitiesPage implements OnInit {
   #location = inject(Location);
   #tourismService = inject(TourismService);
 
-  activities$!: Observable<any>;
+  citiesTW = Object.entries(CityNameTW);
+
+  thisMonth$!: Observable<Activity[]>;
+  activities$!: Observable<Activity[]>;
+  outPeriod$!: Observable<Activity[]>;
   city!: string;
-  page = 1;
-  stopCount = false;
+  selectedCity!: string;
 
   ngOnInit(): void {
+
     this.#route.paramMap.subscribe(param => {
-      this.city = param.get('city') || 'Taipei';
+      let city = this.#checkCity(param.get('city'));
+      if (!city) {
+        city = CityName.Taipei.toString();
+        this.#router.navigate(['activities']);
+        //return
+      }
+      this.city = city;
+      this.selectedCity = this.city;
       this.#getActivitiesByCity();
     });
-    this.#route.queryParamMap.subscribe(param => {
-      const p = parseInt(param.get('page')||'1');
-      console.log(p);
-      this.page = p;
-      this.#getActivitiesByCity();
-    });
+    // this.#route.queryParamMap.subscribe(param => {
+    //   const p = parseInt(param.get('p')||'1');
+    //   console.log(p);
+    //   this.page = p;
+    //   this.#getActivitiesByCity();
+    // });
   }
 
-  getActivities(cityName: string) {
-    this.#router.navigate(['activities', cityName]);
-  }
-
-  prevPage() {
-    this.page -= 1;
-    this.#location.replaceState(
-      `activities/${this.city}`,
-      `page=${this.page}`
-    );
-    this.#getActivitiesByCity();
-  }
-
-  nextPage() {
-    this.page += 1;
-    this.#location.replaceState(
-      `activities/${this.city}`,
-      `page=${this.page}`
-    );
-    this.#getActivitiesByCity();
+  onCityChange(event: any) {
+    this.selectedCity = event.target.value;
+    this.#router.navigate(['activities', this.selectedCity])
   }
 
   #goTop() {
@@ -74,20 +71,28 @@ export class ActivitiesPage implements OnInit {
     });
   }
 
+  #checkCity(city: string|null) {
+    if (!city) return null;
+    const cs = Object.keys(CityName);
+    const fs = cs.filter(v => v === city).at(0);
+    return fs ? fs : null;
+  }
+
   #getActivitiesByCity() {
-    this.activities$ = this.#tourismService.getByCityName(
-      TourismCat.Activity,
-      this.city as CityName,
-      this.page,
-      ActivitiesPage.ROW_PER_PAGE,
-      'StartTime desc'
+    this.activities$ = this.#tourismService.getActivitiesInPeriod(
+      this.city as CityName
     ).pipe(
       tap(_ => this.#goTop()),
-      map((items) => {
-        // const len = (items as Spot[]).length;
-        // this.stopCount = (len < ActivitiesPage.ROW_PER_PAGE) ? true : false;
-        return items;
-      }),
     );
+
+    this.thisMonth$ = this.#tourismService.getActivitesByMonth(
+      this.city as CityName,
+      'this'
+    );
+
+    this.outPeriod$ = this.#tourismService.getActivitiesNotInPeriod(
+      this.city as CityName
+    );
+
   }
 }

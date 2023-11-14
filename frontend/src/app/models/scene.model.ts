@@ -31,7 +31,7 @@ interface Period {
   end: Date;
 }
 
-interface _Spot {
+interface GeneralSpot {
   _type: string;
   id: string;
   name: string;
@@ -40,13 +40,14 @@ interface _Spot {
   address: string;
   position: Position;
   city: string;
+  favorite: boolean;
   updatedAt: Date;
   websiteURL?: string;
   mapURL?: string;
   parkingInfo?: string;
 }
 
-interface EventScene extends _Spot {
+interface EventScene extends GeneralSpot {
   particpation: string; //活動參與對象
   location: string; //主要活動地點名稱
   organizer: string; //活動主辦單位
@@ -56,10 +57,9 @@ interface EventScene extends _Spot {
   charge: string; // 費用標示
 }
 
-interface Scene extends _Spot {
+interface Scene extends GeneralSpot {
   zipCode: string;
   openTime: string;
-  favorite: boolean;
 }
 
 const toPicturesArray = (pictures: any): Picture[] => {
@@ -124,14 +124,16 @@ export type Hotel = Scene & CanPicture & CanGrade & CanFax & CanSpec & CanServic
 
 export type Activity = EventScene & CanPicture & CanRemarks & CanClasses & CanTravel;
 
-export type Spot =  ScenicSpot | Restaurant | Hotel;
+export type NormalSpot =  ScenicSpot | Restaurant | Hotel;
 export type EventSpot = Activity;
+export type Spot = NormalSpot | EventSpot;
 
 export const toSpot = (type:TourismCat, item: any): Spot => {
   switch(type) {
     case TourismCat.ScenicSpot: return toScenicSpot(item);
     case TourismCat.Hotel: return toHotel(item);
     case TourismCat.Restaurant: return toRestaurant(item);
+    case TourismCat.Activity: return toActivity(item);
     default: return {} as Spot;
   }
 }

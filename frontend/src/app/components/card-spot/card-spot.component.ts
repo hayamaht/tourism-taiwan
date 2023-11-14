@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User, UserFavorite } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { TourismCat } from 'src/app/models/tourism-cat.model';
-import { Spot } from 'src/app/models/scene.model';
+import { NormalSpot, Spot } from 'src/app/models/scene.model';
 
 @Component({
   selector: 'app-card-spot',
